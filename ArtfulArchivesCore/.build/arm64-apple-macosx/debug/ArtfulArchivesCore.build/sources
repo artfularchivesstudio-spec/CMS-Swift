@@ -1,0 +1,9 @@
+/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/Sources/ArtfulArchivesCore/Domain/Models/AppError.swift
+/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/Sources/ArtfulArchivesCore/Domain/Models/AudioGenerationResponse.swift
+/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/Sources/ArtfulArchivesCore/Domain/Models/ImageAnalysisResponse.swift
+/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/Sources/ArtfulArchivesCore/Domain/Models/LanguageCode.swift
+/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/Sources/ArtfulArchivesCore/Domain/Models/MediaUploadResponse.swift
+/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/Sources/ArtfulArchivesCore/Domain/Models/Story.swift
+/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/Sources/ArtfulArchivesCore/Domain/Models/TTSVoice.swift
+/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/Sources/ArtfulArchivesCore/Domain/Models/TranslationResponse.swift
+/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/Sources/ArtfulArchivesCore/Domain/Models/WorkflowStage.swift

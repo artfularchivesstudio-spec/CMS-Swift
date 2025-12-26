@@ -1,0 +1,14 @@
+/**
+ * 💾 The Data Layer - Where Information Meets Transformation
+ *
+ * "Here in the alchemy laboratory, we transmute raw bytes into wisdom,
+ * fetch from distant servers, and guard secrets in encrypted vaults."
+ *
+ * Organization:
+ * - API/          - Network clients (APIClient, endpoints)
+ * - Keychain/     - Secure token storage
+ * - Mappers/      - DTO ↔ Model transformations
+ * - Repositories/ - Repository implementations
+ *
+ * - The Spellbinding Museum Director of Data Architecture
+ */

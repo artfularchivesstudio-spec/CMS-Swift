@@ -1,0 +1,316 @@
+#
+# 🎭 CMS-Manager Continuous Integration Pipeline
+#
+# "Where every commit enters the grand theater of automated testing,
+# ensuring quality flows through our digital masterpiece like a
+# perfectly orchestrated symphony."
+#
+# - The Spellbinding CI/CD Maestro
+#
+
+name: CI
+
+# 🌟 Trigger Configuration - When the magical rituals begin
+on:
+  # Activate on pushes to the main branch
+  push:
+    branches:
+      - main
+
+  # Activate on all pull requests
+  pull_request:
+    branches:
+      - '**'
+
+  # Enable manual workflow dispatch for on-demand testing
+  workflow_dispatch:
+    inputs:
+      device:
+        description: 'iOS Simulator Device'
+        required: false
+        default: 'iPhone 15 Pro'
+        type: string
+      clean_build:
+        description: 'Perform clean build'
+        required: false
+        default: false
+        type: boolean
+
+# 🎯 Concurrency Control - Only one performance at a time per branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# 🌐 Environment Variables - The cosmic configuration
+env:
+  DEVELOPER_DIR: /Applications/Xcode_15.2.app/Contents/Developer
+  SCHEME: CMS_Manager
+  IOS_SIMULATOR_DEVICE: ${{ inputs.device || 'iPhone 15 Pro' }}
+  XCODE_VERSION: '15.2'
+
+jobs:
+
+  # ============================================================
+  # 🧪 Test Job - The Grand Testing Performance
+  # ============================================================
+  test:
+    name: 🧪 Run Tests
+    runs-on: macos-14
+    timeout-minutes: 30
+
+    steps:
+      # 📥 Checkout the mystical codebase
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for better context
+
+      # 🔍 Setup Xcode version
+      - name: 🔍 Select Xcode Version
+        run: |
+          echo "🎨 Selecting Xcode ${{ env.XCODE_VERSION }}..."
+          sudo xcode-select -s /Applications/Xcode_15.2.app/Contents/Developer
+          xcodebuild -version
+
+      # 📦 Cache Swift Package Manager dependencies
+      - name: 📦 Cache SPM Dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            .build
+            ~/Library/Developer/Xcode/DerivedData
+            Packages/ArtfulArchivesCore/.build
+          key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved', '**/project.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-spm-
+
+      # 🎭 Generate Xcode Project using XcodeGen
+      - name: 🎭 Generate Xcode Project
+        run: |
+          echo "🌟 Installing XcodeGen..."
+          brew install xcodegen
+
+          echo "✨ Generating Xcode project from project.yml..."
+          cd "$GITHUB_WORKSPACE"
+          xcodegen generate
+
+          echo "✅ Xcode project generated successfully!"
+
+      # 🏗️ Build for Testing
+      - name: 🏗️ Build for Testing
+        run: |
+          echo "🏗️ Building CMS-Manager for testing..."
+
+          set -o pipefail
+
+          xcodebuild build-for-testing \
+            -project CMS-Manager.xcodeproj \
+            -scheme "${{ env.SCHEME }}" \
+            -sdk iphonesimulator \
+            -destination "platform=iOS Simulator,name=${{ env.IOS_SIMULATOR_DEVICE }}" \
+            -derivedDataPath .build \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            ONLY_ACTIVE_ARCH=NO \
+            | tee build-log.txt \
+            | xcpretty --color || cat build-log.txt
+
+      # 🎪 Run Unit Tests
+      - name: 🎪 Run Unit Tests
+        run: |
+          echo "🎪 Running unit tests..."
+
+          set -o pipefail
+
+          xcodebuild test-without-building \
+            -project CMS-Manager.xcodeproj \
+            -scheme "${{ env.SCHEME }}" \
+            -sdk iphonesimulator \
+            -destination "platform=iOS Simulator,name=${{ env.IOS_SIMULATOR_DEVICE }}" \
+            -derivedDataPath .build \
+            -resultBundlePath .build/TestResults.xcresult \
+            -enableCodeCoverage YES \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            | tee test-log.txt \
+            | xcpretty --color --test || cat test-log.txt
+
+      # 📊 Generate Code Coverage Report
+      - name: 📊 Generate Coverage Report
+        if: always()
+        run: |
+          echo "📊 Generating code coverage report..."
+
+          if [ -d ".build/TestResults.xcresult" ]; then
+            xcrun xccov view --report .build/TestResults.xcresult > coverage-report.txt
+            cat coverage-report.txt
+
+            # Extract coverage percentage
+            COVERAGE=$(xcrun xccov view --report .build/TestResults.xcresult | grep -E "CMS-Manager\.app" | awk '{print $4}' | head -1)
+            echo "✨ Code Coverage: $COVERAGE"
+          else
+            echo "⚠️ No test results found"
+          fi
+
+      # 📦 Upload Test Results
+      - name: 📦 Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: |
+            .build/TestResults.xcresult
+            coverage-report.txt
+            test-log.txt
+            build-log.txt
+          retention-days: 30
+
+      # 📸 Upload Snapshot Test Failures
+      - name: 📸 Upload Snapshot Failures
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: snapshot-test-failures
+          path: |
+            CMS-ManagerTests/Snapshots/__Failures__/
+          retention-days: 30
+          if-no-files-found: ignore
+
+  # ============================================================
+  # 🏗️ Build Job - The Release Construction Ritual
+  # ============================================================
+  build:
+    name: 🏗️ Build Release
+    runs-on: macos-14
+    timeout-minutes: 30
+    needs: test  # Only build if tests pass
+
+    steps:
+      # 📥 Checkout the mystical codebase
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      # 🔍 Setup Xcode version
+      - name: 🔍 Select Xcode Version
+        run: |
+          echo "🎨 Selecting Xcode ${{ env.XCODE_VERSION }}..."
+          sudo xcode-select -s /Applications/Xcode_15.2.app/Contents/Developer
+          xcodebuild -version
+
+      # 📦 Cache Swift Package Manager dependencies
+      - name: 📦 Cache SPM Dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            .build
+            ~/Library/Developer/Xcode/DerivedData
+            Packages/ArtfulArchivesCore/.build
+          key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved', '**/project.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-spm-
+
+      # 🎭 Generate Xcode Project
+      - name: 🎭 Generate Xcode Project
+        run: |
+          echo "🌟 Installing XcodeGen..."
+          brew install xcodegen
+
+          echo "✨ Generating Xcode project..."
+          xcodegen generate
+
+      # 🏗️ Build for iOS Simulator (Release)
+      - name: 🏗️ Build for iOS Simulator
+        run: |
+          echo "🏗️ Building CMS-Manager for Release..."
+
+          set -o pipefail
+
+          xcodebuild build \
+            -project CMS-Manager.xcodeproj \
+            -scheme "${{ env.SCHEME }}" \
+            -sdk iphonesimulator \
+            -destination "platform=iOS Simulator,name=${{ env.IOS_SIMULATOR_DEVICE }}" \
+            -configuration Release \
+            -derivedDataPath .build \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            ONLY_ACTIVE_ARCH=NO \
+            | tee build-release-log.txt \
+            | xcpretty --color || cat build-release-log.txt
+
+          echo "✅ Release build completed successfully!"
+
+      # 📦 Archive Build Artifacts
+      - name: 📦 Archive Build Artifacts
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-build-iphonesimulator
+          path: |
+            .build/Build/Products/Release-iphonesimulator/CMS-Manager.app
+            build-release-log.txt
+          retention-days: 7
+
+  # ============================================================
+  # 🧹 Lint Job - The Code Style Guardian (Optional)
+  # ============================================================
+  lint:
+    name: 🧹 SwiftLint
+    runs-on: macos-14
+    timeout-minutes: 10
+
+    steps:
+      # 📥 Checkout the mystical codebase
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      # 🧹 Install SwiftLint
+      - name: 🧹 Install SwiftLint
+        run: |
+          echo "🌟 Installing SwiftLint..."
+          brew install swiftlint
+          swiftlint version
+
+      # 🔍 Run SwiftLint
+      - name: 🔍 Run SwiftLint
+        run: |
+          echo "🔍 Running SwiftLint analysis..."
+
+          # Run SwiftLint with reporter for better CI output
+          swiftlint lint --reporter github-actions-logging
+
+          echo "✅ SwiftLint analysis complete!"
+        continue-on-error: true  # Don't fail the build on lint warnings
+
+  # ============================================================
+  # 📊 Summary Job - The Grand Performance Report
+  # ============================================================
+  summary:
+    name: 📊 CI Summary
+    runs-on: macos-14
+    needs: [test, build, lint]
+    if: always()
+
+    steps:
+      - name: 📊 Generate Summary
+        run: |
+          echo "# 🎭 CMS-Manager CI Pipeline Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 🌟 Build Information" >> $GITHUB_STEP_SUMMARY
+          echo "- **Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Actor:** ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Simulator:** ${{ env.IOS_SIMULATOR_DEVICE }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Xcode:** ${{ env.XCODE_VERSION }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 🎪 Job Results" >> $GITHUB_STEP_SUMMARY
+          echo "- 🧪 Tests: ${{ needs.test.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- 🏗️ Build: ${{ needs.build.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- 🧹 Lint: ${{ needs.lint.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ "${{ needs.test.result }}" == "success" ] && [ "${{ needs.build.result }}" == "success" ]; then
+            echo "### 🎉 ✨ All jobs completed successfully! The show was a masterpiece! ✨ 🎉" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "### 💥 Some jobs encountered issues. Review the logs for details." >> $GITHUB_STEP_SUMMARY
+          fi

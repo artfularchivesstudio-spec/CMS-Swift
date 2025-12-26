@@ -1,0 +1,13 @@
+/**
+ * 🎭 The Domain Layer - Where Business Logic Takes Center Stage
+ *
+ * "In this hallowed hall, pure Swift entities dance without external dependencies,
+ * performing their business logic ballet with elegant precision and theatrical grace."
+ *
+ * Organization:
+ * - Models/       - Core entities (Story, Media, etc.)
+ * - UseCases/     - Business logic orchestrators
+ * - Repositories/ - Repository protocols (contracts)
+ *
+ * - The Spellbinding Museum Director of Domain Architecture
+ */

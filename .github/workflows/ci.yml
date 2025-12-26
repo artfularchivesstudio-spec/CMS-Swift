@@ -1,0 +1,124 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    name: Build and Test
+    runs-on: macos-14
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Select Xcode 15.2
+        run: sudo xcode-select -s /Applications/Xcode_15.2.app/Contents/Developer
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Cache Swift Package Manager dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            CMS-Manager/Packages/ArtfulArchivesCore/.build
+            ~/Library/Developer/Xcode/DerivedData/**/SourcePackages
+          key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-spm-
+
+      - name: Build for testing
+        working-directory: CMS-Manager
+        run: |
+          xcodebuild build-for-testing \
+            -project CMS-Manager.xcodeproj \
+            -scheme CMS_Manager \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 15 Pro,OS=17.2' \
+            -derivedDataPath .build \
+            -quiet
+
+      - name: Run unit tests
+        working-directory: CMS-Manager
+        run: |
+          xcodebuild test-without-building \
+            -project CMS-Manager.xcodeproj \
+            -scheme CMS_Manager \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 15 Pro,OS=17.2' \
+            -derivedDataPath .build \
+            -resultBundlePath .build/TestResults.xcresult \
+            -enableCodeCoverage YES \
+            SNAPSHOT_TEST_RECORD_MODE=0
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: CMS-Manager/.build/TestResults.xcresult
+          retention-days: 7
+
+      - name: Upload failed snapshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: failed-snapshots
+          path: |
+            CMS-Manager/.build/**/FailureDiffs/*.png
+            CMS-Manager/.build/**/__Snapshots__/*.png
+          retention-days: 7
+
+      - name: Generate test summary
+        if: always()
+        run: |
+          echo "## Test Results" >> $GITHUB_STEP_SUMMARY
+          if [ -d "CMS-Manager/.build/TestResults.xcresult" ]; then
+            xcrun xcresulttool get --path CMS-Manager/.build/TestResults.xcresult --format json > test-results.json
+            echo "Test results saved to artifacts" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "No test results found" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Comment on PR with test summary
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+
+            let testSummary = '## Test Results\n\n';
+
+            try {
+              const resultsPath = 'CMS-Manager/.build/TestResults.xcresult';
+              if (fs.existsSync(resultsPath)) {
+                testSummary += '✅ Tests completed. Check the [test results artifact](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details.\n';
+              } else {
+                testSummary += '⚠️ No test results found.\n';
+              }
+            } catch (error) {
+              testSummary += `❌ Error processing test results: ${error.message}\n`;
+            }
+
+            testSummary += '\n### Coverage\n';
+            testSummary += 'Code coverage report is included in the test results artifact.\n';
+
+            testSummary += '\n### Artifacts\n';
+            testSummary += '- Test Results Bundle: `test-results`\n';
+
+            if (context.payload.pull_request) {
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: testSummary
+              });
+            }

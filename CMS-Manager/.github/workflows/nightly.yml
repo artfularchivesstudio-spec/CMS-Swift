@@ -1,0 +1,312 @@
+#
+# 🎭 CMS-Manager Nightly Build & Extended Tests
+#
+# "Under the mystical moonlight, we perform comprehensive testing rituals
+# that ensure our creation remains pure and powerful through the night."
+#
+# - The Spellbinding Night Watch Guardian
+#
+
+name: Nightly Build
+
+# 🌟 Trigger Configuration - Run nightly at midnight UTC
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Daily at midnight UTC
+
+  # Enable manual workflow dispatch
+  workflow_dispatch:
+    inputs:
+      run_ui_tests:
+        description: 'Run UI Tests'
+        required: false
+        default: true
+        type: boolean
+      run_performance_tests:
+        description: 'Run Performance Tests'
+        required: false
+        default: true
+        type: boolean
+
+# 🌐 Environment Variables
+env:
+  DEVELOPER_DIR: /Applications/Xcode_15.2.app/Contents/Developer
+  SCHEME: CMS_Manager
+  XCODE_VERSION: '15.2'
+
+jobs:
+
+  # ============================================================
+  # 🌙 Comprehensive Testing Suite
+  # ============================================================
+  comprehensive-tests:
+    name: 🌙 Comprehensive Test Suite
+    runs-on: macos-14
+    timeout-minutes: 60
+    strategy:
+      matrix:
+        device:
+          - 'iPhone 15 Pro'
+          - 'iPhone 15 Pro Max'
+          - 'iPad Pro (12.9-inch) (6th generation)'
+      fail-fast: false
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🔍 Select Xcode Version
+        run: |
+          sudo xcode-select -s /Applications/Xcode_15.2.app/Contents/Developer
+          xcodebuild -version
+
+      - name: 📦 Cache SPM Dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            .build
+            ~/Library/Developer/Xcode/DerivedData
+            Packages/ArtfulArchivesCore/.build
+          key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved', '**/project.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-spm-
+
+      - name: 🎭 Generate Xcode Project
+        run: |
+          brew install xcodegen
+          xcodegen generate
+
+      - name: 🧪 Run All Tests on ${{ matrix.device }}
+        run: |
+          echo "🧪 Running comprehensive tests on ${{ matrix.device }}..."
+
+          set -o pipefail
+
+          xcodebuild test \
+            -project CMS-Manager.xcodeproj \
+            -scheme "${{ env.SCHEME }}" \
+            -sdk iphonesimulator \
+            -destination "platform=iOS Simulator,name=${{ matrix.device }}" \
+            -derivedDataPath .build \
+            -resultBundlePath ".build/TestResults-${{ matrix.device }}.xcresult" \
+            -enableCodeCoverage YES \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            | tee "test-log-${{ matrix.device }}.txt" \
+            | xcpretty --color --test || cat "test-log-${{ matrix.device }}.txt"
+
+      - name: 📊 Generate Coverage Report
+        if: always()
+        run: |
+          RESULT_PATH=".build/TestResults-${{ matrix.device }}.xcresult"
+
+          if [ -d "$RESULT_PATH" ]; then
+            xcrun xccov view --report "$RESULT_PATH" > "coverage-${{ matrix.device }}.txt"
+            cat "coverage-${{ matrix.device }}.txt"
+          fi
+
+      - name: 📦 Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nightly-test-results-${{ matrix.device }}
+          path: |
+            .build/TestResults-${{ matrix.device }}.xcresult
+            coverage-${{ matrix.device }}.txt
+            test-log-${{ matrix.device }}.txt
+          retention-days: 14
+
+  # ============================================================
+  # ⚡ Performance Benchmarks
+  # ============================================================
+  performance-tests:
+    name: ⚡ Performance Benchmarks
+    runs-on: macos-14
+    timeout-minutes: 30
+    if: ${{ github.event.inputs.run_performance_tests != 'false' }}
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🔍 Select Xcode Version
+        run: |
+          sudo xcode-select -s /Applications/Xcode_15.2.app/Contents/Developer
+          xcodebuild -version
+
+      - name: 📦 Cache SPM Dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            .build
+            ~/Library/Developer/Xcode/DerivedData
+            Packages/ArtfulArchivesCore/.build
+          key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved', '**/project.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-spm-
+
+      - name: 🎭 Generate Xcode Project
+        run: |
+          brew install xcodegen
+          xcodegen generate
+
+      - name: ⚡ Run Performance Tests
+        run: |
+          echo "⚡ Running performance benchmarks..."
+
+          set -o pipefail
+
+          xcodebuild test \
+            -project CMS-Manager.xcodeproj \
+            -scheme "${{ env.SCHEME }}" \
+            -sdk iphonesimulator \
+            -destination "platform=iOS Simulator,name=iPhone 15 Pro" \
+            -derivedDataPath .build \
+            -only-testing:CMS_ManagerTests/PerformanceTests \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            | tee performance-log.txt \
+            | xcpretty --color || cat performance-log.txt
+        continue-on-error: true
+
+      - name: 📊 Extract Performance Metrics
+        if: always()
+        run: |
+          echo "📊 Performance metrics extracted from test results"
+          # Add custom performance metric extraction here
+          echo "TODO: Parse and compare performance metrics"
+
+  # ============================================================
+  # 🏗️ Build Size Analysis
+  # ============================================================
+  build-size-analysis:
+    name: 📊 Build Size Analysis
+    runs-on: macos-14
+    timeout-minutes: 30
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🔍 Select Xcode Version
+        run: |
+          sudo xcode-select -s /Applications/Xcode_15.2.app/Contents/Developer
+          xcodebuild -version
+
+      - name: 📦 Cache SPM Dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            .build
+            ~/Library/Developer/Xcode/DerivedData
+            Packages/ArtfulArchivesCore/.build
+          key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved', '**/project.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-spm-
+
+      - name: 🎭 Generate Xcode Project
+        run: |
+          brew install xcodegen
+          xcodegen generate
+
+      - name: 🏗️ Build Release
+        run: |
+          set -o pipefail
+
+          xcodebuild build \
+            -project CMS-Manager.xcodeproj \
+            -scheme "${{ env.SCHEME }}" \
+            -sdk iphonesimulator \
+            -configuration Release \
+            -derivedDataPath .build \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            | xcpretty --color
+
+      - name: 📊 Analyze Build Size
+        run: |
+          APP_PATH=".build/Build/Products/Release-iphonesimulator/CMS-Manager.app"
+
+          echo "## 📊 Build Size Analysis" > size-report.md
+          echo "" >> size-report.md
+
+          # Overall app size
+          TOTAL_SIZE=$(du -sh "$APP_PATH" | cut -f1)
+          echo "**Total App Size**: $TOTAL_SIZE" >> size-report.md
+          echo "" >> size-report.md
+
+          # Binary size
+          BINARY_PATH="$APP_PATH/CMS-Manager"
+          if [ -f "$BINARY_PATH" ]; then
+            BINARY_SIZE=$(du -sh "$BINARY_PATH" | cut -f1)
+            echo "**Binary Size**: $BINARY_SIZE" >> size-report.md
+            echo "" >> size-report.md
+          fi
+
+          # Framework sizes
+          echo "### 📦 Frameworks" >> size-report.md
+          if [ -d "$APP_PATH/Frameworks" ]; then
+            du -sh "$APP_PATH/Frameworks"/* | while read size path; do
+              framework=$(basename "$path")
+              echo "- $framework: $size" >> size-report.md
+            done
+          else
+            echo "*No frameworks*" >> size-report.md
+          fi
+          echo "" >> size-report.md
+
+          # Asset catalog size
+          echo "### 🎨 Assets" >> size-report.md
+          if [ -f "$APP_PATH/Assets.car" ]; then
+            ASSETS_SIZE=$(du -sh "$APP_PATH/Assets.car" | cut -f1)
+            echo "- Assets.car: $ASSETS_SIZE" >> size-report.md
+          fi
+
+          cat size-report.md
+          cat size-report.md >> $GITHUB_STEP_SUMMARY
+
+      - name: 📦 Upload Size Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-size-report
+          path: size-report.md
+          retention-days: 30
+
+  # ============================================================
+  # 📧 Notification Summary
+  # ============================================================
+  nightly-summary:
+    name: 📧 Nightly Build Summary
+    runs-on: ubuntu-latest
+    needs: [comprehensive-tests, performance-tests, build-size-analysis]
+    if: always()
+
+    steps:
+      - name: 📊 Generate Summary
+        run: |
+          echo "# 🌙 Nightly Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Date**: $(date -u)" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 🎪 Job Results" >> $GITHUB_STEP_SUMMARY
+          echo "- 🧪 Comprehensive Tests: ${{ needs.comprehensive-tests.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- ⚡ Performance Tests: ${{ needs.performance-tests.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- 📊 Build Size Analysis: ${{ needs.build-size-analysis.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ "${{ needs.comprehensive-tests.result }}" == "success" ]; then
+            echo "### 🎉 ✨ Nightly build successful! All systems operational! ✨ 🎉" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "### 💥 Nightly build encountered issues. Investigation required." >> $GITHUB_STEP_SUMMARY
+          fi
+
+      # TODO: Add Slack/Discord notification here if needed
+      # - name: 📧 Send Notification
+      #   uses: 8398a7/action-slack@v3
+      #   with:
+      #     status: ${{ job.status }}
+      #     text: 'Nightly build completed'
+      #     webhook_url: ${{ secrets.SLACK_WEBHOOK }}

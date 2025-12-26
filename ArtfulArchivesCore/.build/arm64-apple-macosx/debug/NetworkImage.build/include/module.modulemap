@@ -1,0 +1,3 @@
+module NetworkImage {
+    header "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/NetworkImage.build/include/NetworkImage-Swift.h"
+}

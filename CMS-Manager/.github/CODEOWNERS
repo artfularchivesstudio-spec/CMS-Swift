@@ -1,0 +1,35 @@
+# 🎭 CMS-Manager Code Ownership
+#
+# "Where guardianship of code is assigned with mystical precision,
+# ensuring the right seekers of wisdom review changes to their domains."
+#
+# - The Spellbinding Code Guardian
+
+# Default owners for everything in the repo
+# These users will be requested for review when someone opens a pull request
+* @YOUR_USERNAME
+
+# CI/CD configuration
+/.github/ @YOUR_USERNAME
+/.github/workflows/ @YOUR_USERNAME
+
+# Project configuration
+/project.yml @YOUR_USERNAME
+/.swiftlint.yml @YOUR_USERNAME
+
+# Build scripts
+/scripts/ @YOUR_USERNAME
+
+# Core application code
+/CMS-Manager/ @YOUR_USERNAME
+
+# Tests
+/CMS-ManagerTests/ @YOUR_USERNAME
+/CMS-ManagerUITests/ @YOUR_USERNAME
+
+# Documentation
+/*.md @YOUR_USERNAME
+/docs/ @YOUR_USERNAME
+
+# Swift packages
+/Packages/ @YOUR_USERNAME

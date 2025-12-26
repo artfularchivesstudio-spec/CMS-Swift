@@ -1,0 +1,292 @@
+#
+# 🎭 CMS-Manager XcodeGen Project Configuration
+#
+# "Where project structure meets automation magic, this spellbinding script
+# weaves together the threads of iOS, packages, and dreams into a
+# magnificent tapestry of Xcode project generation."
+#
+# - The Spellbinding Museum Director of Project Configuration
+#
+
+name: CMS-Manager
+options:
+  # 🎯 Bundle identifier prefix
+  bundleIdPrefix: com.artfularchives
+  # 🎨 XcodeGen settings
+  createIntermediateGroups: true
+  defaultConfig: Debug
+  deploymentTarget:
+    iOS: "18.0"
+  # 🌟 Development language
+  developmentLanguage: en
+  # ⚙️ Build settings
+  settingPresets: all
+
+#
+# 📦 Package Dependencies
+# "The enchanted ingredients from the Swift Package Registry"
+#
+packages:
+  ArtfulArchivesCore:
+    path: ../ArtfulArchivesCore
+  SnapshotTesting:
+    url: https://github.com/pointfreeco/swift-snapshot-testing
+    from: 1.15.0
+
+#
+# 🎯 Targets
+# "The mystical modules of our creation"
+#
+targets:
+
+  # ============================================================
+  # iOS App Target
+  # ============================================================
+  CMS_Manager:
+    type: application
+    platform: iOS
+    deploymentTarget: "18.0"
+
+    # 📱 Bundle settings
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.artfularchives.cms-manager
+        PRODUCT_NAME: CMS-Manager
+        MARKETING_VERSION: "1.0.0"
+        CURRENT_PROJECT_VERSION: "1"
+        DEVELOPMENT_TEAM: ""
+        TARGETED_DEVICE_FAMILY: "1,2"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        # 🎭 Swift settings
+        SWIFT_VERSION: "6.0"
+        SWIFT_EMIT_LOC_STRINGS: YES
+        SWIFT_ENFORCE_MODULE_STABILITY: YES
+        # ⚡ Swift Concurrency (disabled for now due to EnvironmentKey isolation issues)
+        # SWIFT_STRICT_CONCURRENCY: targeted
+        # SWIFT_CONCURRENCY_TOTAL_MEMORY_LIMIT: 1073741824
+        # SWIFT_CONCURRENCY_IMPORT_OBJECT_COUNT_THRESHOLD: 500
+        # 🎨 Build settings
+        ENABLE_PREVIEWS: YES
+        COMBINE_HIDPI_IMAGES: YES
+        # 📝 Info.plist entries
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+        INFOPLIST_KEY_UILaunchStoryboardName: ""
+        # 🔐 App permissions
+        INFOPLIST_KEY_NSPhotoLibraryUsageDescription: "Access to photo library is needed to upload artwork."
+        INFOPLIST_KEY_NSCameraUsageDescription: "Camera access is needed to capture artwork."
+        INFOPLIST_KEY_NSMicrophoneUsageDescription: "Microphone access is needed for audio features."
+        INFOPLIST_KEY_NSNetworkVolumesUsageDescription: "Network access is needed to communicate with Artful Archives servers."
+        # 🎵 Audio settings
+        INFOPLIST_KEY_UIBackgroundModes: "audio processing"
+        # 📊 SwiftData
+        INFOPLIST_KEY_CoreDataSupportsCloudKit: YES
+        # 🔐 Entitlements
+        CODE_SIGN_ENTITLEMENTS: CMS-Manager/CMS_Manager.entitlements
+        CODE_SIGN_STYLE: Automatic
+      debug:
+        DEBUG_INFORMATION_FORMAT: dwarf
+        SWIFT_OPTIMIZATION_LEVEL: -Onone
+        ENABLE_TESTABILITY: YES
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: DEBUG
+      release:
+        DEBUG_INFORMATION_FORMAT: dwarf-with-dsym
+        SWIFT_OPTIMIZATION_LEVEL: -O
+        VALIDATE_PRODUCT: YES
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: RELEASE
+
+    # 📂 Source files
+    sources:
+      - path: CMS-Manager
+        includes: ["**/*.swift"]
+        excludes:
+          - "**/*.Tests/**"
+          - "**/*.UITests/**"
+      - CMS-Manager/Assets.xcassets
+      - CMS-Manager/local-assets
+
+    # 🔗 Dependencies
+    dependencies:
+      - package: ArtfulArchivesCore
+        product: ArtfulArchivesCore
+
+    # ℹ️ Info.plist (inline configuration)
+    info:
+      path: CMS-Manager/Info.plist
+      properties:
+        CFBundleDisplayName: CMS Manager
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        UILaunchScreen: {}
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: NO
+          UISceneConfigurations:
+            UIWindowSceneSessionRoleApplication:
+              - UISceneConfigurationName: Default Configuration
+                UISceneDelegateClassName: $(PRODUCT_MODULE_NAME).SceneDelegate
+        UIRequiredDeviceCapabilities:
+          - armv7
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        NSPhotoLibraryUsageDescription: "Access to photo library is needed to upload artwork."
+        NSCameraUsageDescription: "Camera access is needed to capture artwork."
+        NSMicrophoneUsageDescription: "Microphone access is needed for audio features."
+        UIBackgroundModes:
+          - audio processing
+
+    # 📦 Post-build scripts
+    postBuildScripts:
+      - name: "🧪 Run SwiftLint (if available)"
+        script: |
+          if which swiftlint > /dev/null; then
+            swiftlint lint --quiet || true
+          fi
+        runOnlyWhenInstalling: false
+
+    # 📱 Entitlements
+    entitlements:
+      path: CMS-Manager/CMS_Manager.entitlements
+      properties:
+        com.apple.security.app-groups:
+          - group.com.artfularchives.cms
+        com.apple.security.network.client: true
+        com.apple.security.network.server: false
+
+  # ============================================================
+  # iOS Tests Target
+  # ============================================================
+  CMS_ManagerTests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "18.0"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.artfularchives.cms-manager.tests
+        SWIFT_VERSION: "6.0"
+        TEST_HOST: $(BUILT_PRODUCTS_DIR)/CMS-Manager.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CMS-Manager
+        GENERATE_INFOPLIST_FILE: YES
+    sources:
+      - path: CMS-ManagerTests
+    dependencies:
+      - target: CMS_Manager
+      - framework: XCTest.framework
+      - package: SnapshotTesting
+        product: SnapshotTesting
+
+  # ============================================================
+  # iOS UI Tests Target
+  # ============================================================
+  CMS_ManagerUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    deploymentTarget: "18.0"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.artfularchives.cms-manager.uitests
+        SWIFT_VERSION: "6.0"
+        GENERATE_INFOPLIST_FILE: YES
+    sources:
+      - path: CMS-ManagerUITests
+    dependencies:
+      - target: CMS_Manager
+      - framework: XCTest.framework
+
+#
+# 🎨 Schemes
+# "The enchanted performance scripts for our actors"
+#
+schemes:
+
+  # iOS App Scheme
+  CMS_Manager:
+    build:
+      targets:
+        CMS_Manager: all
+      parallelizeBuild: true
+      buildImplicitDependencies: true
+    run:
+      config: Debug
+      commandLineArguments:
+        "-EnableAssetPreview": true
+    test:
+      config: Debug
+      targets:
+        - CMS_ManagerTests
+        - CMS_ManagerUITests
+      coverage:
+        targets:
+          - CMS_ManagerTests
+        files: true
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release
+      customArchiveName: CMS-Manager-$(MARKETING_VERSION)-$(CURRENT_PROJECT_VERSION)
+      revealArchiveInOrganizer: true
+
+#
+# 🎯 Project Settings
+# "The cosmic configuration of our digital cosmos"
+#
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_EMIT_LOC_STRINGS: YES
+    # SWIFT_STRICT_CONCURRENCY: complete  # Temporarily disabled for rapid iteration
+    TARGETED_DEVICE_FAMILY: "1,2"
+    IPHONEOS_DEPLOYMENT_TARGET: "18.0"
+    ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: YES
+    LOCALIZATION_PREFERS_STRING_CATALOGS: YES
+    CODE_SIGN_STYLE: Automatic
+  debug:
+    DEBUG_INFORMATION_FORMAT: dwarf
+    SWIFT_OPTIMIZATION_LEVEL: -Onone
+    ENABLE_TESTABILITY: YES
+    SWIFT_ACTIVE_COMPILATION_CONDITIONS: DEBUG
+  release:
+    DEBUG_INFORMATION_FORMAT: dwarf-with-dsym
+    SWIFT_OPTIMIZATION_LEVEL: -O
+    VALIDATE_PRODUCT: YES
+    SWIFT_ACTIVE_COMPILATION_CONDITIONS: RELEASE
+
+#
+# 📂 File Groups
+# "The enchanted organizational structure of our mystical files"
+#
+# Note: fileGroups must reference existing directories
+fileGroups: []
+
+#
+# ℹ️ Project Notes
+# "Wisdom for those who venture into this code"
+#
+# Project Organization:
+# - CMS-Manager/          : Main iOS app source code
+# - CMS-ManagerTests/     : Unit tests for iOS app
+# - CMS-ManagerUITests/   : UI tests for iOS app
+# - Packages/             : Local Swift packages (ArtfulArchivesCore)
+#
+# Build Phases:
+# - Compile:    All Swift sources and resources
+# - Post-build: Run SwiftLint (if available)
+#
+# Schemes:
+# - CMS_Manager:   iOS app with tests
+#
+# Generation:
+# Run `scripts/generate_xcodeproj.sh` to regenerate the Xcode project.
+# Never manually edit the .xcodeproj file - always modify project.yml instead.

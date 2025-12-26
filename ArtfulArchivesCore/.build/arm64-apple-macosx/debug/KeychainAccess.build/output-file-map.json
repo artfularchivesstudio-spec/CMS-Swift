@@ -1,0 +1,12 @@
+{
+  "": {
+    "swift-dependencies": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/KeychainAccess.build/master.swiftdeps"
+  },
+  "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/checkouts/KeychainAccess/Lib/KeychainAccess/Keychain.swift": {
+    "dependencies": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/KeychainAccess.build/Keychain.d",
+    "object": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/KeychainAccess.build/Keychain.swift.o",
+    "swiftmodule": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/KeychainAccess.build/Keychain~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/KeychainAccess.build/Keychain.swiftdeps",
+    "diagnostics": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/KeychainAccess.build/Keychain.dia"
+  }
+}

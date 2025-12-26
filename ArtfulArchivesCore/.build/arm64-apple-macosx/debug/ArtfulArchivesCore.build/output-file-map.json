@@ -1,0 +1,68 @@
+{
+  "": {
+    "swift-dependencies": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/master.swiftdeps"
+  },
+  "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/Sources/ArtfulArchivesCore/Domain/Models/AppError.swift": {
+    "dependencies": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/AppError.d",
+    "object": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/AppError.swift.o",
+    "swiftmodule": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/AppError~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/AppError.swiftdeps",
+    "diagnostics": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/AppError.dia"
+  },
+  "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/Sources/ArtfulArchivesCore/Domain/Models/AudioGenerationResponse.swift": {
+    "dependencies": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/AudioGenerationResponse.d",
+    "object": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/AudioGenerationResponse.swift.o",
+    "swiftmodule": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/AudioGenerationResponse~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/AudioGenerationResponse.swiftdeps",
+    "diagnostics": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/AudioGenerationResponse.dia"
+  },
+  "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/Sources/ArtfulArchivesCore/Domain/Models/ImageAnalysisResponse.swift": {
+    "dependencies": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/ImageAnalysisResponse.d",
+    "object": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/ImageAnalysisResponse.swift.o",
+    "swiftmodule": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/ImageAnalysisResponse~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/ImageAnalysisResponse.swiftdeps",
+    "diagnostics": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/ImageAnalysisResponse.dia"
+  },
+  "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/Sources/ArtfulArchivesCore/Domain/Models/LanguageCode.swift": {
+    "dependencies": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/LanguageCode.d",
+    "object": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/LanguageCode.swift.o",
+    "swiftmodule": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/LanguageCode~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/LanguageCode.swiftdeps",
+    "diagnostics": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/LanguageCode.dia"
+  },
+  "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/Sources/ArtfulArchivesCore/Domain/Models/MediaUploadResponse.swift": {
+    "dependencies": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/MediaUploadResponse.d",
+    "object": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/MediaUploadResponse.swift.o",
+    "swiftmodule": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/MediaUploadResponse~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/MediaUploadResponse.swiftdeps",
+    "diagnostics": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/MediaUploadResponse.dia"
+  },
+  "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/Sources/ArtfulArchivesCore/Domain/Models/Story.swift": {
+    "dependencies": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/Story.d",
+    "object": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/Story.swift.o",
+    "swiftmodule": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/Story~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/Story.swiftdeps",
+    "diagnostics": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/Story.dia"
+  },
+  "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/Sources/ArtfulArchivesCore/Domain/Models/TTSVoice.swift": {
+    "dependencies": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/TTSVoice.d",
+    "object": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/TTSVoice.swift.o",
+    "swiftmodule": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/TTSVoice~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/TTSVoice.swiftdeps",
+    "diagnostics": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/TTSVoice.dia"
+  },
+  "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/Sources/ArtfulArchivesCore/Domain/Models/TranslationResponse.swift": {
+    "dependencies": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/TranslationResponse.d",
+    "object": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/TranslationResponse.swift.o",
+    "swiftmodule": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/TranslationResponse~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/TranslationResponse.swiftdeps",
+    "diagnostics": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/TranslationResponse.dia"
+  },
+  "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/Sources/ArtfulArchivesCore/Domain/Models/WorkflowStage.swift": {
+    "dependencies": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/WorkflowStage.d",
+    "object": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/WorkflowStage.swift.o",
+    "swiftmodule": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/WorkflowStage~partial.swiftmodule",
+    "swift-dependencies": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/WorkflowStage.swiftdeps",
+    "diagnostics": "/Users/admin/Developer/CMS-Swift/ArtfulArchivesCore/.build/arm64-apple-macosx/debug/ArtfulArchivesCore.build/WorkflowStage.dia"
+  }
+}

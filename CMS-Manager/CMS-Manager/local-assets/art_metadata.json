@@ -1,0 +1,461 @@
+[
+    {
+        "id": 0,
+        "title": "Self-Portrait",
+        "artist": "Vincent van Gogh",
+        "year": "1889",
+        "filename": "0_vincent_van_gogh_self_portrait.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Vincent_van_Gogh_-_Self-Portrait_-_Google_Art_Project_(454045).jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Vincent_van_Gogh_-_Self-Portrait_-_Google_Art_Project_%28454045%29.jpg/1280px-Vincent_van_Gogh_-_Self-Portrait_-_Google_Art_Project_%28454045%29.jpg"
+    },
+    {
+        "id": 1,
+        "title": "The Starry Night",
+        "artist": "Vincent van Gogh",
+        "year": "1889",
+        "filename": "1_vincent_van_gogh_the_starry_night.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg"
+    },
+    {
+        "id": 2,
+        "title": "Sunflowers",
+        "artist": "Vincent van Gogh",
+        "year": "1888",
+        "filename": "2_vincent_van_gogh_sunflowers.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg/1280px-Vincent_van_Gogh_-_Sunflowers_-_VGM_F458.jpg"
+    },
+    {
+        "id": 3,
+        "title": "The Potato Eaters",
+        "artist": "Vincent van Gogh",
+        "year": "1885",
+        "filename": "3_vincent_van_gogh_the_potato_eaters.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Vincent_van_Gogh_-_The_Potato_Eaters_-_Google_Art_Project.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Vincent_van_Gogh_-_The_Potato_Eaters_-_Google_Art_Project.jpg/1280px-Vincent_van_Gogh_-_The_Potato_Eaters_-_Google_Art_Project.jpg"
+    },
+    {
+        "id": 4,
+        "title": "The Red Vineyard",
+        "artist": "Vincent van Gogh",
+        "year": "1888",
+        "filename": "4_vincent_van_gogh_the_red_vineyard.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Vincent_van_Gogh_-_The_Red_Vineyard_-_Google_Art_Project.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Vincent_van_Gogh_-_The_Red_Vineyard_-_Google_Art_Project.jpg/1280px-Vincent_van_Gogh_-_The_Red_Vineyard_-_Google_Art_Project.jpg"
+    },
+    {
+        "id": 5,
+        "title": "Impression, Sunrise",
+        "artist": "Claude Monet",
+        "year": "1872",
+        "filename": "5_claude_monet_impression_sunrise.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Claude_Monet,_Impression,_soleil_levant.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Claude_Monet%2C_Impression%2C_soleil_levant.jpg/1280px-Claude_Monet%2C_Impression%2C_soleil_levant.jpg"
+    },
+    {
+        "id": 6,
+        "title": "The Water Lilies - The Clouds",
+        "artist": "Claude Monet",
+        "year": "1903",
+        "filename": "6_claude_monet_water_lilies_clouds.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Claude_Monet_-_The_Water_Lilies_-_The_Clouds.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Claude_Monet_-_The_Water_Lilies_-_The_Clouds.jpg/1280px-Claude_Monet_-_The_Water_Lilies_-_The_Clouds.jpg"
+    },
+    {
+        "id": 7,
+        "title": "Water Lilies",
+        "artist": "Claude Monet",
+        "year": "1919",
+        "filename": "7_claude_monet_water_lilies.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Claude_Monet_-_Water_Lilies_(W1992).jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Claude_Monet_-_Water_Lilies_%28W1992%29.jpg/1280px-Claude_Monet_-_Water_Lilies_%28W1992%29.jpg"
+    },
+    {
+        "id": 8,
+        "title": "Le Bassin aux Nymphéas",
+        "artist": "Claude Monet",
+        "year": "1919",
+        "filename": "8_claude_monet_bassin_nympheas.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Claude_Monet,_Le_Bassin_aux_Nymph%C3%A9as,_1919.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Claude_Monet%2C_Le_Bassin_aux_Nymph%C3%A9as%2C_1919.jpg/1280px-Claude_Monet%2C_Le_Bassin_aux_Nymph%C3%A9as%2C_1919.jpg"
+    },
+    {
+        "id": 9,
+        "title": "Woman with a Parasol",
+        "artist": "Claude Monet",
+        "year": "1875",
+        "filename": "9_claude_monet_woman_parasol.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Claude_Monet_-_Woman_with_a_Parasol_-_Madame_Monet_and_Her_Son.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Claude_Monet_-_Woman_with_a_Parasol_-_Madame_Monet_and_Her_Son.jpg/1280px-Claude_Monet_-_Woman_with_a_Parasol_-_Madame_Monet_and_Her_Son.jpg"
+    },
+    {
+        "id": 10,
+        "title": "Les Demoiselles d'Avignon",
+        "artist": "Pablo Picasso",
+        "year": "1907",
+        "filename": "10_pablo_picasso_demoiselles_avignon.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Les_Demoiselles_d%27Avignon.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Les_Demoiselles_d%27Avignon.jpg/1280px-Les_Demoiselles_d%27Avignon.jpg"
+    },
+    {
+        "id": 11,
+        "title": "La Mort de Casagemas",
+        "artist": "Pablo Picasso",
+        "year": "1901",
+        "filename": "11_pablo_picasso_mort_casagemas.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Pablo_Picasso,_1901,_La_Mort_de_Casagemas.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Pablo_Picasso%2C_1901%2C_La_Mort_de_Casagemas%2C_oil_on_canvas%2C_27_x_35_cm%2C_Mus%C3%A9e_Picasso%2C_Paris.jpg/1280px-Pablo_Picasso%2C_1901%2C_La_Mort_de_Casagemas%2C_oil_on_canvas%2C_27_x_35_cm%2C_Mus%C3%A9e_Picasso%2C_Paris.jpg"
+    },
+    {
+        "id": 12,
+        "title": "Le Moulin de la Galette",
+        "artist": "Pablo Picasso",
+        "year": "1901",
+        "filename": "12_pablo_picasso_moulin_galette.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Pablo_Picasso,_1901,_Le_Moulin_de_la_Galette.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Pablo_Picasso%2C_1901%2C_Le_Moulin_de_la_Galette%2C_oil_on_canvas%2C_88.2_x_115.6_cm%2C_Solomon_R._Guggenheim_Museum%2C_New_York.jpg/1280px-Pablo_Picasso%2C_1901%2C_Le_Moulin_de_la_Galette%2C_oil_on_canvas%2C_88.2_x_115.6_cm%2C_Solomon_R._Guggenheim_Museum%2C_New_York.jpg"
+    },
+    {
+        "id": 13,
+        "title": "Composition 7",
+        "artist": "Wassily Kandinsky",
+        "year": "1913",
+        "filename": "13_wassily_kandinsky_composition_7.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Vassily_Kandinsky,_1913_-_Composition_7.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Vassily_Kandinsky%2C_1913_-_Composition_7.jpg/1280px-Vassily_Kandinsky%2C_1913_-_Composition_7.jpg"
+    },
+    {
+        "id": 14,
+        "title": "Composition IV",
+        "artist": "Wassily Kandinsky",
+        "year": "1911",
+        "filename": "14_wassily_kandinsky_composition_iv.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Vassily_Kandinsky,_1911_-_Composition_IV.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Vassily_Kandinsky%2C_1911_-_Composition_IV.jpg/1280px-Vassily_Kandinsky%2C_1911_-_Composition_IV.jpg"
+    },
+    {
+        "id": 15,
+        "title": "Black Lines",
+        "artist": "Wassily Kandinsky",
+        "year": "1913",
+        "filename": "15_wassily_kandinsky_black_lines.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Vassily_Kandinsky,_1913_-_Black_Lines.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Vassily_Kandinsky%2C_1913_-_Black_Lines.jpg/1280px-Vassily_Kandinsky%2C_1913_-_Black_Lines.jpg"
+    },
+    {
+        "id": 16,
+        "title": "Group IX SUW, The Swan, No. 1",
+        "artist": "Hilma af Klint",
+        "year": "1914-1915",
+        "filename": "16_hilma_af_klint_swan.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Hilma_af_Klint_-_Group_IX_SUW,_The_Swan,_No._1_(1914-1915).jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Hilma_af_Klint_-_Group_IX_SUW%2C_The_Swan%2C_No._1_%281914-1915%29.jpg/1280px-Hilma_af_Klint_-_Group_IX_SUW%2C_The_Swan%2C_No._1_%281914-1915%29.jpg"
+    },
+    {
+        "id": 17,
+        "title": "Group X, No. 1, Altarpiece",
+        "artist": "Hilma af Klint",
+        "year": "1915",
+        "filename": "17_hilma_af_klint_altarpiece.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Hilma_af_Klint_-_Group_X,_No._1,_Altarpiece_(1915).jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Hilma_af_Klint_-_Group_X%2C_No._1%2C_Altarpiece_%281915%29.jpg/1280px-Hilma_af_Klint_-_Group_X%2C_No._1%2C_Altarpiece_%281915%29.jpg"
+    },
+    {
+        "id": 18,
+        "title": "Group IV, The Ten Largest, No. 7, Adulthood",
+        "artist": "Hilma af Klint",
+        "year": "1907",
+        "filename": "18_hilma_af_klint_adulthood.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Hilma_af_Klint_-_Group_IV,_The_Ten_Largest,_No._7,_Adulthood_(1907).jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Hilma_af_Klint_-_Group_IV%2C_The_Ten_Largest%2C_No._7%2C_Adulthood_%281907%29.jpg/1280px-Hilma_af_Klint_-_Group_IV%2C_The_Ten_Largest%2C_No._7%2C_Adulthood_%281907%29.jpg"
+    },
+    {
+        "id": 19,
+        "title": "The Ancient of Days",
+        "artist": "William Blake",
+        "year": "1794",
+        "filename": "19_william_blake_ancient_days.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:William_Blake_001.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/William_Blake_001.jpg/1280px-William_Blake_001.jpg"
+    },
+    {
+        "id": 20,
+        "title": "Newton",
+        "artist": "William Blake",
+        "year": "1795",
+        "filename": "20_william_blake_newton.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:William_Blake_-_Newton_(1795).jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/William_Blake_-_Newton_%281795%29.jpg/1280px-William_Blake_-_Newton_%281795%29.jpg"
+    },
+    {
+        "id": 21,
+        "title": "The Great Red Dragon and the Woman Clothed with the Sun",
+        "artist": "William Blake",
+        "year": "1805-1810",
+        "filename": "21_william_blake_red_dragon.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:William_Blake_-_The_Great_Red_Dragon_and_the_Woman_Clothed_with_the_Sun.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/William_Blake_-_The_Great_Red_Dragon_and_the_Woman_Clothed_with_the_Sun.jpg/1280px-William_Blake_-_The_Great_Red_Dragon_and_the_Woman_Clothed_with_the_Sun.jpg"
+    },
+    {
+        "id": 22,
+        "title": "The Absinthe Drinker",
+        "artist": "Edgar Degas",
+        "year": "1876",
+        "filename": "22_edgar_degas_absinthe_drinker.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Edgar_Degas_-_The_Absinthe_Drinker_-_Google_Art_Project.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Edgar_Degas_-_The_Absinthe_Drinker_-_Google_Art_Project.jpg/1280px-Edgar_Degas_-_The_Absinthe_Drinker_-_Google_Art_Project.jpg"
+    },
+    {
+        "id": 23,
+        "title": "The Dance Class",
+        "artist": "Edgar Degas",
+        "year": "1874",
+        "filename": "23_edgar_degas_dance_class.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Edgar_Degas_-_The_Dance_Class_-_Google_Art_Project.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Edgar_Degas_-_The_Dance_Class_-_Google_Art_Project.jpg/1280px-Edgar_Degas_-_The_Dance_Class_-_Google_Art_Project.jpg"
+    },
+    {
+        "id": 24,
+        "title": "Woman Combing Her Hair",
+        "artist": "Edgar Degas",
+        "year": "1888-1890",
+        "filename": "24_edgar_degas_woman_combing_hair.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Edgar_Degas_-_Woman_Combing_Her_Hair_-_Google_Art_Project.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Edgar_Degas_-_Woman_Combing_Her_Hair_-_Google_Art_Project.jpg/1280px-Edgar_Degas_-_Woman_Combing_Her_Hair_-_Google_Art_Project.jpg"
+    },
+    {
+        "id": 25,
+        "title": "Luncheon of the Boating Party",
+        "artist": "Pierre-Auguste Renoir",
+        "year": "1881",
+        "filename": "25_pierre_auguste_renoir_boating_party.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Pierre-Auguste_Renoir_-_Luncheon_of_the_Boating_Party.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Pierre-Auguste_Renoir_-_Luncheon_of_the_Boating_Party.jpg/1280px-Pierre-Auguste_Renoir_-_Luncheon_of_the_Boating_Party.jpg"
+    },
+    {
+        "id": 26,
+        "title": "Le Déjeuner des canotiers",
+        "artist": "Pierre-Auguste Renoir",
+        "year": "1881",
+        "filename": "26_pierre_auguste_renoir_dejeuner_canotiers.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Pierre-Auguste_Renoir,_Le_D%C3%A9jeuner_des_canotiers.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Pierre-Auguste_Renoir%2C_Le_D%C3%A9jeuner_des_canotiers.jpg/1280px-Pierre-Auguste_Renoir%2C_Le_D%C3%A9jeuner_des_canotiers.jpg"
+    },
+    {
+        "id": 27,
+        "title": "Two Sisters (On the Terrace)",
+        "artist": "Pierre-Auguste Renoir",
+        "year": "1881",
+        "filename": "27_pierre_auguste_renoir_two_sisters.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Pierre-Auguste_Renoir_-_Two_Sisters_(On_the_Terrace)_-_Google_Art_Project.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Pierre-Auguste_Renoir_-_Two_Sisters_%28On_the_Terrace%29_-_Google_Art_Project.jpg/1280px-Pierre-Auguste_Renoir_-_Two_Sisters_%28On_the_Terrace%29_-_Google_Art_Project.jpg"
+    },
+    {
+        "id": 28,
+        "title": "The Card Players",
+        "artist": "Paul Cézanne",
+        "year": "1890-1892",
+        "filename": "28_paul_cezanne_card_players.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Paul_C%C3%A9zanne_-_The_Card_Players.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Paul_C%C3%A9zanne_-_The_Card_Players.jpg/1280px-Paul_C%C3%A9zanne_-_The_Card_Players.jpg"
+    },
+    {
+        "id": 29,
+        "title": "The Bathers",
+        "artist": "Paul Cézanne",
+        "year": "1894-1905",
+        "filename": "29_paul_cezanne_bathers.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Paul_C%C3%A9zanne_-_The_Bathers_(Les_Grandes_Baigneuses)_-_Google_Art_Project.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Paul_C%C3%A9zanne_-_The_Bathers_%28Les_Grandes_Baigneuses%29_-_Google_Art_Project.jpg/1280px-Paul_C%C3%A9zanne_-_The_Bathers_%28Les_Grandes_Baigneuses%29_-_Google_Art_Project.jpg"
+    },
+    {
+        "id": 30,
+        "title": "Mont Sainte-Victoire",
+        "artist": "Paul Cézanne",
+        "year": "1904-1906",
+        "filename": "30_paul_cezanne_mont_sainte_victoire.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Paul_C%C3%A9zanne_063.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Paul_C%C3%A9zanne_063.jpg/1280px-Paul_C%C3%A9zanne_063.jpg"
+    },
+    {
+        "id": 31,
+        "title": "Where Do We Come From? What Are We? Where Are We Going?",
+        "artist": "Paul Gauguin",
+        "year": "1897-1898",
+        "filename": "31_paul_gauguin_where_do_we_come_from.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Paul_Gauguin_-_Where_Do_We_Come_From%3F_What_Are_We%3F_Where_Are_We_Going%3F.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Paul_Gauguin_-_Where_Do_We_Come_From%3F_What_Are_We%3F_Where_Are_We_Going%3F.jpg/1280px-Paul_Gauguin_-_Where_Do_We_Come_From%3F_What_Are_We%3F_Where_Are_We_Going%3F.jpg"
+    },
+    {
+        "id": 32,
+        "title": "The Yellow Christ",
+        "artist": "Paul Gauguin",
+        "year": "1889",
+        "filename": "32_paul_gauguin_yellow_christ.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Paul_Gauguin_-_The_Yellow_Christ_-_Google_Art_Project.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Paul_Gauguin_-_The_Yellow_Christ_-_Google_Art_Project.jpg/1280px-Paul_Gauguin_-_The_Yellow_Christ_-_Google_Art_Project.jpg"
+    },
+    {
+        "id": 33,
+        "title": "Tahitian Women on the Beach",
+        "artist": "Paul Gauguin",
+        "year": "1891",
+        "filename": "33_paul_gauguin_tahitian_women.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Paul_Gauguin_-_Tahitian_Women_on_the_Beach_-_Google_Art_Project.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Paul_Gauguin_-_Tahitian_Women_on_the_Beach_-_Google_Art_Project.jpg/1280px-Paul_Gauguin_-_Tahitian_Women_on_the_Beach_-_Google_Art_Project.jpg"
+    },
+    {
+        "id": 34,
+        "title": "A Sunday Afternoon on the Island of La Grande Jatte",
+        "artist": "Georges Seurat",
+        "year": "1884-1886",
+        "filename": "34_georges_seurat_sunday_afternoon.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:A_Sunday_on_La_Grande_Jatte,_Georges_Seurat,_1884.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/A_Sunday_on_La_Grande_Jatte%2C_Georges_Seurat%2C_1884.jpg/1280px-A_Sunday_on_La_Grande_Jatte%2C_Georges_Seurat%2C_1884.jpg"
+    },
+    {
+        "id": 35,
+        "title": "Bathers at Asnières",
+        "artist": "Georges Seurat",
+        "year": "1884",
+        "filename": "35_georges_seurat_bathers_asnieres.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Georges_Seurat_-_Bathers_at_Asni%C3%A8res_-_Google_Art_Project.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Georges_Seurat_-_Bathers_at_Asni%C3%A8res_-_Google_Art_Project.jpg/1280px-Georges_Seurat_-_Bathers_at_Asni%C3%A8res_-_Google_Art_Project.jpg"
+    },
+    {
+        "id": 36,
+        "title": "Le Déjeuner sur l'herbe",
+        "artist": "Édouard Manet",
+        "year": "1863",
+        "filename": "36_edouard_manet_dejeuner_herbe.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:%C3%89douard_Manet_-_Le_D%C3%A9jeuner_sur_l%27herbe.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/%C3%89douard_Manet_-_Le_D%C3%A9jeuner_sur_l%27herbe.jpg/1280px-%C3%89douard_Manet_-_Le_D%C3%A9jeuner_sur_l%27herbe.jpg"
+    },
+    {
+        "id": 37,
+        "title": "Olympia",
+        "artist": "Édouard Manet",
+        "year": "1863",
+        "filename": "37_edouard_manet_olympia.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:%C3%89douard_Manet_-_Olympia.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/%C3%89douard_Manet_-_Olympia.jpg/1280px-%C3%89douard_Manet_-_Olympia.jpg"
+    },
+    {
+        "id": 38,
+        "title": "A Bar at the Folies-Bergère",
+        "artist": "Édouard Manet",
+        "year": "1882",
+        "filename": "38_edouard_manet_bar_folies_bergere.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:%C3%89douard_Manet_-_A_Bar_at_the_Folies-Berg%C3%A8re_-_Google_Art_Project.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/%C3%89douard_Manet_-_A_Bar_at_the_Folies-Berg%C3%A8re_-_Google_Art_Project.jpg/1280px-%C3%89douard_Manet_-_A_Bar_at_the_Folies-Berg%C3%A8re_-_Google_Art_Project.jpg"
+    },
+    {
+        "id": 39,
+        "title": "The Fighting Temeraire",
+        "artist": "J. M. W. Turner",
+        "year": "1839",
+        "filename": "39_jmw_turner_fighting_temeraire.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:JMW_Turner_-_The_Fighting_Temeraire_tugged_to_her_last_Berth_to_be_broken_up,_1838.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/JMW_Turner_-_The_Fighting_Temeraire_tugged_to_her_last_Berth_to_be_broken_up%2C_1838.jpg/1280px-JMW_Turner_-_The_Fighting_Temeraire_tugged_to_her_last_Berth_to_be_broken_up%2C_1838.jpg"
+    },
+    {
+        "id": 40,
+        "title": "Rain, Steam and Speed",
+        "artist": "J. M. W. Turner",
+        "year": "1844",
+        "filename": "40_jmw_turner_rain_steam_speed.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:JMW_Turner_-_Rain,_Steam_and_Speed_-_The_Great_Western_Railway.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/JMW_Turner_-_Rain%2C_Steam_and_Speed_-_The_Great_Western_Railway.jpg/1280px-JMW_Turner_-_Rain%2C_Steam_and_Speed_-_The_Great_Western_Railway.jpg"
+    },
+    {
+        "id": 41,
+        "title": "Arrangement in Grey and Black No. 1",
+        "artist": "James McNeill Whistler",
+        "year": "1871",
+        "filename": "41_james_whistler_arrangement_grey_black.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Whistler_-_Arrangement_in_Grey_and_Black_No._1_(The_Artist%27s_Mother).jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Whistler_-_Arrangement_in_Grey_and_Black_No._1_%28The_Artist%27s_Mother%29.jpg/1280px-Whistler_-_Arrangement_in_Grey_and_Black_No._1_%28The_Artist%27s_Mother%29.jpg"
+    },
+    {
+        "id": 42,
+        "title": "Nocturne in Black and Gold - The Falling Rocket",
+        "artist": "James McNeill Whistler",
+        "year": "1875",
+        "filename": "42_james_whistler_nocturne_black_gold.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:James_Abbott_McNeill_Whistler_-_Nocturne_in_Black_and_Gold_-_The_Falling_Rocket.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/James_Abbott_McNeill_Whistler_-_Nocturne_in_Black_and_Gold_-_The_Falling_Rocket.jpg/1280px-James_Abbott_McNeill_Whistler_-_Nocturne_in_Black_and_Gold_-_The_Falling_Rocket.jpg"
+    },
+    {
+        "id": 43,
+        "title": "Girl with a Pearl Earring",
+        "artist": "Johannes Vermeer",
+        "year": "1665",
+        "filename": "43_johannes_vermeer_girl_pearl_earring.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:1665_Girl_with_a_Pearl_Earring.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/1665_Girl_with_a_Pearl_Earring.jpg/1280px-1665_Girl_with_a_Pearl_Earring.jpg"
+    },
+    {
+        "id": 44,
+        "title": "The Art of Painting",
+        "artist": "Johannes Vermeer",
+        "year": "1666-1668",
+        "filename": "44_johannes_vermeer_art_of_painting.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Vermeer_-_The_Art_of_Painting.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Vermeer_-_The_Art_of_Painting.jpg/1280px-Vermeer_-_The_Art_of_Painting.jpg"
+    },
+    {
+        "id": 45,
+        "title": "The Night Watch",
+        "artist": "Rembrandt",
+        "year": "1642",
+        "filename": "45_rembrandt_night_watch.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:The_Nightwatch_by_Rembrandt_-_Rijksmuseum.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/The_Nightwatch_by_Rembrandt_-_Rijksmuseum.jpg/1280px-The_Nightwatch_by_Rembrandt_-_Rijksmuseum.jpg"
+    },
+    {
+        "id": 46,
+        "title": "Self-Portrait",
+        "artist": "Rembrandt",
+        "year": "1659",
+        "filename": "46_rembrandt_self_portrait.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Rembrandt_van_Rijn_-_Self-portrait_-_Google_Art_Project.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Rembrandt_van_Rijn_-_Self-portrait_-_Google_Art_Project.jpg/1280px-Rembrandt_van_Rijn_-_Self-portrait_-_Google_Art_Project.jpg"
+    },
+    {
+        "id": 47,
+        "title": "The Dance",
+        "artist": "Henri Matisse",
+        "year": "1909-1910",
+        "filename": "47_henri_matisse_dance.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Matisse-dance.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Matisse-dance.jpg/1280px-Matisse-dance.jpg"
+    },
+    {
+        "id": 48,
+        "title": "Woman with a Hat",
+        "artist": "Henri Matisse",
+        "year": "1905",
+        "filename": "48_henri_matisse_woman_hat.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Henri_Matisse%2C_1905%2C_Woman_with_a_Hat%2C_oil_on_canvas%2C_80.65_x_59.69_cm%2C_San_Francisco_Museum_of_Modern_Art.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Henri_Matisse%2C_1905%2C_Woman_with_a_Hat%2C_oil_on_canvas%2C_80.65_x_59.69_cm%2C_San_Francisco_Museum_of_Modern_Art.jpg/1280px-Henri_Matisse%2C_1905%2C_Woman_with_a_Hat%2C_oil_on_canvas%2C_80.65_x_59.69_cm%2C_San_Francisco_Museum_of_Modern_Art.jpg"
+    },
+    {
+        "id": 49,
+        "title": "The Persistence of Memory",
+        "artist": "Salvador Dalí",
+        "year": "1931",
+        "filename": "49_salvador_dali_persistence_memory.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:The_Persistence_of_Memory.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/The_Persistence_of_Memory.jpg/1280px-The_Persistence_of_Memory.jpg"
+    },
+    {
+        "id": 50,
+        "title": "The Great Masturbator",
+        "artist": "Salvador Dalí",
+        "year": "1929",
+        "filename": "50_salvador_dali_great_masturbator.jpg",
+        "sourceURL": "https://commons.wikimedia.org/wiki/File:Salvador_Dal%C3%AD_-_The_Great_Masturbator_-_Google_Art_Project.jpg",
+        "imageURL": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Salvador_Dal%C3%AD_-_The_Great_Masturbator_-_Google_Art_Project.jpg/1280px-Salvador_Dal%C3%AD_-_The_Great_Masturbator_-_Google_Art_Project.jpg"
+    }
+]

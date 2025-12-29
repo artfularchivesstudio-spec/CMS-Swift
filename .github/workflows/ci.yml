@@ -34,27 +34,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-spm-
 
-      - name: Build for testing
+      - name: Run tests
         working-directory: CMS-Manager
         run: |
-          xcodebuild build-for-testing \
+          xcodebuild test \
             -project CMS-Manager.xcodeproj \
             -scheme CMS_Manager \
             -sdk iphonesimulator \
             -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.2' \
-            -derivedDataPath .build \
-            -quiet
-
-      - name: Run unit tests
-        working-directory: CMS-Manager
-        run: |
-          xcodebuild test-without-building \
-            -project CMS-Manager.xcodeproj \
-            -scheme CMS_Manager \
-            -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.2' \
-            -derivedDataPath .build \
-            -resultBundlePath .build/TestResults.xcresult \
+            -resultBundlePath TestResults.xcresult \
             -enableCodeCoverage YES
         env:
           SNAPSHOT_ARTIFACTS: ${{ github.workspace }}/CMS-Manager/CMS-ManagerTests
@@ -65,7 +53,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-results
-          path: CMS-Manager/.build/TestResults.xcresult
+          path: CMS-Manager/TestResults.xcresult
           retention-days: 7
 
       - name: Upload recorded snapshots

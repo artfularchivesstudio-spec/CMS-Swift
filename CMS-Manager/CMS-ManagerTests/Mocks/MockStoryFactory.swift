@@ -167,7 +167,7 @@ struct MockStoryFactory {
             updatedAt: Date().addingTimeInterval(-86400), // Yesterday
             publishedAt: Date().addingTimeInterval(-3600), // 1 hour ago
             createdBy: createStoryAuthor(id: 1, name: "The Curator"),
-            strapiAttributes: ["featured": "true", "priority": "high"]
+            strapiAttributes: nil
         )
     }
 

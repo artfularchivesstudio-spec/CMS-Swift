@@ -68,8 +68,8 @@ actor MockAPIClient: APIClientProtocol {
     // MARK: - 🎯 Configurable Results - Controlling the Narrative
 
     /// 📤 The result to return when uploadMedia is called
-    var uploadMediaResult: Result<MediaUploadResponse, Error> = .success(
-        MediaUploadResponse(
+    var uploadMediaResult: Result<CMS_Manager.MediaUploadResponse, Error> = .success(
+        CMS_Manager.MediaUploadResponse(
             id: 42,
             url: "https://example.com/test-image.jpg",
             name: "test-image.jpg",
@@ -79,33 +79,40 @@ actor MockAPIClient: APIClientProtocol {
     )
 
     /// 🧠 The result to return when analyzeImage is called
-    var analyzeImageResult: Result<ImageAnalysisResponse, Error> = .success(
-        ImageAnalysisResponse(
+    var analyzeImageResult: Result<CMS_Manager.ImageAnalysisResponse, Error> = .success(
+        CMS_Manager.ImageAnalysisResponse(
             success: true,
-            data: ImageAnalysisResponse.AnalysisData(
+            data: CMS_Manager.ImageAnalysisResponse.AnalysisData(
                 title: "The Mystical Sunset Over Mountains",
                 content: "A breathtaking view of the sun setting behind majestic peaks, painting the sky in hues of orange and purple.",
-                tags: ["nature", "sunset", "mountains", "landscape"]
+                tags: ["nature", "sunset", "mountains", "landscape"],
+                category: "landscape",
+                mood: "peaceful"
             ),
-            error: nil
+            message: nil
         )
     )
 
     /// 🌐 The result to return when translate is called
-    var translateResult: Result<TranslationResponse, Error> = .success(
-        TranslationResponse(
+    var translateResult: Result<CMS_Manager.TranslationResponse, Error> = .success(
+        CMS_Manager.TranslationResponse(
             success: true,
             translatedContent: "Contenido traducido",
-            error: nil
+            originalLanguage: "en",
+            targetLanguage: "es",
+            message: nil
         )
     )
 
     /// 🔊 The result to return when generateAudio is called
-    var generateAudioResult: Result<AudioGenerationResponse, Error> = .success(
-        AudioGenerationResponse(
+    var generateAudioResult: Result<CMS_Manager.AudioGenerationResponse, Error> = .success(
+        CMS_Manager.AudioGenerationResponse(
             success: true,
             audioUrl: "data:audio/mpeg;base64,mock-audio-data",
-            error: nil
+            duration: 10.5,
+            language: "en",
+            voice: "alloy",
+            message: nil
         )
     )
 
@@ -165,7 +172,7 @@ actor MockAPIClient: APIClientProtocol {
     var lastAudioLanguage: String?
 
     /// 🎬 The last story creation request
-    var lastStoryRequest: StoryCreateRequest?
+    var lastStoryRequest: CMS_Manager.StoryCreateRequest?
 
     /// 🎬 The last story update ID
     var lastUpdateStoryId: Int?
@@ -176,7 +183,7 @@ actor MockAPIClient: APIClientProtocol {
     // MARK: - 🎭 APIClientProtocol Implementation
 
     /// 📤 Upload media file (mock version)
-    func uploadMedia(file: URL) async throws -> MediaUploadResponse {
+    func uploadMedia(file: URL) async throws -> CMS_Manager.MediaUploadResponse {
         print("🧪 ✨ MOCK UPLOAD AWAKENS! \(file.lastPathComponent)")
         uploadMediaCallCount += 1
         lastUploadedFileURL = file
@@ -190,7 +197,7 @@ actor MockAPIClient: APIClientProtocol {
     }
 
     /// 🧠 Analyze image (mock version)
-    func analyzeImage(url: String, prompt: String?) async throws -> ImageAnalysisResponse {
+    func analyzeImage(url: String, prompt: String?) async throws -> CMS_Manager.ImageAnalysisResponse {
         print("🧪 ✨ MOCK ANALYSIS AWAKENS! URL: \(url)")
         analyzeImageCallCount += 1
         lastAnalyzedImageURL = url
@@ -204,7 +211,7 @@ actor MockAPIClient: APIClientProtocol {
     }
 
     /// 🌐 Translate content (mock version)
-    func translate(content: String, targetLanguage: String) async throws -> TranslationResponse {
+    func translate(content: String, targetLanguage: String) async throws -> CMS_Manager.TranslationResponse {
         print("🧪 ✨ MOCK TRANSLATION AWAKENS! Target: \(targetLanguage)")
         translateCallCount += 1
         lastTranslationContent = content
@@ -219,7 +226,7 @@ actor MockAPIClient: APIClientProtocol {
     }
 
     /// 🔊 Generate audio (mock version)
-    func generateAudio(text: String, language: String, voice: TTSVoice?) async throws -> AudioGenerationResponse {
+    func generateAudio(text: String, language: String, voice: CMS_Manager.TTSVoice?, speed: Double) async throws -> CMS_Manager.AudioGenerationResponse {
         print("🧪 ✨ MOCK AUDIO GENERATION AWAKENS! Voice: \(voice?.rawValue ?? "default")")
         generateAudioCallCount += 1
         lastAudioText = text
@@ -234,7 +241,7 @@ actor MockAPIClient: APIClientProtocol {
     }
 
     /// 🚀 Create complete story (mock version)
-    func createStoryComplete(request: StoryCreateRequest) async throws -> StoryCreateResponse {
+    func createStoryComplete(request: CMS_Manager.StoryCreateRequest) async throws -> StoryCreateResponse {
         print("🧪 ✨ MOCK STORY CREATION AWAKENS! Title: \(request.title)")
         createStoryCompleteCallCount += 1
         lastStoryRequest = request
@@ -300,7 +307,7 @@ actor MockAPIClient: APIClientProtocol {
         deleteStoryCallCount += 1
 
         if !deleteStorySucceeds {
-            throw APIError.serverError(500)
+            throw CMS_Manager.APIError.serverError(500)
         }
     }
 
@@ -310,7 +317,7 @@ actor MockAPIClient: APIClientProtocol {
         createTranslationCallCount += 1
 
         if !createTranslationSucceeds {
-            throw APIError.serverError(500)
+            throw CMS_Manager.APIError.serverError(500)
         }
     }
 

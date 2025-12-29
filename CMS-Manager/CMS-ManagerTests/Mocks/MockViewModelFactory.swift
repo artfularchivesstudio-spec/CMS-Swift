@@ -33,17 +33,25 @@ struct MockViewModelFactory {
     /// - Parameters:
     ///   - apiClient: The API client to use (defaults to MockAPIClient)
     ///   - toastManager: The toast manager (defaults to new instance)
+    ///   - audioPlayer: The audio player (defaults to new AudioPlayer instance)
+    ///   - hapticManager: The haptic manager (defaults to new HapticManager instance)
     /// - Returns: A pristine wizard ready to begin the journey
     static func createWizardViewModel(
         apiClient: APIClientProtocol? = nil,
-        toastManager: ToastManager? = nil
+        toastManager: ToastManager? = nil,
+        audioPlayer: AudioPlayerProtocol? = nil,
+        hapticManager: HapticManager? = nil
     ) -> StoryWizardViewModel {
         let mockClient = (apiClient as? MockAPIClient) ?? MockAPIClient()
         let mockToast = toastManager ?? ToastManager()
+        let mockAudioPlayer = audioPlayer ?? AudioPlayer()
+        let mockHapticManager = hapticManager ?? HapticManager()
 
         return StoryWizardViewModel(
             apiClient: mockClient,
-            toastManager: mockToast
+            toastManager: mockToast,
+            audioPlayer: mockAudioPlayer,
+            hapticManager: mockHapticManager
         )
     }
 
@@ -70,10 +78,12 @@ struct MockViewModelFactory {
         let vm = createWizardViewModel()
         vm.uploadedMediaId = 42
         vm.uploadedMediaUrl = "https://example.com/test-image.jpg"
-        vm.analysisResult = ImageAnalysisResponse.AnalysisData(
+        vm.analysisResult = CMS_Manager.ImageAnalysisResponse.AnalysisData(
             title: "The Mystical Sunset",
             content: "A breathtaking sunset over mountains with vibrant colors.",
-            tags: ["nature", "sunset", "landscape"]
+            tags: ["nature", "sunset", "landscape"],
+            category: "landscape",
+            mood: "peaceful"
         )
         vm.storyTitle = "The Mystical Sunset"
         vm.storyContent = "A breathtaking sunset over mountains with vibrant colors."
@@ -121,7 +131,7 @@ struct MockViewModelFactory {
     static func createWizardAtFinalize() -> StoryWizardViewModel {
         let vm = createWizardAtAudio()
         vm.audioUrls = [
-            .en: "data:audio/mpeg;base64,mock-en-audio",
+            .english: "data:audio/mpeg;base64,mock-en-audio",
             .spanish: "data:audio/mpeg;base64,mock-es-audio",
             .hindi: "data:audio/mpeg;base64,mock-hi-audio"
         ]
@@ -196,9 +206,9 @@ struct MockViewModelFactory {
     static func createWizardGeneratingAudio() -> StoryWizardViewModel {
         let vm = createWizardAtAudio()
         vm.isLoading = true
-        vm.selectedLanguages = [.en, .spanish, .hindi]
+        vm.selectedLanguages = [.english, .spanish, .hindi]
         vm.audioProgress = [
-            .en: 1.0,
+            .english: 1.0,
             .spanish: 0.6,
             .hindi: 0.2
         ]
@@ -238,13 +248,12 @@ struct MockViewModelFactory {
     /// 🌩️ Create a wizard with some failed translations
     static func createWizardWithFailedTranslations() -> StoryWizardViewModel {
         let vm = createWizardAtTranslationReview()
-        vm.selectedLanguages = [.spanish, .hindi, .french]
+        vm.selectedLanguages = [.spanish, .hindi]
         vm.translations = [
-            .spanish: "Una puesta de sol impresionante",
-            .hindi: "जीवंत रंगों के साथ पहाड़ों"
+            .spanish: "Una puesta de sol impresionante"
         ]
         vm.translationErrors = [
-            .french: "Translation service unavailable"
+            .hindi: "Translation service unavailable"
         ]
         return vm
     }
@@ -274,10 +283,12 @@ struct MockViewModelFactory {
         vm.uploadedMediaUrl = "https://example.com/test-image.jpg"
 
         // Step 2: Analysis complete
-        vm.analysisResult = ImageAnalysisResponse.AnalysisData(
+        vm.analysisResult = CMS_Manager.ImageAnalysisResponse.AnalysisData(
             title: "The Digital Renaissance",
             content: "A journey through art reimagined for the digital age.",
-            tags: ["digital", "art", "modern"]
+            tags: ["digital", "art", "modern"],
+            category: "art",
+            mood: "inspiring"
         )
 
         // Step 3: Review complete
@@ -301,7 +312,7 @@ struct MockViewModelFactory {
 
         // Step 6: Audio generation complete
         vm.audioUrls = [
-            .en: "data:audio/mpeg;base64,mock-en",
+            .english: "data:audio/mpeg;base64,mock-en",
             .spanish: "data:audio/mpeg;base64,mock-es",
             .hindi: "data:audio/mpeg;base64,mock-hi"
         ]

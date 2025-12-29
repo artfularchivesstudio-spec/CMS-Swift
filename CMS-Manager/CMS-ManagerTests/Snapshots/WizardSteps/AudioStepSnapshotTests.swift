@@ -12,6 +12,7 @@ import XCTest
 import SwiftUI
 import SnapshotTesting
 @testable import CMS_Manager
+import ArtfulArchivesCore
 
 // MARK: - 🎭 Audio Step Snapshot Tests
 
@@ -137,13 +138,13 @@ final class AudioStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardAtAudio()
 
         // 🎨 Simulate partial completion: English done, others in progress
-        viewModel.selectedLanguages = [.en, .spanish, .hindi]
+        viewModel.selectedLanguages = [.english, .spanish, .hindi]
         viewModel.audioUrls = [
-            .en: "data:audio/mpeg;base64,mock-en-audio"
+            .english: "data:audio/mpeg;base64,mock-en-audio"
         ]
         viewModel.isLoading = true
         viewModel.audioProgress = [
-            .en: 1.0,
+            .english: 1.0,
             .spanish: 0.65,
             .hindi: 0.30
         ]
@@ -163,10 +164,10 @@ final class AudioStepSnapshotTests: XCTestCase {
     func testAudioStepGenerationStarting() {
         let viewModel = MockViewModelFactory.createWizardAtAudio()
 
-        viewModel.selectedLanguages = [.en, .spanish, .hindi]
+        viewModel.selectedLanguages = [.english, .spanish, .hindi]
         viewModel.isLoading = true
         viewModel.audioProgress = [
-            .en: 0.05,
+            .english: 0.05,
             .spanish: 0.0,
             .hindi: 0.0
         ]
@@ -220,9 +221,9 @@ final class AudioStepSnapshotTests: XCTestCase {
     func testAudioStepPartialFailures() {
         let viewModel = MockViewModelFactory.createWizardAtAudio()
 
-        viewModel.selectedLanguages = [.en, .spanish, .hindi]
+        viewModel.selectedLanguages = [.english, .spanish, .hindi]
         viewModel.audioUrls = [
-            .en: "data:audio/mpeg;base64,mock-en-audio",
+            .english: "data:audio/mpeg;base64,mock-en-audio",
             .spanish: "data:audio/mpeg;base64,mock-es-audio"
         ]
         // Hindi failed to generate
@@ -292,9 +293,9 @@ final class AudioStepSnapshotTests: XCTestCase {
     func testAudioStepSingleLanguage() {
         let viewModel = MockViewModelFactory.createWizardAtAudio()
 
-        viewModel.selectedLanguages = [.en]
+        viewModel.selectedLanguages = [.english]
         viewModel.audioUrls = [
-            .en: "data:audio/mpeg;base64,mock-en-audio"
+            .english: "data:audio/mpeg;base64,mock-en-audio"
         ]
 
         let view = AudioStepView(viewModel: viewModel)
@@ -329,9 +330,10 @@ final class AudioStepSnapshotTests: XCTestCase {
     func testAudioStepAllLanguages() {
         let viewModel = MockViewModelFactory.createWizardAtAudio()
 
-        viewModel.selectedLanguages = Set(LanguageCode.allCases)
+        let supportedLanguages = [LanguageCode.english, .spanish, .hindi]
+        viewModel.selectedLanguages = Set(supportedLanguages)
         viewModel.audioUrls = Dictionary(
-            uniqueKeysWithValues: LanguageCode.allCases.map { lang in
+            uniqueKeysWithValues: supportedLanguages.map { lang in
                 (lang, "data:audio/mpeg;base64,mock-\(lang.rawValue)-audio")
             }
         )

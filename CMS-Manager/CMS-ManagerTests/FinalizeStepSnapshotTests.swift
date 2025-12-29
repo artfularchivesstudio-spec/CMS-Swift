@@ -27,7 +27,7 @@ final class FinalizeStepSnapshotTests: XCTestCase {
     // MARK: - 🎨 Test Configuration
 
     /// 📸 Set to true to record new reference snapshots
-    private let recordMode = false
+    private let recordMode = true
 
     /// 📱 Standard device configurations
     private let testDevices: [DeviceConfiguration] = DeviceConfiguration.iPhoneEssentials
@@ -51,10 +51,7 @@ final class FinalizeStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardAtFinalize()
 
         let view = FinalizeStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -71,15 +68,12 @@ final class FinalizeStepSnapshotTests: XCTestCase {
     func testSummaryEnglishOnly() {
         // 🏭 Create wizard with English only
         let viewModel = MockViewModelFactory.createWizardAtFinalize()
-        viewModel.selectedLanguages = [.en]
+        viewModel.selectedLanguages = [.english]
         viewModel.translations = [:]
-        viewModel.audioUrls = [.en: "data:audio/mpeg;base64,mock-en"]
+        viewModel.audioUrls = [.english: "data:audio/mpeg;base64,mock-en"]
 
         let view = FinalizeStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -98,10 +92,7 @@ final class FinalizeStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createCompleteJourney()
 
         let view = FinalizeStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -120,10 +111,7 @@ final class FinalizeStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardAtFinalize()
 
         let view = FinalizeStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -145,10 +133,7 @@ final class FinalizeStepSnapshotTests: XCTestCase {
         viewModel.isLoading = true
 
         let view = FinalizeStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -169,10 +154,7 @@ final class FinalizeStepSnapshotTests: XCTestCase {
         viewModel.showConfetti = false
 
         let view = FinalizeStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -193,10 +175,7 @@ final class FinalizeStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardWithPublishedStory()
 
         let view = FinalizeStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -216,10 +195,7 @@ final class FinalizeStepSnapshotTests: XCTestCase {
         viewModel.showConfetti = true
 
         let view = FinalizeStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertDevice(
             matching: view,
@@ -239,10 +215,7 @@ final class FinalizeStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardWithPublishedStory()
 
         let view = FinalizeStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -263,10 +236,7 @@ final class FinalizeStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardWithCreationError()
 
         let view = FinalizeStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -286,10 +256,7 @@ final class FinalizeStepSnapshotTests: XCTestCase {
         viewModel.storyTitle = "" // Missing title!
 
         let view = FinalizeStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertDevice(
             matching: view,
@@ -311,10 +278,7 @@ final class FinalizeStepSnapshotTests: XCTestCase {
         viewModel.error = nil // Error cleared for retry
 
         let view = FinalizeStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertDevice(
             matching: view,
@@ -336,10 +300,7 @@ final class FinalizeStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createCompleteJourney()
 
         let view = FinalizeStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -358,10 +319,7 @@ final class FinalizeStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardAtFinalize()
 
         let view = FinalizeStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -380,10 +338,7 @@ final class FinalizeStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardAtFinalize()
 
         let view = FinalizeStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -402,10 +357,7 @@ final class FinalizeStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardAtFinalize()
 
         let view = FinalizeStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertDevice(
             matching: view,
@@ -427,10 +379,7 @@ final class FinalizeStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createCompleteJourney()
 
         let view = FinalizeStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -449,10 +398,7 @@ final class FinalizeStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardAtFinalize()
 
         let view = FinalizeStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -471,10 +417,7 @@ final class FinalizeStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardWithPublishedStory()
 
         let view = FinalizeStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertDevice(
             matching: view,
@@ -496,10 +439,7 @@ final class FinalizeStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createCompleteJourney()
 
         let view = FinalizeStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -518,10 +458,7 @@ final class FinalizeStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardWithPublishedStory()
 
         let view = FinalizeStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -540,10 +477,7 @@ final class FinalizeStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardAtFinalize()
 
         let view = FinalizeStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertDevice(
             matching: view,
@@ -565,10 +499,7 @@ final class FinalizeStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardWithPublishedStory()
 
         let view = FinalizeStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertDevice(
             matching: view,
@@ -588,10 +519,7 @@ final class FinalizeStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardWithPublishedStory()
 
         let view = FinalizeStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -610,10 +538,7 @@ final class FinalizeStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardWithPublishedStory()
 
         let view = FinalizeStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -634,10 +559,7 @@ final class FinalizeStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardAtFinalize()
 
         let view = FinalizeStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,

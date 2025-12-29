@@ -28,7 +28,7 @@ final class AudioGenerationStepSnapshotTests: XCTestCase {
     // MARK: - 🎨 Test Configuration
 
     /// 📸 Set to true to record new reference snapshots
-    private let recordMode = false
+    private let recordMode = true
 
     /// 📱 Standard device configurations
     private let testDevices: [DeviceConfiguration] = DeviceConfiguration.iPhoneEssentials
@@ -52,10 +52,7 @@ final class AudioGenerationStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardAtAudio()
 
         let view = AudioStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -72,13 +69,10 @@ final class AudioGenerationStepSnapshotTests: XCTestCase {
     func testWithLanguagesToGenerate() {
         // 🏭 Create wizard with multiple languages
         let viewModel = MockViewModelFactory.createWizardAtAudio()
-        viewModel.selectedLanguages = [.en, .spanish, .hindi]
+        viewModel.selectedLanguages = [.english, .spanish, .hindi]
 
         let view = AudioStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -100,10 +94,7 @@ final class AudioGenerationStepSnapshotTests: XCTestCase {
         viewModel.selectedVoice = .nova
 
         let view = AudioStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -122,10 +113,7 @@ final class AudioGenerationStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardWithCustomVoice()
 
         let view = AudioStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -145,10 +133,7 @@ final class AudioGenerationStepSnapshotTests: XCTestCase {
         viewModel.selectedVoice = .shimmer
 
         let view = AudioStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertDevice(
             matching: view,
@@ -168,10 +153,7 @@ final class AudioGenerationStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardAtAudio()
 
         let view = AudioStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -193,10 +175,7 @@ final class AudioGenerationStepSnapshotTests: XCTestCase {
         viewModel.audioSpeed = 1.0
 
         let view = AudioStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -216,10 +195,7 @@ final class AudioGenerationStepSnapshotTests: XCTestCase {
         viewModel.audioSpeed = 0.5
 
         let view = AudioStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertDevice(
             matching: view,
@@ -240,10 +216,7 @@ final class AudioGenerationStepSnapshotTests: XCTestCase {
         viewModel.audioSpeed = 2.0
 
         let view = AudioStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertDevice(
             matching: view,
@@ -264,10 +237,7 @@ final class AudioGenerationStepSnapshotTests: XCTestCase {
         // Already has custom speed of 1.2
 
         let view = AudioStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -288,10 +258,7 @@ final class AudioGenerationStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardGeneratingAudio()
 
         let view = AudioStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -311,10 +278,7 @@ final class AudioGenerationStepSnapshotTests: XCTestCase {
         // Already has partial progress from factory
 
         let view = AudioStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -333,10 +297,7 @@ final class AudioGenerationStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardAtFinalize()
 
         let view = AudioStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -357,10 +318,7 @@ final class AudioGenerationStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardAtFinalize()
 
         let view = AudioStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -379,10 +337,7 @@ final class AudioGenerationStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardAtFinalize()
 
         let view = AudioStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -402,10 +357,7 @@ final class AudioGenerationStepSnapshotTests: XCTestCase {
         // Note: Would need to set isPlaying state if exposed
 
         let view = AudioStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertDevice(
             matching: view,
@@ -425,10 +377,7 @@ final class AudioGenerationStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardAtFinalize()
 
         let view = AudioStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -447,15 +396,12 @@ final class AudioGenerationStepSnapshotTests: XCTestCase {
     func testGenerationError() {
         // 🏭 Create wizard with generation error
         let viewModel = MockViewModelFactory.createWizardAtAudio()
-        viewModel.selectedLanguages = [.en, .spanish, .hindi]
-        viewModel.audioUrls = [.en: "data:audio/mpeg;base64,mock"]
+        viewModel.selectedLanguages = [.english, .spanish, .hindi]
+        viewModel.audioUrls = [.english: "data:audio/mpeg;base64,mock"]
         viewModel.error = .serverError(500)
 
         let view = AudioStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -472,15 +418,12 @@ final class AudioGenerationStepSnapshotTests: XCTestCase {
     func testMultipleGenerationErrors() {
         // 🏭 Create wizard with multiple errors
         let viewModel = MockViewModelFactory.createWizardAtAudio()
-        viewModel.selectedLanguages = [.en, .spanish, .hindi]
-        viewModel.audioUrls = [.en: "data:audio/mpeg;base64,mock"]
+        viewModel.selectedLanguages = [.english, .spanish, .hindi]
+        viewModel.audioUrls = [.english: "data:audio/mpeg;base64,mock"]
         viewModel.error = .serverError(500)
 
         let view = AudioStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertDevice(
             matching: view,
@@ -502,10 +445,7 @@ final class AudioGenerationStepSnapshotTests: XCTestCase {
         viewModel.audioProgress = [.spanish: 0.15] // Retrying
 
         let view = AudioStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertDevice(
             matching: view,
@@ -527,10 +467,7 @@ final class AudioGenerationStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardAtFinalize()
 
         let view = AudioStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -547,13 +484,10 @@ final class AudioGenerationStepSnapshotTests: XCTestCase {
     func testCompactLayout() {
         // 🏭 Create wizard with audio
         let viewModel = MockViewModelFactory.createWizardAtAudio()
-        viewModel.selectedLanguages = [.en, .spanish]
+        viewModel.selectedLanguages = [.english, .spanish]
 
         let view = AudioStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -574,10 +508,7 @@ final class AudioGenerationStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardAtAudio()
 
         let view = AudioStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -594,18 +525,15 @@ final class AudioGenerationStepSnapshotTests: XCTestCase {
     func testProgressIndicators() {
         // 🏭 Create wizard with various progress levels
         let viewModel = MockViewModelFactory.createWizardAtAudio()
-        viewModel.selectedLanguages = [.en, .spanish, .hindi]
+        viewModel.selectedLanguages = [.english, .spanish, .hindi]
         viewModel.audioProgress = [
-            .en: 0.90,
+            .english: 0.90,
             .spanish: 0.55,
             .hindi: 0.25
         ]
 
         let view = AudioStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -626,10 +554,7 @@ final class AudioGenerationStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardAtFinalize()
 
         let view = AudioStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -648,10 +573,7 @@ final class AudioGenerationStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardGeneratingAudio()
 
         let view = AudioStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertDevice(
             matching: view,

@@ -13,6 +13,32 @@ import SwiftUI
 import SnapshotTesting
 @testable import CMS_Manager
 
+// MARK: - 🔧 Snapshot Directory Configuration
+
+/// 📁 Find the source directory for snapshot storage (avoids sandbox issues)
+private func findSnapshotDirectory(for file: StaticString) -> String? {
+    // 🎯 First, try environment variable (for CI/CD and custom configs)
+    if let envPath = ProcessInfo.processInfo.environment["SNAPSHOT_ARTIFACTS"] {
+        print("📸 Using SNAPSHOT_ARTIFACTS path: \(envPath)")
+        return envPath
+    }
+
+    // 🔍 Second, use the test file's directory
+    // The file parameter gives us the actual source file path
+    let filePath = "\(file)"
+    let fileURL = URL(fileURLWithPath: filePath)
+    let testDirectory = fileURL.deletingLastPathComponent().path
+    let snapshotsPath = (testDirectory as NSString).appendingPathComponent("__Snapshots__")
+
+    if FileManager.default.fileExists(atPath: testDirectory) {
+        print("📸 Using test file directory: \(snapshotsPath)")
+        return testDirectory
+    }
+
+    print("⚠️ Could not find source directory, using default")
+    return nil
+}
+
 // MARK: - 🌟 Multi-Device Snapshot Assertions
 
 extension XCTestCase {
@@ -56,6 +82,8 @@ extension XCTestCase {
             )
 
             // 📸 Capture the magical moment!
+            // Note: Snapshot directory determined by SnapshotTesting library based on file path
+            // For local testing, configure SNAPSHOT_ARTIFACTS env var in scheme
             assertSnapshot(
                 of: wrappedView,
                 as: .image(

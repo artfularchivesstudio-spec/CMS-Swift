@@ -22,13 +22,13 @@ import AppKit
 @testable import CMS_Manager
 import ArtfulArchivesCore
 
-// MARK: - 🖼️ Mock Image Factory
+// MARK: - 🖼️ Mock Test Image Factory
 
 /// 🎨 A factory for creating test images
 ///
 /// Generates various types of test images without needing actual image files.
 /// Perfect for testing image upload, analysis, and display components! ✨
-struct MockImageFactory {
+struct MockTestImageFactory {
 
     // MARK: - 🎨 Image Creators
 
@@ -185,10 +185,10 @@ struct MockImageFactory {
 struct MockAnalysisFactory {
 
     /// 🎨 Create a standard analysis response for artwork
-    static func createArtworkAnalysis() -> ImageAnalysisResponse {
-        ImageAnalysisResponse(
+    static func createArtworkAnalysis() -> CMS_Manager.ImageAnalysisResponse {
+        CMS_Manager.ImageAnalysisResponse(
             success: true,
-            data: ImageAnalysisResponse.AnalysisData(
+            data: CMS_Manager.ImageAnalysisResponse.AnalysisData(
                 title: "The Starry Night Reimagined",
                 content: """
                 This captivating piece features swirling celestial patterns reminiscent of Van Gogh's \
@@ -198,82 +198,92 @@ struct MockAnalysisFactory {
                 The composition draws the viewer's eye in a circular motion, suggesting both the \
                 rotation of the heavens and the eternal cycle of artistic inspiration across generations.
                 """,
-                tags: ["digital art", "astronomy", "impressionism", "night sky", "masterpiece"]
+                tags: ["digital art", "astronomy", "impressionism", "night sky", "masterpiece"],
+                category: "art",
+                mood: "cosmic"
             ),
-            error: nil
+            message: nil
         )
     }
 
     /// 🏛️ Create an analysis response for architectural photography
-    static func createArchitectureAnalysis() -> ImageAnalysisResponse {
-        ImageAnalysisResponse(
+    static func createArchitectureAnalysis() -> CMS_Manager.ImageAnalysisResponse {
+        CMS_Manager.ImageAnalysisResponse(
             success: true,
-            data: ImageAnalysisResponse.AnalysisData(
+            data: CMS_Manager.ImageAnalysisResponse.AnalysisData(
                 title: "Modern Lines: The Glass Cathedral",
                 content: """
                 Towering geometric forms of glass and steel reach toward the clouds in this \
                 architectural marvel. The interplay of transparency and reflection creates an \
                 ever-changing canvas that responds to light, weather, and the passage of time.
                 """,
-                tags: ["architecture", "modern", "glass", "geometric", "urban"]
+                tags: ["architecture", "modern", "glass", "geometric", "urban"],
+                category: "architecture",
+                mood: "inspiring"
             ),
-            error: nil
+            message: nil
         )
     }
 
     /// 🖼️ Create an analysis response for abstract art
-    static func createAbstractAnalysis() -> ImageAnalysisResponse {
-        ImageAnalysisResponse(
+    static func createAbstractAnalysis() -> CMS_Manager.ImageAnalysisResponse {
+        CMS_Manager.ImageAnalysisResponse(
             success: true,
-            data: ImageAnalysisResponse.AnalysisData(
+            data: CMS_Manager.ImageAnalysisResponse.AnalysisData(
                 title: "Chaos and Harmony: A Study in Contrasts",
                 content: """
                 Bold splashes of color collide and merge in this abstract exploration of emotion \
                 and energy. The composition balances chaotic gestural marks with areas of serene \
                 negative space, inviting the viewer to find their own meaning in the interplay.
                 """,
-                tags: ["abstract", "expressionism", "color", "emotion", "contemporary"]
+                tags: ["abstract", "expressionism", "color", "emotion", "contemporary"],
+                category: "art",
+                mood: "dynamic"
             ),
-            error: nil
+            message: nil
         )
     }
 
     /// 🌿 Create an analysis response for nature photography
-    static func createNatureAnalysis() -> ImageAnalysisResponse {
-        ImageAnalysisResponse(
+    static func createNatureAnalysis() -> CMS_Manager.ImageAnalysisResponse {
+        CMS_Manager.ImageAnalysisResponse(
             success: true,
-            data: ImageAnalysisResponse.AnalysisData(
+            data: CMS_Manager.ImageAnalysisResponse.AnalysisData(
                 title: "Dawn's First Light: Misty Forest Awakening",
                 content: """
                 Soft morning light filters through ancient trees, their silhouettes emerging from \
                 a veil of mist. This ethereal scene captures nature's quiet majesty at the threshold \
                 between night and day, when the forest holds its breath before awakening.
                 """,
-                tags: ["nature", "photography", "forest", "mist", "morning", "landscape"]
+                tags: ["nature", "photography", "forest", "mist", "morning", "landscape"],
+                category: "landscape",
+                mood: "peaceful"
             ),
-            error: nil
+            message: nil
         )
     }
 
     /// 💥 Create a failed analysis response (for error testing)
-    static func createFailedAnalysis() -> ImageAnalysisResponse {
-        ImageAnalysisResponse(
+    static func createFailedAnalysis() -> CMS_Manager.ImageAnalysisResponse {
+        CMS_Manager.ImageAnalysisResponse(
             success: false,
             data: nil,
-            error: "AI service temporarily unavailable. Please try again in a moment."
+            message: "AI service temporarily unavailable. Please try again in a moment."
         )
     }
 
     /// 🎯 Create a minimal analysis response (bare minimum data)
-    static func createMinimalAnalysis() -> ImageAnalysisResponse {
-        ImageAnalysisResponse(
+    static func createMinimalAnalysis() -> CMS_Manager.ImageAnalysisResponse {
+        CMS_Manager.ImageAnalysisResponse(
             success: true,
-            data: ImageAnalysisResponse.AnalysisData(
+            data: CMS_Manager.ImageAnalysisResponse.AnalysisData(
                 title: "Untitled Artwork",
                 content: "An interesting visual composition.",
-                tags: ["art"]
+                tags: ["art"],
+                category: "other",
+                mood: "neutral"
             ),
-            error: nil
+            message: nil
         )
     }
 }
@@ -287,49 +297,59 @@ struct MockAnalysisFactory {
 struct MockTranslationFactory {
 
     /// 🇪🇸 Create a Spanish translation response
-    static func createSpanishTranslation(for content: String) -> TranslationResponse {
+    static func createSpanishTranslation(for content: String) -> CMS_Manager.TranslationResponse {
         // In a real scenario, this would be the actual translation
         // For mocks, we'll just add a prefix to make it obvious it's "translated"
-        TranslationResponse(
+        CMS_Manager.TranslationResponse(
             success: true,
             translatedContent: "[ES] \(content)",
-            error: nil
+            originalLanguage: "en",
+            targetLanguage: "es",
+            message: nil
         )
     }
 
     /// 🇮🇳 Create a Hindi translation response
-    static func createHindiTranslation(for content: String) -> TranslationResponse {
-        TranslationResponse(
+    static func createHindiTranslation(for content: String) -> CMS_Manager.TranslationResponse {
+        CMS_Manager.TranslationResponse(
             success: true,
             translatedContent: "[HI] \(content)",
-            error: nil
+            originalLanguage: "en",
+            targetLanguage: "hi",
+            message: nil
         )
     }
 
     /// 🇫🇷 Create a French translation response
-    static func createFrenchTranslation(for content: String) -> TranslationResponse {
-        TranslationResponse(
+    static func createFrenchTranslation(for content: String) -> CMS_Manager.TranslationResponse {
+        CMS_Manager.TranslationResponse(
             success: true,
             translatedContent: "[FR] \(content)",
-            error: nil
+            originalLanguage: "en",
+            targetLanguage: "fr",
+            message: nil
         )
     }
 
     /// 💥 Create a failed translation response
-    static func createFailedTranslation() -> TranslationResponse {
-        TranslationResponse(
+    static func createFailedTranslation() -> CMS_Manager.TranslationResponse {
+        CMS_Manager.TranslationResponse(
             success: false,
             translatedContent: nil,
-            error: "Translation service unavailable"
+            originalLanguage: "en",
+            targetLanguage: "unknown",
+            message: "Translation service unavailable"
         )
     }
 
     /// 🌐 Create translation for any language code
-    static func createTranslation(for content: String, language: LanguageCode) -> TranslationResponse {
-        TranslationResponse(
+    static func createTranslation(for content: String, language: LanguageCode) -> CMS_Manager.TranslationResponse {
+        CMS_Manager.TranslationResponse(
             success: true,
             translatedContent: "[\(language.rawValue.uppercased())] \(content)",
-            error: nil
+            originalLanguage: "en",
+            targetLanguage: language.rawValue,
+            message: nil
         )
     }
 }
@@ -345,30 +365,39 @@ struct MockAudioFactory {
     /// 🎵 Create a successful audio generation response
     static func createAudioResponse(
         for language: LanguageCode,
-        voice: TTSVoice = .nova
-    ) -> AudioGenerationResponse {
-        AudioGenerationResponse(
+        voice: CMS_Manager.TTSVoice = .nova
+    ) -> CMS_Manager.AudioGenerationResponse {
+        CMS_Manager.AudioGenerationResponse(
             success: true,
             audioUrl: "data:audio/mpeg;base64,\(mockBase64AudioData(for: language))",
-            error: nil
+            duration: 10.5,
+            language: language.rawValue,
+            voice: voice.rawValue,
+            message: nil
         )
     }
 
     /// 💥 Create a failed audio generation response
-    static func createFailedAudioResponse() -> AudioGenerationResponse {
-        AudioGenerationResponse(
+    static func createFailedAudioResponse() -> CMS_Manager.AudioGenerationResponse {
+        CMS_Manager.AudioGenerationResponse(
             success: false,
             audioUrl: nil,
-            error: "TTS service temporarily unavailable"
+            duration: nil,
+            language: nil,
+            voice: nil,
+            message: "TTS service temporarily unavailable"
         )
     }
 
     /// 🎧 Create an audio response with a remote URL (CDN-hosted)
-    static func createRemoteAudioResponse(for language: LanguageCode) -> AudioGenerationResponse {
-        AudioGenerationResponse(
+    static func createRemoteAudioResponse(for language: LanguageCode) -> CMS_Manager.AudioGenerationResponse {
+        CMS_Manager.AudioGenerationResponse(
             success: true,
             audioUrl: "https://cdn.example.com/audio/\(language.rawValue)/story-123.mp3",
-            error: nil
+            duration: 15.3,
+            language: language.rawValue,
+            voice: "alloy",
+            message: nil
         )
     }
 
@@ -393,8 +422,8 @@ struct MockResponseFactory {
     static func createUploadResponse(
         id: Int = 42,
         filename: String = "test-image.jpg"
-    ) -> MediaUploadResponse {
-        MediaUploadResponse(
+    ) -> CMS_Manager.MediaUploadResponse {
+        CMS_Manager.MediaUploadResponse(
             id: id,
             url: "https://cdn.example.com/uploads/\(filename)",
             name: filename,
@@ -435,7 +464,7 @@ struct MockResponseFactory {
     }
 
     /// 💥 Create an error response for failure scenarios
-    static func createErrorResponse(message: String = "Something went wrong") -> APIError {
+    static func createErrorResponse(message: String = "Something went wrong") -> CMS_Manager.APIError {
         .serverError(500)
     }
 }

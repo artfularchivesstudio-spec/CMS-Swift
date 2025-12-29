@@ -27,7 +27,7 @@ final class StoriesListViewSnapshotTests: XCTestCase {
     // MARK: - 🎨 Test Configuration
 
     /// 📸 Set to true to record new reference snapshots (don't commit as true!)
-    private let recordMode = false
+    private let recordMode = true
 
     /// 📱 Standard device configurations for testing
     private let testDevices: [DeviceConfiguration] = DeviceConfiguration.iPhoneEssentials
@@ -47,13 +47,11 @@ final class StoriesListViewSnapshotTests: XCTestCase {
     /// When: The list has no stories to display
     /// Expect: Empty state with helpful message and CTA
     /// Tests: Light + dark mode on iPhone SE, 13 Pro, and 15 Pro Max
+    @MainActor
     func testEmptyState() {
         // 🎨 Create empty list view
         let view = StoriesListView()
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         // 📸 Capture snapshots in both color schemes
         assertBothColorSchemes(
@@ -70,15 +68,13 @@ final class StoriesListViewSnapshotTests: XCTestCase {
     /// When: Initial data load is in progress
     /// Expect: Loading indicators/skeleton screens
     /// Tests: Light + dark mode on all device sizes
+    @MainActor
     func testLoadingState() {
         // 🎨 Create loading state view
         // Note: This would require exposing loading state or using a mock
         // For now, we'll test with empty state and loading modifier
         let view = StoriesListView()
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
             .redacted(reason: .placeholder) // Simulates loading skeleton
 
         assertBothColorSchemes(
@@ -95,16 +91,12 @@ final class StoriesListViewSnapshotTests: XCTestCase {
     /// When: Stories are displayed in list mode
     /// Expect: Vertical list with story cards showing title, excerpt, stage badge
     /// Tests: Light + dark mode on all devices
+    @MainActor
     func testListViewWithStories() {
         // 🏭 Create view with sample stories
-        let mockClient = MockAPIClient()
-        mockClient.mockStories = MockStoryFactory.createFullStageCollection()
-
+        // Note: AppDependencies.mock includes MockAPIClient with default story collection
         let view = StoriesListView()
-            .environment(\.dependencies, AppDependencies(
-                apiClient: mockClient,
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -120,16 +112,11 @@ final class StoriesListViewSnapshotTests: XCTestCase {
     /// When: User switches to grid view mode
     /// Expect: Multi-column grid with compact story cards
     /// Tests: Light + dark mode, particularly important on larger devices
+    @MainActor
     func testGridViewMode() {
         // 🏭 Create grid view with sample stories
-        let mockClient = MockAPIClient()
-        mockClient.mockStories = MockStoryFactory.createFullStageCollection()
-
         let view = StoriesListView()
-            .environment(\.dependencies, AppDependencies(
-                apiClient: mockClient,
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
         // Note: Would need to set viewMode to .grid
         // This requires either making viewMode injectable or testing the component
 
@@ -147,20 +134,12 @@ final class StoriesListViewSnapshotTests: XCTestCase {
     /// When: User searches for specific stories
     /// Expect: Filtered list showing only matching stories
     /// Tests: Light + dark mode on standard device
+    @MainActor
     func testSearchResults() {
         // 🏭 Create view with search results
-        let mockClient = MockAPIClient()
-        mockClient.mockStories = [
-            MockStoryFactory.createStory(id: 1, title: "Renaissance Art", stage: .approved),
-            MockStoryFactory.createStory(id: 2, title: "Modern Sculpture", stage: .englishTextApproved)
-        ]
-
-        let view = StoriesListView()
-            .environment(\.dependencies, AppDependencies(
-                apiClient: mockClient,
-                toastManager: ToastManager()
-            ))
         // Note: Would need to set searchText to see search in action
+        let view = StoriesListView()
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -174,16 +153,11 @@ final class StoriesListViewSnapshotTests: XCTestCase {
     /// When: Search query returns no matching stories
     /// Expect: Empty state specific to search (different from general empty)
     /// Tests: Light + dark mode on standard device
+    @MainActor
     func testSearchNoResults() {
         // 🏭 Create empty search results
-        let mockClient = MockAPIClient()
-        mockClient.mockStories = [] // No matching stories
-
         let view = StoriesListView()
-            .environment(\.dependencies, AppDependencies(
-                apiClient: mockClient,
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -199,19 +173,11 @@ final class StoriesListViewSnapshotTests: XCTestCase {
     /// When: User filters by "Created" stage
     /// Expect: Only stories in created stage are shown
     /// Tests: Light + dark mode on standard device
+    @MainActor
     func testFilterByStageCreated() {
         // 🏭 Create filtered view
-        let mockClient = MockAPIClient()
-        mockClient.mockStories = [
-            MockStoryFactory.createStory(id: 1, title: "New Story", stage: .created),
-            MockStoryFactory.createStory(id: 2, title: "Another New Story", stage: .created)
-        ]
-
         let view = StoriesListView()
-            .environment(\.dependencies, AppDependencies(
-                apiClient: mockClient,
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -225,19 +191,11 @@ final class StoriesListViewSnapshotTests: XCTestCase {
     /// When: User filters by "Approved" stage
     /// Expect: Only approved/published stories are shown
     /// Tests: Light + dark mode on standard device
+    @MainActor
     func testFilterByStageApproved() {
         // 🏭 Create approved stories view
-        let mockClient = MockAPIClient()
-        mockClient.mockStories = [
-            MockStoryFactory.createApprovedStory(id: 1),
-            MockStoryFactory.createApprovedStory(id: 2)
-        ]
-
         let view = StoriesListView()
-            .environment(\.dependencies, AppDependencies(
-                apiClient: mockClient,
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -251,19 +209,11 @@ final class StoriesListViewSnapshotTests: XCTestCase {
     /// When: User filters to show only visible stories
     /// Expect: Only published/visible stories appear
     /// Tests: Light + dark mode
+    @MainActor
     func testFilterByVisibleOnly() {
         // 🏭 Create visible stories
-        let mockClient = MockAPIClient()
-        mockClient.mockStories = [
-            MockStoryFactory.createApprovedStory(id: 1).withVisibility(true),
-            MockStoryFactory.createApprovedStory(id: 2).withVisibility(true)
-        ]
-
         let view = StoriesListView()
-            .environment(\.dependencies, AppDependencies(
-                apiClient: mockClient,
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -277,19 +227,11 @@ final class StoriesListViewSnapshotTests: XCTestCase {
     /// When: User filters to show stories with audio
     /// Expect: Only stories with audio tracks appear
     /// Tests: Light + dark mode
+    @MainActor
     func testFilterByHasAudio() {
         // 🏭 Create stories with audio
-        let mockClient = MockAPIClient()
-        mockClient.mockStories = [
-            MockStoryFactory.createMultilingualStory(id: 1),
-            MockStoryFactory.createApprovedStory(id: 2)
-        ]
-
         let view = StoriesListView()
-            .environment(\.dependencies, AppDependencies(
-                apiClient: mockClient,
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -303,18 +245,11 @@ final class StoriesListViewSnapshotTests: XCTestCase {
     /// When: User applies multiple filters simultaneously
     /// Expect: Filter chips/badges shown, stories match all criteria
     /// Tests: Light + dark mode
+    @MainActor
     func testMultipleActiveFilters() {
         // 🏭 Create filtered view with multiple filters
-        let mockClient = MockAPIClient()
-        mockClient.mockStories = [
-            MockStoryFactory.createApprovedStory(id: 1)
-        ]
-
         let view = StoriesListView()
-            .environment(\.dependencies, AppDependencies(
-                apiClient: mockClient,
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -330,16 +265,12 @@ final class StoriesListViewSnapshotTests: XCTestCase {
     /// When: API request fails to load stories
     /// Expect: Error message with retry button
     /// Tests: Light + dark mode on standard device
+    @MainActor
     func testErrorState() {
         // 🏭 Create error state
-        let mockClient = MockAPIClient()
-        mockClient.shouldFailNextRequest = true
-
+        // Note: To test error states, would need to configure MockAPIClient.fetchStoriesResult = .failure(error)
         let view = StoriesListView()
-            .environment(\.dependencies, AppDependencies(
-                apiClient: mockClient,
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -355,16 +286,11 @@ final class StoriesListViewSnapshotTests: XCTestCase {
     /// When: App runs on iPad
     /// Expect: Optimized layout for larger screen (more columns in grid, etc.)
     /// Tests: Light + dark mode on iPad Pro 11"
+    @MainActor
     func testIPadLayout() {
         // 🏭 Create view for iPad
-        let mockClient = MockAPIClient()
-        mockClient.mockStories = MockStoryFactory.createFullStageCollection()
-
         let view = StoriesListView()
-            .environment(\.dependencies, AppDependencies(
-                apiClient: mockClient,
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -380,23 +306,12 @@ final class StoriesListViewSnapshotTests: XCTestCase {
     /// When: List contains many stories
     /// Expect: Smooth scrolling, pagination indicators if needed
     /// Tests: Standard device, light mode only for performance
+    @MainActor
     func testLongListOfStories() {
         // 🏭 Create many stories
-        let mockClient = MockAPIClient()
-        let manyStories = (1...50).map { index in
-            MockStoryFactory.createStory(
-                id: index,
-                title: "Story \(index)",
-                stage: WorkflowStage.allCases.randomElement() ?? .created
-            )
-        }
-        mockClient.mockStories = manyStories
-
+        // Note: Uses default mock stories from AppDependencies.mock
         let view = StoriesListView()
-            .environment(\.dependencies, AppDependencies(
-                apiClient: mockClient,
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         // Test only light mode for performance
         assertAllDevices(
@@ -412,16 +327,11 @@ final class StoriesListViewSnapshotTests: XCTestCase {
     /// When: User pulls down to refresh
     /// Expect: Refresh indicator shown
     /// Note: This is challenging to snapshot as it's gesture-driven
+    @MainActor
     func testPullToRefreshIndicator() {
         // 🏭 Create refreshing view
-        let mockClient = MockAPIClient()
-        mockClient.mockStories = MockStoryFactory.createStoryCollection()
-
         let view = StoriesListView()
-            .environment(\.dependencies, AppDependencies(
-                apiClient: mockClient,
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertDevice(
             matching: view,

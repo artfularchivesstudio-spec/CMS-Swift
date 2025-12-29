@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMS Manager - Snapshot Test Gallery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-tertiary: #e9ecef;
+            --text-primary: #212529;
+            --text-secondary: #6c757d;
+            --text-tertiary: #adb5bd;
+            --accent-primary: #007aff;
+            --accent-hover: #0056b3;
+            --border-color: #dee2e6;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+            --shadow-xl: 0 20px 40px rgba(0,0,0,0.15);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --spacing-xs: 8px;
+            --spacing-sm: 12px;
+            --spacing-md: 20px;
+            --spacing-lg: 32px;
+            --spacing-xl: 48px;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --bg-tertiary: #3a3a3a;
+            --text-primary: #f8f9fa;
+            --text-secondary: #adb5bd;
+            --text-tertiary: #6c757d;
+            --accent-primary: #0a84ff;
+            --accent-hover: #409cff;
+            --border-color: #495057;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.4);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.5);
+            --shadow-xl: 0 20px 40px rgba(0,0,0,0.6);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(248, 249, 250, 0.85);
+        }
+
+        [data-theme="dark"] .header {
+            background: rgba(26, 26, 26, 0.85);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+        }
+
+        .header-title {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+            background: linear-gradient(135deg, var(--accent-primary), #5856d6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            gap: var(--spacing-sm);
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-box {
+            position: relative;
+            min-width: 280px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-tertiary);
+            pointer-events: none;
+        }
+
+        input[type="search"] {
+            width: 100%;
+            padding: 10px 40px 10px 40px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        input[type="search"]:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+        }
+
+        .clear-search {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-tertiary);
+            cursor: pointer;
+            padding: 4px;
+            display: none;
+        }
+
+        .clear-search.visible {
+            display: block;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: var(--spacing-xs);
+            padding: 4px;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-md);
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .filter-btn:hover {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .filter-btn.active {
+            background: var(--accent-primary);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .theme-toggle {
+            background: var(--bg-tertiary);
+            border: none;
+            padding: 10px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+        }
+
+        .theme-toggle:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: rotate(180deg);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-lg);
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-primary), #5856d6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Category Sections */
+        .category {
+            margin-bottom: var(--spacing-xl);
+            animation: fadeIn 0.4s ease;
+        }
+
+        .category.hidden {
+            display: none;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .category-icon {
+            font-size: 1.5rem;
+        }
+
+        .category-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            flex: 1;
+        }
+
+        .category-count {
+            background: var(--accent-primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Snapshot Grid */
+        .snapshot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .snapshot-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            animation: scaleIn 0.3s ease;
+        }
+
+        .snapshot-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-primary);
+        }
+
+        .snapshot-image-container {
+            position: relative;
+            width: 100%;
+            padding-top: 216.67%; /* iPhone aspect ratio */
+            background: var(--bg-tertiary);
+            overflow: hidden;
+        }
+
+        .snapshot-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .snapshot-card:hover .snapshot-image {
+            transform: scale(1.05);
+        }
+
+        .device-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.75);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        .color-scheme-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #000;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        [data-theme="dark"] .color-scheme-badge {
+            background: rgba(0, 0, 0, 0.9);
+            color: #fff;
+        }
+
+        .snapshot-info {
+            padding: var(--spacing-md);
+        }
+
+        .snapshot-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text-primary);
+            line-height: 1.4;
+        }
+
+        .snapshot-meta {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .meta-tag {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            background: var(--bg-tertiary);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        /* Modal/Lightbox */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            animation: zoomIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal-image {
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            font-size: 2rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .modal-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            font-size: 2rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .modal-nav:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-nav.prev {
+            left: -60px;
+        }
+
+        .modal-nav.next {
+            right: -60px;
+        }
+
+        .modal-caption {
+            position: absolute;
+            bottom: -60px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: var(--spacing-xl) var(--spacing-md);
+            color: var(--text-secondary);
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: var(--spacing-md);
+            opacity: 0.5;
+        }
+
+        .empty-state-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+            color: var(--text-primary);
+        }
+
+        .empty-state-text {
+            font-size: 1rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .header-content {
+                padding: var(--spacing-sm) var(--spacing-md);
+            }
+
+            .controls {
+                width: 100%;
+            }
+
+            .search-box {
+                min-width: 100%;
+            }
+
+            .snapshot-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: var(--spacing-sm);
+            }
+
+            .modal-nav {
+                display: none;
+            }
+
+            .container {
+                padding: var(--spacing-md);
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-tertiary);
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-title">
+                <h1>📸 Snapshot Test Gallery</h1>
+                <p class="subtitle">CMS Manager - Visual Regression Testing Suite</p>
+            </div>
+            <div class="controls">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="search" id="searchInput" placeholder="Search snapshots...">
+                    <button class="clear-search" id="clearSearch">✕</button>
+                </div>
+                <div class="filter-group">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="components">Components</button>
+                    <button class="filter-btn" data-filter="workflows">Workflows</button>
+                    <button class="filter-btn" data-filter="views">Views</button>
+                </div>
+                <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">
+                    🌙
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat-card">
+                <div class="stat-label">Total Snapshots</div>
+                <div class="stat-value" id="totalCount">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Test Devices</div>
+                <div class="stat-value" id="deviceCount">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Color Schemes</div>
+                <div class="stat-value">2</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Categories</div>
+                <div class="stat-value" id="categoryCount">0</div>
+            </div>
+        </div>
+
+        <!-- Categories will be dynamically inserted here -->
+        <div id="categoriesContainer"></div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <div class="empty-state-icon">🔍</div>
+            <h2 class="empty-state-title">No snapshots found</h2>
+            <p class="empty-state-text">Try adjusting your search or filters</p>
+        </div>
+    </main>
+
+    <!-- Modal/Lightbox -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">✕</button>
+            <button class="modal-nav prev" id="modalPrev">‹</button>
+            <img class="modal-image" id="modalImage" src="" alt="">
+            <button class="modal-nav next" id="modalNext">›</button>
+            <div class="modal-caption" id="modalCaption"></div>
+        </div>
+    </div>
+
+    <script>
+        // 📸 Snapshot data structure
+        // This will be populated by the snapshot collection script
+        const SNAPSHOTS = [
+            // Example structure (will be replaced with actual data):
+            // {
+            //     category: 'Stories List',
+            //     icon: '📚',
+            //     snapshots: [
+            //         {
+            //             title: 'Empty State - Light Mode',
+            //             device: 'iPhone 13 Pro',
+            //             colorScheme: 'light',
+            //             path: 'path/to/snapshot.png',
+            //             testName: 'testEmptyState',
+            //             tags: ['empty', 'list']
+            //         }
+            //     ]
+            // }
+        ];
+
+        // 🎨 Application State
+        let currentFilter = 'all';
+        let currentSearchQuery = '';
+        let currentModalIndex = 0;
+        let filteredSnapshots = [];
+
+        // 🌙 Theme Management
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        // Load saved theme preference
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        body.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+            themeToggle.textContent = theme === 'light' ? '🌙' : '☀️';
+        }
+
+        // 🔍 Search Functionality
+        const searchInput = document.getElementById('searchInput');
+        const clearSearch = document.getElementById('clearSearch');
+
+        searchInput.addEventListener('input', (e) => {
+            currentSearchQuery = e.target.value.toLowerCase();
+            clearSearch.classList.toggle('visible', currentSearchQuery.length > 0);
+            filterAndRender();
+        });
+
+        clearSearch.addEventListener('click', () => {
+            searchInput.value = '';
+            currentSearchQuery = '';
+            clearSearch.classList.remove('visible');
+            filterAndRender();
+        });
+
+        // 🎛️ Filter Functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                currentFilter = e.target.dataset.filter;
+                filterAndRender();
+            });
+        });
+
+        // 📊 Initialize and Render
+        function init() {
+            if (SNAPSHOTS.length === 0) {
+                showPlaceholderMessage();
+                return;
+            }
+
+            updateStats();
+            filterAndRender();
+        }
+
+        function showPlaceholderMessage() {
+            const container = document.getElementById('categoriesContainer');
+            container.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">⏳</div>
+                    <h2 class="empty-state-title">Awaiting Snapshot Generation</h2>
+                    <p class="empty-state-text">This gallery will be populated once Agent Alpha completes the snapshot test execution.</p>
+                    <p class="empty-state-text" style="margin-top: 16px;">The snapshot collection script will automatically update this page with all captured test images.</p>
+                </div>
+            `;
+        }
+
+        function updateStats() {
+            const totalSnapshots = SNAPSHOTS.reduce((sum, cat) => sum + cat.snapshots.length, 0);
+            const devices = new Set();
+
+            SNAPSHOTS.forEach(cat => {
+                cat.snapshots.forEach(snap => devices.add(snap.device));
+            });
+
+            document.getElementById('totalCount').textContent = totalSnapshots;
+            document.getElementById('deviceCount').textContent = devices.size;
+            document.getElementById('categoryCount').textContent = SNAPSHOTS.length;
+        }
+
+        function filterAndRender() {
+            const container = document.getElementById('categoriesContainer');
+            const emptyState = document.getElementById('emptyState');
+            container.innerHTML = '';
+
+            let hasVisibleSnapshots = false;
+
+            SNAPSHOTS.forEach(category => {
+                const filteredSnaps = category.snapshots.filter(snap => {
+                    // Filter by category
+                    if (currentFilter !== 'all') {
+                        const categoryMatch = category.category.toLowerCase().includes(currentFilter);
+                        if (!categoryMatch) return false;
+                    }
+
+                    // Filter by search
+                    if (currentSearchQuery) {
+                        const searchFields = [
+                            snap.title,
+                            snap.device,
+                            snap.testName,
+                            category.category,
+                            ...(snap.tags || [])
+                        ].join(' ').toLowerCase();
+
+                        if (!searchFields.includes(currentSearchQuery)) return false;
+                    }
+
+                    return true;
+                });
+
+                if (filteredSnaps.length > 0) {
+                    hasVisibleSnapshots = true;
+                    renderCategory(category, filteredSnaps);
+                }
+            });
+
+            emptyState.style.display = hasVisibleSnapshots ? 'none' : 'block';
+        }
+
+        function renderCategory(category, snapshots) {
+            const container = document.getElementById('categoriesContainer');
+
+            const categoryEl = document.createElement('div');
+            categoryEl.className = 'category';
+            categoryEl.innerHTML = `
+                <div class="category-header">
+                    <span class="category-icon">${category.icon}</span>
+                    <h2 class="category-title">${category.category}</h2>
+                    <span class="category-count">${snapshots.length}</span>
+                </div>
+                <div class="snapshot-grid" id="grid-${category.category.replace(/\s/g, '-')}">
+                </div>
+            `;
+
+            container.appendChild(categoryEl);
+
+            const grid = categoryEl.querySelector('.snapshot-grid');
+            snapshots.forEach((snapshot, index) => {
+                renderSnapshot(grid, snapshot, index);
+            });
+        }
+
+        function renderSnapshot(grid, snapshot, index) {
+            const card = document.createElement('div');
+            card.className = 'snapshot-card';
+            card.innerHTML = `
+                <div class="snapshot-image-container">
+                    <img class="snapshot-image" src="${snapshot.path}" alt="${snapshot.title}" loading="lazy">
+                    <div class="device-badge">${snapshot.device}</div>
+                    <div class="color-scheme-badge">${snapshot.colorScheme === 'light' ? '☀️ Light' : '🌙 Dark'}</div>
+                </div>
+                <div class="snapshot-info">
+                    <div class="snapshot-title">${snapshot.title}</div>
+                    <div class="snapshot-meta">
+                        <span class="meta-tag">${snapshot.testName}</span>
+                        ${(snapshot.tags || []).map(tag => `<span class="meta-tag">${tag}</span>`).join('')}
+                    </div>
+                </div>
+            `;
+
+            card.addEventListener('click', () => openModal(snapshot, index));
+            grid.appendChild(card);
+        }
+
+        // 🖼️ Modal/Lightbox Functionality
+        const modal = document.getElementById('modal');
+        const modalImage = document.getElementById('modalImage');
+        const modalCaption = document.getElementById('modalCaption');
+        const modalClose = document.getElementById('modalClose');
+        const modalPrev = document.getElementById('modalPrev');
+        const modalNext = document.getElementById('modalNext');
+
+        function openModal(snapshot, index) {
+            currentModalIndex = index;
+            modalImage.src = snapshot.path;
+            modalCaption.textContent = `${snapshot.title} - ${snapshot.device}`;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        modalClose.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (!modal.classList.contains('active')) return;
+
+            if (e.key === 'Escape') closeModal();
+            if (e.key === 'ArrowLeft') navigateModal(-1);
+            if (e.key === 'ArrowRight') navigateModal(1);
+        });
+
+        modalPrev.addEventListener('click', () => navigateModal(-1));
+        modalNext.addEventListener('click', () => navigateModal(1));
+
+        function navigateModal(direction) {
+            // This would need to be enhanced to navigate through all snapshots
+            // For now, it's a placeholder
+            console.log('Navigate:', direction);
+        }
+
+        // 🚀 Initialize on load
+        init();
+    </script>
+</body>
+</html>

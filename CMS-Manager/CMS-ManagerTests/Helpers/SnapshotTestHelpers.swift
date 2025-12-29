@@ -223,8 +223,8 @@ enum TestDataCollections {
 
     /// 🎨 Labeled images for distinct visual testing
     static let labeledImages: [UIImage] = [
-        MockImageFactory.createLabeledImage(text: "Portrait", color: .systemIndigo),
-        MockImageFactory.createLabeledImage(text: "Landscape", color: .systemTeal),
-        MockImageFactory.createLabeledImage(text: "Square", color: .systemOrange)
+        MockImageFactory.createLabeledImage(color: .systemIndigo, text: "Portrait"),
+        MockImageFactory.createLabeledImage(color: .systemTeal, text: "Landscape"),
+        MockImageFactory.createLabeledImage(color: .systemOrange, text: "Square")
     ]
 }

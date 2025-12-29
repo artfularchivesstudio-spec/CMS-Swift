@@ -12,6 +12,7 @@ import XCTest
 import SwiftUI
 import SnapshotTesting
 @testable import CMS_Manager
+import ArtfulArchivesCore
 
 // MARK: - 🎭 Translation Review Step Snapshot Tests
 
@@ -139,7 +140,7 @@ final class TranslationReviewStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardAtTranslationReview()
 
         // 🎨 Simulate partial completion: Spanish done, Hindi still loading
-        viewModel.selectedLanguages = [.spanish, .hindi, .french]
+        viewModel.selectedLanguages = [.spanish, .hindi, .english]
         viewModel.translations = [
             .spanish: "Una puesta de sol impresionante sobre las montañas."
         ]
@@ -150,7 +151,7 @@ final class TranslationReviewStepSnapshotTests: XCTestCase {
         viewModel.translationProgress = [
             .spanish: 1.0,
             .hindi: 0.6,
-            .french: 0.2
+            .english: 0.2
         ]
 
         let view = TranslationReviewStepView(viewModel: viewModel)
@@ -203,14 +204,15 @@ final class TranslationReviewStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardAtTranslationReview()
 
         // 🎨 Add all supported languages
-        viewModel.selectedLanguages = Set(LanguageCode.allCases)
+        let supportedLanguages = [LanguageCode.english, .spanish, .hindi]
+        viewModel.selectedLanguages = Set(supportedLanguages)
         viewModel.translations = Dictionary(
-            uniqueKeysWithValues: LanguageCode.allCases.map { lang in
+            uniqueKeysWithValues: supportedLanguages.map { lang in
                 (lang, "[\(lang.rawValue.uppercased())] Translated content for \(lang.rawValue)")
             }
         )
         viewModel.translatedTitles = Dictionary(
-            uniqueKeysWithValues: LanguageCode.allCases.map { lang in
+            uniqueKeysWithValues: supportedLanguages.map { lang in
                 (lang, "[\(lang.rawValue.uppercased())] Translated Title")
             }
         )

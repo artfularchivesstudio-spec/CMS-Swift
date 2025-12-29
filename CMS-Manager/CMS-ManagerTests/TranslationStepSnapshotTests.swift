@@ -29,7 +29,7 @@ final class TranslationStepSnapshotTests: XCTestCase {
     // MARK: - 🎨 Test Configuration
 
     /// 📸 Set to true to record new reference snapshots
-    private let recordMode = false
+    private let recordMode = true
 
     /// 📱 Standard device configurations
     private let testDevices: [DeviceConfiguration] = DeviceConfiguration.iPhoneEssentials
@@ -53,10 +53,7 @@ final class TranslationStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardAtTranslation()
 
         let view = TranslationStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -79,10 +76,7 @@ final class TranslationStepSnapshotTests: XCTestCase {
         """
 
         let view = TranslationStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -104,10 +98,7 @@ final class TranslationStepSnapshotTests: XCTestCase {
         viewModel.selectedLanguages = [.spanish]
 
         let view = TranslationStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -127,10 +118,7 @@ final class TranslationStepSnapshotTests: XCTestCase {
         viewModel.selectedLanguages = [.spanish, .hindi]
 
         let view = TranslationStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -149,10 +137,7 @@ final class TranslationStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardWithAllLanguages()
 
         let view = TranslationStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertDevice(
             matching: view,
@@ -172,10 +157,7 @@ final class TranslationStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardWithNoLanguages()
 
         let view = TranslationStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -196,10 +178,7 @@ final class TranslationStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardTranslating()
 
         let view = TranslationStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -225,10 +204,7 @@ final class TranslationStepSnapshotTests: XCTestCase {
         ]
 
         let view = TranslationStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -247,10 +223,7 @@ final class TranslationStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardAtTranslationReview()
 
         let view = TranslationStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -271,10 +244,7 @@ final class TranslationStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardWithFailedTranslations()
 
         let view = TranslationStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -283,7 +253,7 @@ final class TranslationStepSnapshotTests: XCTestCase {
         )
     }
 
-    /// 💥 Test multiple errors - French and Hindi failed
+    /// 💥 Test multiple errors - Spanish and Hindi failed
     ///
     /// When: Multiple translations fail simultaneously
     /// Expect: Error states on both cards, retry buttons
@@ -291,18 +261,15 @@ final class TranslationStepSnapshotTests: XCTestCase {
     func testMultipleErrors() {
         // 🏭 Create wizard with multiple failures
         let viewModel = MockViewModelFactory.createWizardAtTranslation()
-        viewModel.selectedLanguages = [.spanish, .hindi, .french]
-        viewModel.translations = [.spanish: "Success!"]
+        viewModel.selectedLanguages = [.spanish, .hindi, .english]
+        viewModel.translations = [.english: "Success!"]
         viewModel.translationErrors = [
-            .french: "Translation service unavailable",
+            .spanish: "Translation service unavailable",
             .hindi: "Network timeout"
         ]
 
         let view = TranslationStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -323,10 +290,7 @@ final class TranslationStepSnapshotTests: XCTestCase {
         viewModel.translationProgress = [.spanish: 0.25] // Retrying now
 
         let view = TranslationStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertDevice(
             matching: view,
@@ -349,10 +313,7 @@ final class TranslationStepSnapshotTests: XCTestCase {
 
         // Create the review sheet view
         let view = TranslationReviewStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -371,10 +332,7 @@ final class TranslationStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardAtTranslationReview()
 
         let view = TranslationReviewStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertDevice(
             matching: view,
@@ -394,10 +352,7 @@ final class TranslationStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardAtTranslationReview()
 
         let view = TranslationReviewStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -416,13 +371,10 @@ final class TranslationStepSnapshotTests: XCTestCase {
     func testIPadLayout() {
         // 🏭 Create wizard with multiple languages
         let viewModel = MockViewModelFactory.createWizardAtTranslation()
-        viewModel.selectedLanguages = [.spanish, .hindi, .french]
+        viewModel.selectedLanguages = [.spanish, .hindi, .english]
 
         let view = TranslationStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -442,10 +394,7 @@ final class TranslationStepSnapshotTests: XCTestCase {
         viewModel.selectedLanguages = [.spanish, .hindi]
 
         let view = TranslationStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -466,10 +415,7 @@ final class TranslationStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardAtTranslation()
 
         let view = TranslationStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -486,18 +432,15 @@ final class TranslationStepSnapshotTests: XCTestCase {
     func testProgressBarStyles() {
         // 🏭 Create wizard with various progress levels
         let viewModel = MockViewModelFactory.createWizardAtTranslation()
-        viewModel.selectedLanguages = [.spanish, .hindi, .french]
+        viewModel.selectedLanguages = [.spanish, .hindi, .english]
         viewModel.translationProgress = [
             .spanish: 0.25,
             .hindi: 0.60,
-            .french: 0.95
+            .english: 0.95
         ]
 
         let view = TranslationStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -521,10 +464,7 @@ final class TranslationStepSnapshotTests: XCTestCase {
         viewModel.cancelledTranslations = [.hindi]
 
         let view = TranslationStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertDevice(
             matching: view,
@@ -545,10 +485,7 @@ final class TranslationStepSnapshotTests: XCTestCase {
         viewModel.translationProgress = [.spanish: 0.30] // Regenerating
 
         let view = TranslationStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertDevice(
             matching: view,
@@ -570,10 +507,7 @@ final class TranslationStepSnapshotTests: XCTestCase {
         let viewModel = MockViewModelFactory.createWizardAtTranslationReview()
 
         let view = TranslationStepView(viewModel: viewModel)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,

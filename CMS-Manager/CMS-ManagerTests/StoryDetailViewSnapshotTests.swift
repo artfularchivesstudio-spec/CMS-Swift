@@ -26,7 +26,7 @@ final class StoryDetailViewSnapshotTests: XCTestCase {
     // MARK: - 🎨 Test Configuration
 
     /// 📸 Set to true to record new reference snapshots
-    private let recordMode = false
+    private let recordMode = true
 
     /// 📱 Standard device configurations
     private let testDevices: [DeviceConfiguration] = DeviceConfiguration.iPhoneEssentials
@@ -45,15 +45,13 @@ final class StoryDetailViewSnapshotTests: XCTestCase {
     /// When: Story has title, content, images, audio, and metadata
     /// Expect: Beautiful reading experience with all elements visible
     /// Tests: Light + dark mode on all devices
+    @MainActor
     func testStoryWithAllContent() {
         // 🏭 Create fully-featured story
         let story = MockStoryFactory.createApprovedStory(id: 1)
 
         let view = StoryDetailView(story: story)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -67,15 +65,13 @@ final class StoryDetailViewSnapshotTests: XCTestCase {
     /// When: Story is newly created with basic info
     /// Expect: Clean display with stage badge showing "Created"
     /// Tests: Light + dark mode on standard device
+    @MainActor
     func testStoryInCreatedStage() {
         // 🏭 Create new story
         let story = MockStoryFactory.createNewStory(id: 10)
 
         let view = StoryDetailView(story: story)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -89,15 +85,13 @@ final class StoryDetailViewSnapshotTests: XCTestCase {
     /// When: Story has gone through all stages and is approved
     /// Expect: All bells and whistles, published badge, audio players
     /// Tests: Light + dark mode on all devices
+    @MainActor
     func testApprovedStory() {
         // 🏭 Create fully approved story
         let story = MockStoryFactory.createApprovedStory(id: 50)
 
         let view = StoryDetailView(story: story)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -113,6 +107,7 @@ final class StoryDetailViewSnapshotTests: XCTestCase {
     /// When: Story should have audio but doesn't yet
     /// Expect: Placeholder or message indicating audio not available
     /// Tests: Light + dark mode on standard device
+    @MainActor
     func testStoryWithMissingAudio() {
         // 🏭 Create story without audio
         var story = MockStoryFactory.createStory(
@@ -143,10 +138,7 @@ final class StoryDetailViewSnapshotTests: XCTestCase {
         )
 
         let view = StoryDetailView(story: story)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -160,15 +152,13 @@ final class StoryDetailViewSnapshotTests: XCTestCase {
     /// When: Story has English audio but no translations yet
     /// Expect: Audio player for English, placeholders for other languages
     /// Tests: Light + dark mode
+    @MainActor
     func testStoryWithEnglishAudioOnly() {
         // 🏭 Create story with English audio
         let story = MockStoryFactory.createEnglishAudioApprovedStory(id: 30)
 
         let view = StoryDetailView(story: story)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -182,15 +172,13 @@ final class StoryDetailViewSnapshotTests: XCTestCase {
     /// When: Story has audio in English, Spanish, and Hindi
     /// Expect: Language selector, multiple audio players
     /// Tests: Light + dark mode on all devices
+    @MainActor
     func testStoryWithMultipleLanguages() {
         // 🏭 Create multilingual story
         let story = MockStoryFactory.createMultilingualStory(id: 40)
 
         let view = StoryDetailView(story: story)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -206,15 +194,13 @@ final class StoryDetailViewSnapshotTests: XCTestCase {
     /// When: User enters edit mode to modify story
     /// Expect: Text fields for title/content/excerpt, save/cancel buttons
     /// Tests: Light + dark mode on standard device
+    @MainActor
     func testEditMode() {
         // 🏭 Create story for editing
         let story = MockStoryFactory.createStory(id: 60, title: "Editable Story")
 
         let view = StoryDetailView(story: story)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
         // Note: Would need to programmatically trigger edit mode
         // This might require refactoring to accept initial edit state
 
@@ -230,15 +216,13 @@ final class StoryDetailViewSnapshotTests: XCTestCase {
     /// When: User tries to save with invalid/empty fields
     /// Expect: Validation error messages, disabled save button
     /// Tests: Light mode on standard device
+    @MainActor
     func testEditModeWithValidationErrors() {
         // 🏭 Create story
         let story = MockStoryFactory.createStory(id: 61)
 
         let view = StoryDetailView(story: story)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertDevice(
             matching: view,
@@ -255,6 +239,7 @@ final class StoryDetailViewSnapshotTests: XCTestCase {
     /// When: Story is in various workflow stages
     /// Expect: Appropriate badge color and label for each stage
     /// Tests: Light + dark mode on standard device
+    @MainActor
     func testDifferentApprovalStatuses() {
         // 🏭 Test multiple stages
         let stages: [(WorkflowStage, String)] = [
@@ -273,10 +258,7 @@ final class StoryDetailViewSnapshotTests: XCTestCase {
             )
 
             let view = StoryDetailView(story: story)
-                .environment(\.dependencies, AppDependencies(
-                    apiClient: MockAPIClient(),
-                    toastManager: ToastManager()
-                ))
+                .environment(\.dependencies, AppDependencies.mock)
 
             // 📸 Snapshot each stage separately
             assertBothColorSchemes(
@@ -294,16 +276,14 @@ final class StoryDetailViewSnapshotTests: XCTestCase {
     /// When: Story has cover image plus additional images
     /// Expect: Image carousel or gallery view
     /// Tests: Light + dark mode on standard device
+    @MainActor
     func testStoryWithMultipleImages() {
         // 🏭 Create story with many images
         let story = MockStoryFactory.createApprovedStory(id: 80)
         // This story already has multiple images from factory
 
         let view = StoryDetailView(story: story)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -317,6 +297,7 @@ final class StoryDetailViewSnapshotTests: XCTestCase {
     /// When: Story has no cover or additional images
     /// Expect: Clean text-focused layout, no image placeholders
     /// Tests: Light + dark mode
+    @MainActor
     func testStoryWithoutImages() {
         // 🏭 Create text-only story
         var story = MockStoryFactory.createStory(id: 85, title: "Text Only Story")
@@ -342,10 +323,7 @@ final class StoryDetailViewSnapshotTests: XCTestCase {
         )
 
         let view = StoryDetailView(story: story)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -361,15 +339,13 @@ final class StoryDetailViewSnapshotTests: XCTestCase {
     /// When: Story viewed on iPad
     /// Expect: Optimized layout with wider content, better image display
     /// Tests: Light + dark mode on iPad Pro 11"
+    @MainActor
     func testIPadLayout() {
         // 🏭 Create rich story for iPad
         let story = MockStoryFactory.createApprovedStory(id: 90)
 
         let view = StoryDetailView(story: story)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -383,15 +359,13 @@ final class StoryDetailViewSnapshotTests: XCTestCase {
     /// When: Story viewed on smallest supported screen
     /// Expect: Content reflows properly, nothing cut off
     /// Tests: Light + dark mode on iPhone SE
+    @MainActor
     func testCompactLayout() {
         // 🏭 Create story with lots of content
         let story = MockStoryFactory.createApprovedStory(id: 91)
 
         let view = StoryDetailView(story: story)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -407,15 +381,13 @@ final class StoryDetailViewSnapshotTests: XCTestCase {
     /// When: User switches to Spanish language
     /// Expect: Spanish title, audio player for Spanish
     /// Tests: Light mode on standard device
+    @MainActor
     func testSpanishTranslation() {
         // 🏭 Create multilingual story
         let story = MockStoryFactory.createMultilingualStory(id: 100)
 
         let view = StoryDetailView(story: story)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
         // Note: Would need to programmatically select Spanish language
 
         assertDevice(
@@ -431,15 +403,13 @@ final class StoryDetailViewSnapshotTests: XCTestCase {
     /// When: User switches to Hindi language
     /// Expect: Hindi title, audio player for Hindi
     /// Tests: Light mode on standard device
+    @MainActor
     func testHindiTranslation() {
         // 🏭 Create multilingual story
         let story = MockStoryFactory.createMultilingualStory(id: 101)
 
         let view = StoryDetailView(story: story)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertDevice(
             matching: view,
@@ -456,6 +426,7 @@ final class StoryDetailViewSnapshotTests: XCTestCase {
     /// When: Story content contains markdown (bold, italic, lists, etc.)
     /// Expect: Properly formatted rich text
     /// Tests: Light + dark mode
+    @MainActor
     func testMarkdownRendering() {
         // 🏭 Create story with markdown content
         var story = MockStoryFactory.createStory(id: 110)
@@ -494,10 +465,7 @@ final class StoryDetailViewSnapshotTests: XCTestCase {
         )
 
         let view = StoryDetailView(story: story)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -511,15 +479,13 @@ final class StoryDetailViewSnapshotTests: XCTestCase {
     /// When: Story has creation date, author, publish date
     /// Expect: Formatted metadata shown in footer
     /// Tests: Light + dark mode
+    @MainActor
     func testMetadataDisplay() {
         // 🏭 Create story with rich metadata
         let story = MockStoryFactory.createApprovedStory(id: 120)
 
         let view = StoryDetailView(story: story)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -535,15 +501,13 @@ final class StoryDetailViewSnapshotTests: XCTestCase {
     /// When: User can share, edit, delete story
     /// Expect: Action buttons in toolbar/menu
     /// Tests: Light + dark mode
+    @MainActor
     func testActionButtons() {
         // 🏭 Create story with actions enabled
         let story = MockStoryFactory.createApprovedStory(id: 130)
 
         let view = StoryDetailView(story: story)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertBothColorSchemes(
             matching: view,
@@ -559,15 +523,13 @@ final class StoryDetailViewSnapshotTests: XCTestCase {
     /// When: Error occurs while loading story details
     /// Expect: Error message with retry option
     /// Tests: Light mode on standard device
+    @MainActor
     func testLoadingError() {
         // 🏭 Create story that will "fail" to load
         let story = MockStoryFactory.createStory(id: 140)
 
         let view = StoryDetailView(story: story)
-            .environment(\.dependencies, AppDependencies(
-                apiClient: MockAPIClient(),
-                toastManager: ToastManager()
-            ))
+            .environment(\.dependencies, AppDependencies.mock)
 
         assertDevice(
             matching: view,

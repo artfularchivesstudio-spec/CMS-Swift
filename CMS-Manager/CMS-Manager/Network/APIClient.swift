@@ -141,7 +141,8 @@ actor APIClient: APIClientProtocol {
 
         components.queryItems = queryItems
 
-        let request = URLRequest(url: components.url!)
+        var request = URLRequest(url: components.url!)
+        try await addAuthHeader(to: &request)
 
         do {
             let (data, response) = try await session.data(for: request)

@@ -44,7 +44,7 @@ jobs:
             -project CMS-Manager.xcodeproj \
             -scheme CMS_Manager \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 16' \
+            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.4' \
             -resultBundlePath TestResults.xcresult \
             -enableCodeCoverage YES
         env:

@@ -41,7 +41,7 @@ jobs:
             -project CMS-Manager.xcodeproj \
             -scheme CMS_Manager \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 15 Pro,OS=17.2' \
+            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.2' \
             -derivedDataPath .build \
             -quiet
 
@@ -52,7 +52,7 @@ jobs:
             -project CMS-Manager.xcodeproj \
             -scheme CMS_Manager \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 15 Pro,OS=17.2' \
+            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.2' \
             -derivedDataPath .build \
             -resultBundlePath .build/TestResults.xcresult \
             -enableCodeCoverage YES \

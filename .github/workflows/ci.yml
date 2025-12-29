@@ -35,8 +35,7 @@ jobs:
             ${{ runner.os }}-spm-
 
       - name: List available simulators
-        run: |
-          xcrun simctl list devices available |
+        run: xcrun simctl list devices available
 
       - name: Run tests
         working-directory: CMS-Manager

@@ -43,7 +43,7 @@ jobs:
           xcodebuild test \
             -project CMS-Manager.xcodeproj \
             -scheme CMS_Manager \
-            -sdk iphonesimulator \
+            -sdk iphonesimulator18.4 \
             -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.4' \
             -resultBundlePath TestResults.xcresult \
             -enableCodeCoverage YES

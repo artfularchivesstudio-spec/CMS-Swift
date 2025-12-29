@@ -55,8 +55,10 @@ jobs:
             -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.2' \
             -derivedDataPath .build \
             -resultBundlePath .build/TestResults.xcresult \
-            -enableCodeCoverage YES \
-            SNAPSHOT_TEST_RECORD_MODE=0
+            -enableCodeCoverage YES
+        env:
+          SNAPSHOT_ARTIFACTS: ${{ github.workspace }}/CMS-Manager/CMS-ManagerTests
+          IS_CI: "true"
 
       - name: Upload test results
         if: always()
@@ -66,6 +68,14 @@ jobs:
           path: CMS-Manager/.build/TestResults.xcresult
           retention-days: 7
 
+      - name: Upload recorded snapshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: recorded-snapshots
+          path: CMS-Manager/CMS-ManagerTests/__Snapshots__
+          retention-days: 30
+
       - name: Upload failed snapshots
         if: failure()
         uses: actions/upload-artifact@v4
@@ -73,7 +83,6 @@ jobs:
           name: failed-snapshots
           path: |
             CMS-Manager/.build/**/FailureDiffs/*.png
-            CMS-Manager/.build/**/__Snapshots__/*.png
           retention-days: 7
 
       - name: Generate test summary

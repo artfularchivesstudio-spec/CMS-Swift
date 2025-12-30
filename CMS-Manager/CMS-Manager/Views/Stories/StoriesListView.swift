@@ -293,13 +293,7 @@ struct StoriesListView: View {
                         .matchedGeometryEffect(id: story.id, in: animation)
                 }
                 .buttonStyle(.plain)
-                .simultaneousGesture(
-                    TapGesture()
-                        .onEnded { _ in
-                            // 🌟 Selection haptic when tapping story card
-                            dependencies.hapticManager.selection()
-                        }
-                )
+                .sensoryFeedback(.selection, trigger: story.id)
                 .transition(.asymmetric(
                     insertion: .move(edge: .bottom).combined(with: .opacity),
                     removal: .scale(scale: 0.9).combined(with: .opacity)
@@ -357,13 +351,7 @@ struct StoriesListView: View {
                             .matchedGeometryEffect(id: story.id, in: animation)
                     }
                     .buttonStyle(.plain)
-                    .simultaneousGesture(
-                        TapGesture()
-                            .onEnded { _ in
-                                // 🌟 Selection haptic when tapping story card
-                                dependencies.hapticManager.selection()
-                            }
-                    )
+                    .sensoryFeedback(.selection, trigger: story.id)
                     .transition(.asymmetric(
                         insertion: .scale(scale: 0.8).combined(with: .opacity),
                         removal: .scale(scale: 0.9).combined(with: .opacity)

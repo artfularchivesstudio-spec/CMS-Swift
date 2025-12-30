@@ -29,9 +29,6 @@ struct StoryRowView: View {
 
     // MARK: - 🌟 Animation State
 
-    /// 💫 Is the card being pressed? (for that buttery tap animation)
-    @State private var isPressed = false
-
     /// 🖼️ Has the image loaded? (for fade-in animation)
     @State private var imageLoaded = false
 
@@ -56,31 +53,12 @@ struct StoryRowView: View {
                 gridLayout
             }
         }
-        .scaleEffect(isPressed ? 0.98 : 1.0)
-        .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isPressed)
         .onAppear {
             // 🎬 Stagger badge animations for that delightful cascade effect
             withAnimation(.spring(response: 0.4, dampingFraction: 0.7).delay(0.1)) {
                 showBadges = true
             }
         }
-        .simultaneousGesture(
-            // 🎯 Detect press for scale animation (without blocking NavigationLink)
-            DragGesture(minimumDistance: 0)
-                .onChanged { _ in
-                    if !isPressed {
-                        isPressed = true
-                        // 🌊 Haptic feedback for that tactile feel
-                        #if os(iOS)
-                        let impact = UIImpactFeedbackGenerator(style: .light)
-                        impact.impactOccurred()
-                        #endif
-                    }
-                }
-                .onEnded { _ in
-                    isPressed = false
-                }
-        )
     }
 
     // MARK: - 📋 List Layout
@@ -146,7 +124,7 @@ struct StoryRowView: View {
         .background(
             RoundedRectangle(cornerRadius: 12, style: .continuous)
                 .fill(.regularMaterial)
-                .shadow(color: .black.opacity(isPressed ? 0.15 : 0.08), radius: isPressed ? 8 : 4, x: 0, y: isPressed ? 4 : 2)
+                .shadow(color: .black.opacity(0.08), radius: 4, x: 0, y: 2)
         )
         .contentShape(Rectangle())
         .accessibilityElement(children: .combine)
@@ -210,7 +188,7 @@ struct StoryRowView: View {
         .background(
             RoundedRectangle(cornerRadius: 16, style: .continuous)
                 .fill(.regularMaterial)
-                .shadow(color: .black.opacity(isPressed ? 0.15 : 0.08), radius: isPressed ? 8 : 4, x: 0, y: isPressed ? 4 : 2)
+                .shadow(color: .black.opacity(0.08), radius: 4, x: 0, y: 2)
         )
         .contentShape(Rectangle())
         .accessibilityElement(children: .combine)

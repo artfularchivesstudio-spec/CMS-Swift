@@ -34,9 +34,36 @@ struct CMS_ManagerApp: App {
                 .modelContainer(dependencies.modelContainer)
                 // 🎨 Global theme configuration
                 .tint(.brandPrimary)
+                .task {
+                    // 🔑 Initialize API key before app loads
+                    await initializeAPIKeyIfNeeded()
+                }
                 .onAppear {
                     setupAppearance()
                 }
+        }
+    }
+
+    // MARK: - 🔑 API Key Initialization
+
+    /// 🔑 Initialize API key in keychain on first launch
+    private func initializeAPIKeyIfNeeded() async {
+        let keychain = dependencies.keychainManager
+
+        // 🔍 Check if API key already exists
+        if let existingToken = try? await keychain.retrieve(for: .apiToken), !existingToken.isEmpty {
+            print("🔐 ✨ API key already present in keychain")
+            return
+        }
+
+        // 🔑 The sacred API key - hardcoded for simplicity
+        let apiKey = "5c95a2d09ebd15f772c1695b8518fc54021b421dfa84d4953d9002f76b6a20fc"
+
+        do {
+            try await keychain.save(apiKey, for: .apiToken)
+            print("🎉 ✨ API key successfully stored in keychain!")
+        } catch {
+            print("💥 😭 Failed to save API key: \(error.localizedDescription)")
         }
     }
 

@@ -155,7 +155,7 @@ public struct Story: Codable, Identifiable, Equatable, Sendable {
 
     enum CodingKeys: String, CodingKey {
         case id
-        case documentId = "documentId"
+        case documentId = "document_id"
         case title
         case slug
         case bodyMessage = "body_message"
@@ -167,10 +167,10 @@ public struct Story: Codable, Identifiable, Equatable, Sendable {
         case visible
         case locale
         case localizations
-        case createdAt = "createdAt"
-        case updatedAt = "updatedAt"
-        case publishedAt = "publishedAt"
-        case createdBy = "createdBy"
+        case createdAt = "created_at"
+        case updatedAt = "updated_at"
+        case publishedAt = "published_at"
+        case createdBy = "created_by"
         case strapiAttributes
     }
 }

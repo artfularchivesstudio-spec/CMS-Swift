@@ -90,9 +90,9 @@ actor APIClient: APIClientProtocol {
     /// - Parameter keychain: The keychain manager for auth tokens
     init(keychain: KeychainManagerProtocol = KeychainManager()) {
         self.keychain = keychain
-        // 🌐 Set base URL - Using production API on hostinger-vps (195.35.8.237:8999)
-        // TODO: Set up DNS and SSL for api.artfularchives.com domain
-        self.baseURL = URL(string: "http://195.35.8.237:8999")!
+        // 🌐 Set base URL - Using production API via domain
+        // TODO: Set up SSL certificate for https://api-router.cloud
+        self.baseURL = URL(string: "http://api-router.cloud:8999")!
 
         // 🧙‍♂️ Configure URLSession with custom settings
         let configuration = URLSessionConfiguration.default

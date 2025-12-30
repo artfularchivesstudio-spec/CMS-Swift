@@ -90,9 +90,8 @@ actor APIClient: APIClientProtocol {
     /// - Parameter keychain: The keychain manager for auth tokens
     init(keychain: KeychainManagerProtocol = KeychainManager()) {
         self.keychain = keychain
-        // 🌐 Set base URL - Using production API via domain
-        // TODO: Set up SSL certificate for https://api-router.cloud
-        self.baseURL = URL(string: "http://api-router.cloud:8999")!
+        // 🌐 Set base URL - Using production API via HTTPS (nginx reverse proxy)
+        self.baseURL = URL(string: "https://api-router.cloud")!
 
         // 🧙‍♂️ Configure URLSession with custom settings
         let configuration = URLSessionConfiguration.default

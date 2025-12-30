@@ -1,3 +1,188 @@
+# 🧠 December 30, 2024 - "The One Brain Awakening" 🧠
+
+## 🎯 The Great Data Reconciliation (AKA: We Found the Audio!)
+
+**VIBE CHECK**: Today we performed surgery on a fundamental architecture violation that had been hiding in plain sight. The patient? Our `/api/v1/stories` endpoint. The diagnosis? **One Brain Policy Violation** — reading from Supabase when the truth lived in Strapi. The cure? A 100-line rewrite that restored cosmic harmony.
+
+### 🕵️ The Detective Work
+
+User reported: *"Why does Has Audio filter return nothing?"*
+
+Investigation revealed:
+- **Strapi**: Has audio files ✅ (ElevenLabs MP3s, 3:34 duration)
+- **iOS App**: Shows 0 stories with audio ❌
+- **Root Cause**: API was reading from Supabase, audio lived in Strapi
+
+```
+BEFORE (Violated One Brain):
+iOS App → Python API → Supabase (no audio!) ❌
+
+AFTER (One Brain Restored):
+iOS App → Python API → Strapi (has audio!) ✅
+```
+
+### 🔧 The Surgical Fixes
+
+**Fix #1: Rewrote `/api/v1/stories` endpoint**
+- Changed from `story_handler.supabase.table('stories').select(...)`
+- To `story_handler.strapi_client.get('/api/stories?...')`
+- Added proper Strapi → iOS data transformation
+- Audio now flows: 15 stories with audio detected!
+
+**Fix #2: Added Strapi → Supabase lifecycle hook**
+- Created `/src/api/story/content-types/story/lifecycles.js`
+- Auto-syncs story changes (including audio) to Supabase
+- Keeps Supabase as a mirror/backup
+- One Brain architecture: Strapi = source of truth
+
+### 📊 The Proof
+
+| Metric | Before | After |
+|--------|--------|-------|
+| Stories with audio in API | 0 | **15** |
+| Impetus audio URL | `null` | `✅ /uploads/ElevenLabs_2025_12_07...` |
+| One Brain compliance | ❌ Violated | ✅ Restored |
+
+### 🎵 Impetus Lives!
+
+```json
+{
+  "title": "Impetus",
+  "slug": "impetus",
+  "audio": {
+    "english": "/uploads/ElevenLabs_2025_12_07_T19_53_44_guriboycodes...mp3"
+  }
+}
+```
+
+### 💭 Philosophical Musings
+
+The bug was a beautiful example of architectural debt. Someone (probably under time pressure) took a shortcut: "Let's just read from Supabase directly, it's faster." But Supabase was never meant to be the source of truth for stories — that's Strapi's job. Audio, being stored in Strapi's media library, never made it to Supabase.
+
+**Lesson**: The "One Brain" policy exists for a reason. When you have multiple data stores, ONE must be the source of truth, and everything else must sync FROM it.
+
+### 📁 Files Changed
+
+**Backend (api-gateway):**
+- `backend-python/backend.py` - Rewrote `/api/v1/stories` endpoint
+
+**Strapi:**
+- `src/api/story/content-types/story/lifecycles.js` - New sync hook
+
+### 🎯 TODO (Future Considerations)
+
+- [ ] Consider migrating other endpoints that might bypass Strapi
+- [ ] Add monitoring for Strapi → Supabase sync health
+- [ ] Document One Brain architecture for future developers
+
+---
+
+*"The fastest bug fix is understanding why the bug exists."*
+
+— Your Local One Brain Architect 🧠✨
+
+---
+
+# ☕ December 30, 2024 - "You Probably Haven't Heard of This Testing Framework" ☕
+
+## 🎸 The Artisanal Visual Regression Suite (It's Obscure, You Wouldn't Understand)
+
+**VIBE CHECK**: Today we brewed something truly *underground* — a visual regression testing framework so indie, it doesn't even use XCUITest. We're talking **hand-crafted shell commands**, **locally-sourced HID injection**, and **farm-to-table pixel comparison**. Mainstream testing frameworks could *never*.
+
+### 🥑 The Hipster Manifesto
+
+You know how everyone uses XCUITest like it's the only option? *So basic.* We went full artisan and discovered that **Swift Package Manager tests run on macOS** — not in the simulator — which means we get **native Process access**. It's like vinyl records vs Spotify; sure, streaming is "convenient," but the *warmth* of raw shell commands just hits different.
+
+### 🎭 What We Actually Built
+
+**The Problem**: XCUITest is slow (30-60 seconds per test). UI Tests have framework overhead. Shell scripts lack XCTest integration.
+
+**The Solution**: A bespoke SPM package that runs on macOS with:
+- **idb** for direct HID injection (~50ms taps, no accessibility queries)
+- **simctl** for native screenshots (200ms, not 1500ms like XCUIScreen)
+- **ImageMagick** for pixel-perfect comparison
+- **XCTest** integration (CI reports, test navigator support)
+
+**Result**: ~7-8 seconds per test. *Chef's kiss*. 🤌
+
+### 📁 Artifacts Produced
+
+```
+visual-tests/
+├── Package.swift              # The organic, locally-sourced manifest
+├── README.md                  # 200+ lines of artisanal documentation
+├── ARCHITECTURE.md            # Deep-dive for fellow connoisseurs
+├── Tests/
+│   └── VisualRegressionTests.swift   # 5 tests, zero framework bloat
+├── ReferenceSnapshots/        # Golden images (git tracked)
+└── FailureDiffs/              # Diff images (git ignored)
+```
+
+### 🧪 Tests That Actually Run Fast
+
+| Test | Time | What It Does |
+|------|------|--------------|
+| `testStoriesListView` | ~8s | Stories list renders correctly |
+| `testStoryDetailView` | ~9s | Tap story → detail view |
+| `testStoryDetailScrolled` | ~11s | Scroll in detail view |
+| `testGridView` | ~16s | Grid view toggle |
+| `testSearchView` | ~21s | Search functionality |
+
+*For reference, XCUITest would be 30-60+ seconds EACH.*
+
+### 🔧 Also Fixed Today
+
+Before we went full hipster on testing, we fixed some normie bugs:
+
+1. **Date Decoding Saga**: API returns dates without timezone (`2025-12-30T10:26:26.458`), but ISO8601DateFormatter *insists* on timezone. Added a third fallback formatter. Problem solved. *So mainstream.*
+
+2. **Navigation Tap Blocking**: `DragGesture(minimumDistance: 0)` was intercepting all touches, blocking NavigationLink. Removed the gesture, replaced with `.sensoryFeedback`. Much more *minimalist*.
+
+3. **Nav Bar Overlap**: Content scrolled behind the navigation bar. Changed `.ignoresSafeArea(edges: .top)` to `.scrollContentBackground(.hidden)`. The users were oppressed; we liberated them.
+
+4. **idb Python 3.14 Incompatibility**: The `asyncio.get_event_loop()` raises RuntimeError in Python 3.14. Installed with Python 3.12 instead. Sometimes you have to go *retro* to go forward.
+
+### 💭 Philosophical Musings
+
+> "The fastest test is the one that actually runs."
+
+We tried everything:
+- iOS Unit Tests: Run in simulator, no Process access ❌
+- iOS UI Tests: Run on macOS, but use slow XCUITest APIs ❌
+- SPM Tests: Run natively on macOS with full Process access ✅
+
+The key insight was realizing that **SPM tests don't run in the simulator**. They run on the host Mac. This changes *everything*.
+
+### 📊 Session Stats
+
+- **Lines of documentation written**: 500+
+- **Failed approaches tried**: 3 (unit tests, UI tests, hybrid)
+- **Successful approach**: 1 (SPM + idb + simctl + ImageMagick)
+- **Vibe**: Immaculate
+- **Coffee consumed**: ♾️
+
+### 🎯 TODO (For the Uninitiated)
+
+- [ ] Set up CI pipeline with GitHub Actions
+- [ ] Add more tests (settings view, create wizard, etc.)
+- [ ] Consider parallel test execution
+- [ ] Maybe write a VSCode extension? Too mainstream? We'll see.
+
+### 🎵 Today's Playlist
+
+- "You Don't Know About My Testing Framework" - The Obscure Dependencies
+- "Shell Commands (Acoustic Version)" - The Process Spawners
+- "Pixel Diff Dreams" - ImageMagick & The Comparators
+- "SPM Life" - The Native Runners
+
+---
+
+*"Before it was cool to have fast tests, we were already timing them with sundials."*
+
+— Your Local Artisanal Code Barista ☕✨
+
+---
+
 # 🎯 December 26, 2024 - LEVEL COMPLETE! BUILD SUCCESSFUL & SNAPSHOT BOSS INCOMING! 🎯
 
 ## 🏆 ACHIEVEMENT UNLOCKED: First Successful Build!

@@ -556,13 +556,19 @@ actor APIClient: APIClientProtocol {
 
     // MARK: - 🔐 Authentication Helpers
 
-    /// 🔐 Add authorization header to request
+    /// 🔑 Add authentication header to request
+    /// - Parameter request: The URLRequest to modify
+    /// - Throws: APIError.unauthorized if no API key is found
     private func addAuthHeader(to request: inout URLRequest) async throws {
-        // For now, we'll skip auth if no token is present
-        // In production, you'd want to handle token refresh here
-        if let token = try? await keychain.retrieve(for: .apiToken) {
-            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        // 🔍 Retrieve API key from keychain
+        guard let token = try await keychain.retrieve(for: .apiToken), !token.isEmpty else {
+            print("💥 😭 No API key found in keychain!")
+            throw APIError.unauthorized
         }
+
+        // 🔑 Add Bearer token to Authorization header
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        print("🔐 ✨ Authorization header added successfully")
     }
 }
 

@@ -85,6 +85,11 @@ final class AppDependencies: @unchecked Sendable {
         let keychain = KeychainManager()
         print("🔐 ✨ Keychain guardian summoned")
 
+        // 🔑 Step 1.5: Initialize API key (one-time setup)
+        Task {
+            await initializeAPIKey(keychain: keychain)
+        }
+
         // 🌐 Step 2: Create network client
         let api = APIClient(keychain: keychain)
         print("🌐 ✨ API messenger dispatched")
@@ -124,6 +129,26 @@ final class AppDependencies: @unchecked Sendable {
             audioPlayer: audio,
             hapticManager: haptics
         )
+    }
+
+    /// 🔑 Initialize API key in keychain (one-time setup)
+    /// - Parameter keychain: The keychain manager instance
+    private static func initializeAPIKey(keychain: KeychainManagerProtocol) async {
+        // 🔍 Check if API key already exists
+        if let existingToken = try? await keychain.retrieve(for: .apiToken), !existingToken.isEmpty {
+            print("🔐 ✨ API key already present in keychain")
+            return
+        }
+
+        // 🔑 The sacred API key - hardcoded for simplicity
+        let apiKey = "5c95a2d09ebd15f772c1695b8518fc54021b421dfa84d4953d9002f76b6a20fc"
+
+        do {
+            try await keychain.save(apiKey, for: .apiToken)
+            print("🎉 ✨ API key successfully stored in keychain!")
+        } catch {
+            print("💥 😭 Failed to save API key: \(error.localizedDescription)")
+        }
     }
 }
 

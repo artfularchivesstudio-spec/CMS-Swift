@@ -1,3 +1,67 @@
+# 🌍 December 30, 2024 - "The Polyglot Revelation" 🌍
+
+## 🎭 When Languages Dance in Harmony
+
+**VIBE CHECK**: After the One Brain awakening, we leveled up with proper internationalization. The stories list was showing ALL locales (en, es, hi) mixed together like a confused babel tower. Now? English by default, with translations tucked away like Easter eggs waiting to be discovered.
+
+### 🔧 The Enchantments Applied
+
+**1. Locale-Based Audio Detection**
+- Audio now maps to correct language field based on `story.locale`
+- `en/en-*` → `audio.english`
+- `es/es-*` → `audio.spanish`
+- `hi/hi-*` → `audio.hindi`
+- Unknown locales? Default to English, the lingua franca of code
+
+**2. English-First Stories API**
+```python
+# New parameter with default
+locale: str = "en"
+
+# Now the API returns only English stories
+params.append(f"locale={locale}")
+```
+
+**3. Localizations in Response**
+Each story now includes available translations:
+```json
+{
+  "title": "Finding Art in Everyday Objects",
+  "locale": "en",
+  "localizations": [
+    { "locale": "es", "title": "Encontrar arte en objetos cotidianos" },
+    { "locale": "hi", "title": "हर दिन की वस्तुओं में कला ढूंढना" }
+  ]
+}
+```
+
+### 📊 The Transformation
+
+| Aspect | Before | After |
+|--------|--------|-------|
+| Stories in list | All locales mixed | English only (default) |
+| Translations visible | Separate rows | Nested in `localizations` |
+| Audio mapping | Always English | Locale-aware |
+| API parameter | N/A | `?locale=en` (or es, hi) |
+
+### 🗺️ Plugin Roadmap Created
+
+Documented future enhancements in `docs/STRAPI_PLUGINS_ROADMAP.md`:
+- Cloudinary CDN for media
+- Localazy AI translation
+- SEO & Sitemap plugins
+- Scheduler for auto-publish
+
+### 🔥 Bonus Fix: Strapi Crash Loop
+
+NODE_ENV was set to 'development' on production VPS, causing bootstrap.js to crash trying to access `strapi.server` before initialization. Fixed by setting `NODE_ENV=production`.
+
+---
+
+*"One language sets you in a corridor for life. Two languages open every door along the way." — Frank Smith*
+
+---
+
 # 🧠 December 30, 2024 - "The One Brain Awakening" 🧠
 
 ## 🎯 The Great Data Reconciliation (AKA: We Found the Audio!)

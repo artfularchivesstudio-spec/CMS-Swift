@@ -22,6 +22,7 @@ func customISO8601Decoding() -> JSONDecoder.DateDecodingStrategy {
         let container = try decoder.singleValueContainer()
         let dateString = try container.decode(String.self)
 
+        // Try with timezone + fractional seconds
         let formatter = ISO8601DateFormatter()
         formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
 
@@ -29,11 +30,21 @@ func customISO8601Decoding() -> JSONDecoder.DateDecodingStrategy {
             return date
         }
 
-        // Try alternative format
+        // Try with timezone, no fractional seconds
         let altFormatter = ISO8601DateFormatter()
         altFormatter.formatOptions = [.withInternetDateTime]
 
         if let date = altFormatter.date(from: dateString) {
+            return date
+        }
+
+        // Try without timezone (assume UTC) - for dates like "2025-12-30T10:26:26.458"
+        let noTimezoneFormatter = DateFormatter()
+        noTimezoneFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+        noTimezoneFormatter.locale = Locale(identifier: "en_US_POSIX")
+        noTimezoneFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+
+        if let date = noTimezoneFormatter.date(from: dateString) {
             return date
         }
 

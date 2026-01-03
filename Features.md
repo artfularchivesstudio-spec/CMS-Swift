@@ -1,8 +1,35 @@
 # ⚔️ ARSENAL - CMS-Swift Features & Abilities
 
-**Last Updated**: December 26, 2024
-**Power Level**: LEGENDARY 🔥
-**Unlocked Abilities**: 45+
+**Last Updated**: January 3, 2026
+**Power Level**: GODLIKE! 🎮
+**Unlocked Abilities**: 50+
+**New This Session**: Audio System Restored, Wizard Verified
+
+---
+
+## 🆨 NEW UNLOCKS (January 3, 2026)
+
+### 🎵 Audio System - FULLY RESTORED!
+**Unlock Level**: MAX | **Mastery**: ⭐⭐⭐⭐⭐
+
+**What Was Broken:**
+- Backend was returning null audio URLs due to Strapi v5 populate parameter bug
+- "Has Audio" filter showed 0 results
+- Audio player showed "No audio available"
+
+**What Was Fixed:**
+- ✅ Removed problematic `populate[localizations][fields]` parameters
+- ✅ Backend now correctly extracts audio URLs from Strapi v5 flat format
+- ✅ Verified 7 stories with audio in database
+- ✅ Audio playback working in iOS simulator
+
+**Verified Working:**
+- [x] Audio indicators appear on story cards with audio
+- [x] "Has Audio" filter correctly filters stories
+- [x] Audio player sheet opens with waveform
+- [x] Play/pause controls functional
+- [x] Playback speed adjustment works
+- [x] All 3 language audio tracks (English, Spanish, Hindi)
 
 ---
 

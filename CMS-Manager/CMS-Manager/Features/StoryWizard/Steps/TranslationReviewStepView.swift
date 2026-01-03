@@ -144,6 +144,7 @@ struct TranslationReviewStepView: View {
                     translatedTitle: Binding(
                         get: { editedTitles[language] ?? viewModel.translatedTitles[language] ?? viewModel.storyTitle },
                         set: { newTitle in
+                            recordBeforeEdit()  // 📸 Record BEFORE edit! ✨
                             editedTitles[language] = newTitle
                             markAsEdited(language)
                         }
@@ -151,6 +152,7 @@ struct TranslationReviewStepView: View {
                     translatedContent: Binding(
                         get: { editedContents[language] ?? viewModel.translations[language] ?? "" },
                         set: { newContent in
+                            recordBeforeEdit()  // 📸 Record BEFORE edit! ✨
                             editedContents[language] = newContent
                             markAsEdited(language)
                         }
@@ -295,7 +297,7 @@ struct TranslationReviewStepView: View {
 
     /// ✏️ Mark a language as having unsaved edits - tracking the dance of change
     private func markAsEdited(_ language: LanguageCode) {
-        recordBeforeEdit()  // 📸 Record state before marking as edited
+        // Note: recordBeforeEdit() is now called BEFORE the edit in the Binding setters
         hasUnsavedChanges.insert(language)
     }
 
@@ -303,14 +305,19 @@ struct TranslationReviewStepView: View {
     private func saveChanges(for language: LanguageCode) {
         print("💾 ✨ Saving changes for \(language.name)...")
 
-        // Apply edited content to view model
+        // 📝 Construct content and title keys for editedTranslations dict
+        let contentKey = "\(language.rawValue)-content"
+        let titleKey = "\(language.rawValue)-title"
+
+        // ✨ Apply edited content to view model's editedTranslations dict
+        // (This preserves original translations while storing edits separately)
         if let editedContent = editedContents[language] {
-            viewModel.translations[language] = editedContent
+            viewModel.editedTranslations[contentKey] = editedContent
         }
 
-        // Apply edited title to view model
+        // ✨ Apply edited title to view model's editedTranslations dict
         if let editedTitle = editedTitles[language] {
-            viewModel.translatedTitles[language] = editedTitle
+            viewModel.editedTranslations[titleKey] = editedTitle
         }
 
         // Clear local edits and unsaved flag

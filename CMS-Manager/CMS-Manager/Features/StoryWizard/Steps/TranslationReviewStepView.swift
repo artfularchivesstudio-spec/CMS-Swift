@@ -42,6 +42,17 @@ struct TranslationReviewStepView: View {
     /// ✨ Animation state
     @State private var showSaveConfirmation = false
 
+    // MARK: - ⏪ Undo/Redo State
+
+    /// 📚 Undo stack - tracks past edits
+    @State private var undoStack: [EditSnapshot] = []
+
+    /// 📚 Redo stack - tracks undone edits
+    @State private var redoStack: [EditSnapshot] = []
+
+    /// ⏳ Track if we're in the middle of undo/redo (prevent recursion)
+    @State private var isUndoRedoInProgress = false
+
     // MARK: - 🎨 Body
 
     var body: some View {
@@ -190,6 +201,37 @@ struct TranslationReviewStepView: View {
                 .padding(.vertical, 8)
             }
 
+            // ⏪ Undo/Redo Buttons
+            if canUndo || canRedo {
+                HStack(spacing: 12) {
+                    // ⏪ Undo Button
+                    Button {
+                        undo()
+                    } label: {
+                        HStack(spacing: 6) {
+                            Image(systemName: "arrow.uturn.backward")
+                            Text("Undo")
+                        }
+                        .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.bordered)
+                    .disabled(!canUndo)
+
+                    // ⏩ Redo Button
+                    Button {
+                        redo()
+                    } label: {
+                        HStack(spacing: 6) {
+                            Image(systemName: "arrow.uturn.forward")
+                            Text("Redo")
+                        }
+                        .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.bordered)
+                    .disabled(!canRedo)
+                }
+            }
+
             HStack(spacing: 16) {
                 // ⬅️ Back Button
                 Button {
@@ -253,6 +295,7 @@ struct TranslationReviewStepView: View {
 
     /// ✏️ Mark a language as having unsaved edits - tracking the dance of change
     private func markAsEdited(_ language: LanguageCode) {
+        recordBeforeEdit()  // 📸 Record state before marking as edited
         hasUnsavedChanges.insert(language)
     }
 
@@ -336,6 +379,83 @@ struct TranslationReviewStepView: View {
 
         print("🎉 ✨ ALL TRANSLATIONS SAVED!")
     }
+
+    // MARK: - ⏪ Undo/Redo Actions
+
+    /// 📸 Capture current state before making changes
+    private func captureSnapshot() -> EditSnapshot {
+        EditSnapshot(
+            editedContents: editedContents,
+            editedTitles: editedTitles,
+            hasUnsavedChanges: hasUnsavedChanges
+        )
+    }
+
+    /// ⏪ Undo the last edit - turn back time!
+    func undo() {
+        guard !undoStack.isEmpty else { return }
+
+        let snapshot = undoStack.removeLast()
+
+        // Push current state to redo stack
+        redoStack.append(captureSnapshot())
+
+        // Restore previous state
+        isUndoRedoInProgress = true
+        editedContents = snapshot.editedContents
+        editedTitles = snapshot.editedTitles
+        hasUnsavedChanges = snapshot.hasUnsavedChanges
+        isUndoRedoInProgress = false
+
+        print("⏪ ✨ UNDO complete - \(undoStack.count) edits remaining")
+    }
+
+    /// ⏩ Redo the last undone edit - fast forward!
+    func redo() {
+        guard !redoStack.isEmpty else { return }
+
+        let snapshot = redoStack.removeLast()
+
+        // Push current state to undo stack
+        undoStack.append(captureSnapshot())
+
+        // Restore redo state
+        isUndoRedoInProgress = true
+        editedContents = snapshot.editedContents
+        editedTitles = snapshot.editedTitles
+        hasUnsavedChanges = snapshot.hasUnsavedChanges
+        isUndoRedoInProgress = false
+
+        print("⏩ ✨ REDO complete - \(redoStack.count) redos remaining")
+    }
+
+    /// 📸 Record state before an edit
+    private func recordBeforeEdit() {
+        guard !isUndoRedoInProgress else { return }
+
+        undoStack.append(captureSnapshot())
+        redoStack.removeAll() // Clear redo stack when new edit is made
+
+        // Keep stack size manageable (max 50 snapshots)
+        if undoStack.count > 50 {
+            undoStack.removeFirst()
+        }
+    }
+
+    /// ❓ Can undo?
+    var canUndo: Bool { !undoStack.isEmpty }
+
+    /// ❓ Can redo?
+    var canRedo: Bool { !redoStack.isEmpty }
+}
+
+// MARK: - 📸 Edit Snapshot
+
+/// 📸 A frozen moment in time - the state before an edit
+struct EditSnapshot: Equatable {
+    let editedContents: [LanguageCode: String]
+    let editedTitles: [LanguageCode: String]
+    let hasUnsavedChanges: Set<LanguageCode>
 }
 
 // MARK: - 🌐 Language Tab

@@ -13,6 +13,11 @@
 
 import SwiftUI
 import PhotosUI
+import ArtfulArchivesCore
+
+#if os(iOS)
+import UIKit
+#endif
 
 /// 📸 Upload Step View - Step 1 of the Story Wizard (Production-Ready Edition)
 ///
@@ -53,6 +58,9 @@ public struct UploadStepView: View {
 
     /// 🔄 Is retry in progress?
     @State private var isRetrying = false
+
+    /// 📷 Show camera picker
+    @State private var showCameraPicker = false
 
     // MARK: - ✨ Animation State
 
@@ -204,7 +212,39 @@ public struct UploadStepView: View {
                 .sparkleEffect(isActive: showSuccessAnimation)
             } else {
                 // 📭 Empty State with breathing animation
-                emptyDropZone
+                VStack(spacing: 20) {
+                    emptyDropZone
+
+                    // 🎨 OR Divider
+                    HStack {
+                        Rectangle()
+                            .fill(.quaternary)
+                            .frame(height: 1)
+                        Text("OR")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .padding(.horizontal, 16)
+                        Rectangle()
+                            .fill(.quaternary)
+                            .frame(height: 1)
+                    }
+                    .padding(.horizontal, 32)
+
+                    // 📷 Camera Button (iOS only)
+                    #if os(iOS)
+                    cameraButton
+                    #endif
+
+                    // 🎭 Use Mock Art Piece Button
+                    mockArtButton
+                }
+            }
+        }
+        .sheet(isPresented: $showCameraPicker) {
+            CameraPicker { image in
+                Task {
+                    await handleCameraImage(image)
+                }
             }
         }
     }
@@ -284,6 +324,161 @@ public struct UploadStepView: View {
         .buttonStyle(.plain)
         .accessibilityLabel("Select image from photo library")
         .accessibilityHint("Double tap to open photo picker")
+    }
+    
+    /// 🎭 Mock Art Piece Button - For Testing! ✨
+    private var mockArtButton: some View {
+        Button {
+            Task {
+                await loadMockArtPiece()
+            }
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: "wand.and.stars")
+                    .font(.system(size: 18, weight: .semibold))
+                Text("Use Mock Art Piece")
+                    .font(.system(size: 16, weight: .semibold))
+            }
+            .foregroundStyle(.white)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 16)
+            .background(
+                LinearGradient(
+                    colors: [.purple, .blue],
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
+            )
+            .clipShape(RoundedRectangle(cornerRadius: 16))
+            .shadow(color: .purple.opacity(0.3), radius: 8, x: 0, y: 4)
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Use mock art piece for testing")
+    }
+
+    #if os(iOS)
+    /// 📷 Camera Button - Capture fresh inspiration! ✨
+    private var cameraButton: some View {
+        Button {
+            showCameraPicker = true
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: "camera.fill")
+                    .font(.system(size: 18, weight: .semibold))
+                Text("Take Photo")
+                    .font(.system(size: 16, weight: .semibold))
+            }
+            .foregroundStyle(.white)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 16)
+            .background(
+                LinearGradient(
+                    colors: [.cyan, .blue],
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
+            )
+            .clipShape(RoundedRectangle(cornerRadius: 16))
+            .shadow(color: .blue.opacity(0.3), radius: 8, x: 0, y: 4)
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Take photo with camera")
+        .accessibilityHint("Double tap to open camera")
+    }
+
+    /// 📸 Handle image captured from camera
+    private func handleCameraImage(_ image: UIImage) async {
+        print("📸 ✨ CAMERA IMAGE CAPTURED!")
+
+        // Convert UIImage to Data
+        guard let imageData = image.jpegData(compressionQuality: 0.9) else {
+            print("   🌩️ Failed to convert image to JPEG")
+            validationResult = ImageValidationResult(
+                isValid: false,
+                fileSize: nil,
+                fileFormat: nil,
+                error: .invalidImage,
+                dimensions: nil
+            )
+            return
+        }
+
+        print("   📦 Image data: \(imageData.count) bytes")
+        self.imageData = imageData
+
+        // 🔍 Validate the captured image
+        let result = ImageValidator.validate(imageData: imageData)
+        validationResult = result
+
+        if result.isValid {
+            // ✅ Valid image - set it in the view model
+            viewModel.selectedImage = image
+            print("   ✅ ✨ CAMERA IMAGE VALIDATION COMPLETE!")
+
+            // 💾 Save to temporary file for upload
+            try? await saveToTemporaryFile(data: imageData, format: "jpg")
+
+            // Trigger success animation
+            withAnimation(AnimationConstants.bouncySpring) {
+                showSuccessAnimation = true
+            }
+        } else {
+            // ❌ Invalid image - show error
+            print("   🌩️ Validation failed: \(result.error?.errorDescription ?? "Unknown error")")
+            viewModel.selectedImage = nil
+        }
+    }
+    #endif
+
+    /// 🎨 Load a mock art piece from local assets
+    private func loadMockArtPiece() async {
+        print("🎨 ✨ MOCK ART PIECE LOADING AWAKENS!")
+        
+        // Load art collection from bundle
+        guard let artworks = ArtCollection.loadFromBundle(),
+              let randomArt = artworks.randomElement() else {
+            print("🌩️ No mock artworks available")
+            return
+        }
+        
+        print("   🎭 Selected: \(randomArt.displayName)")
+        
+        // Load image from bundle
+        guard let imageURL = Bundle.main.url(
+            forResource: randomArt.filename.replacingOccurrences(of: ".jpg", with: ""),
+            withExtension: "jpg",
+            subdirectory: "local-assets"
+        ),
+        let imageData = try? Data(contentsOf: imageURL) else {
+            print("   🌩️ Failed to load image: \(randomArt.filename)")
+            return
+        }
+        
+        // Validate and set image
+        let result = ImageValidator.validate(imageData: imageData)
+        validationResult = result
+        
+        if result.isValid {
+            #if os(iOS)
+            if let uiImage = UIImage(data: imageData) {
+                viewModel.selectedImage = uiImage
+                print("   ✅ ✨ MOCK ART PIECE LOADED!")
+            }
+            #elseif os(macOS)
+            if let nsImage = NSImage(data: imageData) {
+                viewModel.selectedImage = nsImage
+                print("   ✅ ✨ MOCK ART PIECE LOADED!")
+            }
+            #endif
+            
+            // Save to temporary file for upload
+            try? await saveToTemporaryFile(data: imageData, format: "jpg")
+            
+            // Trigger success animation
+            withAnimation(AnimationConstants.bouncySpring) {
+                showSuccessAnimation = true
+            }
+        }
     }
 
     // MARK: - ✅ Validation Result Section
@@ -537,6 +732,55 @@ public struct UploadStepView: View {
         self.viewModel = viewModel
     }
 }
+
+#if os(iOS)
+// MARK: - 📷 Camera Picker Component
+
+/// 📸 A UIKit camera wrapper for SwiftUI - The portal to visual inspiration!
+/// Uses UIImagePickerController to capture photos directly from the camera.
+struct CameraPicker: UIViewControllerRepresentable {
+    /// 📸 Callback when image is captured
+    let onImagePicked: (UIImage) -> Void
+
+    /// 🎭 Make the UIKit view controller
+    func makeUIViewController(context: Context) -> UIImagePickerController {
+        let picker = UIImagePickerController()
+        picker.sourceType = .camera
+        picker.delegate = context.coordinator
+        return picker
+    }
+
+    /// 🔄 Update the view controller (not needed for camera picker)
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
+
+    /// 🎯 Make the coordinator
+    func makeCoordinator() -> Coordinator {
+        Coordinator(onImagePicked: onImagePicked)
+    }
+
+    /// 🎭 Coordinator to handle camera delegate callbacks
+    class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+        let onImagePicked: (UIImage) -> Void
+
+        init(onImagePicked: @escaping (UIImage) -> Void) {
+            self.onImagePicked = onImagePicked
+        }
+
+        /// 📸 User picked an image
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            if let image = info[.originalImage] as? UIImage {
+                onImagePicked(image)
+            }
+            picker.dismiss(animated: true)
+        }
+
+        /// ❌ User cancelled
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            picker.dismiss(animated: true)
+        }
+    }
+}
+#endif
 
 // MARK: - 🧪 Preview
 

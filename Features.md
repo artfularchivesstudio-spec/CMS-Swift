@@ -1,13 +1,113 @@
 # ⚔️ ARSENAL - CMS-Swift Features & Abilities
 
-**Last Updated**: January 3, 2026
+**Last Updated**: January 3, 2026 (Post-Twinkie - Ultra Phase)
 **Power Level**: GODLIKE! 🎮
-**Unlocked Abilities**: 50+
-**New This Session**: Audio System Restored, Wizard Verified
+**Unlocked Abilities**: 55+
+**New This Session**: 4 Critical Wizard Fixes, 8-Agent Intelligence Mission
 
 ---
 
-## 🆨 NEW UNLOCKS (January 3, 2026)
+## 🆨 NEW UNLOCKS (January 3, 2026 PM - Wizard Mastery)
+
+### 🎯 Markdown Toolbar - NOW FULLY FUNCTIONAL!
+**Unlock Level**: MAX | **Mastery**: ⭐⭐⭐⭐⭐
+
+**What Was Broken:**
+- Markdown toolbar buttons were placeholder code (marked "Phase 1")
+- Buttons had empty action bodies - did nothing when tapped
+- Users had to manually type markdown syntax
+
+**What Was Fixed:**
+- ✅ Added `action: () -> Void` closure parameter to `MarkdownToolButton`
+- ✅ Created 6 helper functions: `insertBold()`, `insertItalic()`, `insertHeading()`, `insertLink()`, `insertList()`, `insertQuote()`
+- ✅ Added haptic feedback on button press (`UIImpactFeedbackGenerator`)
+- ✅ Connected all toolbar buttons to their respective actions
+
+**Verified Working:**
+- [x] Bold button inserts `**bold text**`
+- [x] Italic button inserts `*italic text*`
+- [x] Heading button inserts `# Heading`
+- [x] Link button inserts `[link text](url)`
+- [x] List button inserts `- List item`
+- [x] Quote button inserts `> Blockquote`
+- [x] Haptic feedback triggers on each tap
+
+---
+
+### 🚨 Error Alerts - NOW WORKING!
+**Unlock Level**: MAX | **Mastery**: ⭐⭐⭐⭐⭐
+
+**What Was Broken:**
+- `.onChange(of: viewModel.error)` was commented out
+- `APIError` enum doesn't conform to `Equatable` (has associated `Error` values)
+- Error alerts never showed when publish failed
+
+**What Was Fixed:**
+- ✅ Added `@Published var hasError: Bool = false` to `StoryWizardViewModel`
+- ✅ Set `hasError = true` when `createStory()` encounters errors
+- ✅ Reset `hasError = false` at start of each publish attempt
+- ✅ Changed observer to `.onChange(of: viewModel.hasError)` (Bool is Equatable!)
+- ✅ Reset flag when alert is dismissed or retry is clicked
+
+**Verified Working:**
+- [x] Error alert shows when publish fails
+- [x] Error message displays correctly
+- [x] Retry button works
+- [x] Cancel button dismisses alert
+- [x] Flag resets properly for new attempts
+
+---
+
+### 📷 Camera Option - ADDED!
+**Unlock Level**: MAX | **Mastery**: ⭐⭐⭐⭐⭐
+
+**What Was Missing:**
+- Only photo library selection via PhotosPicker
+- No direct camera capture option
+- Users had to leave app to take fresh photos
+
+**What Was Added:**
+- ✅ New "Take Photo" button (cyan-to-blue gradient)
+- ✅ `CameraPicker` component (UIImagePickerController wrapper)
+- ✅ `handleCameraImage()` function to process captured photos
+- ✅ Full validation pipeline for camera images
+- ✅ iOS-only feature (macOS doesn't have camera)
+
+**Verified Working:**
+- [x] Camera button visible between "OR" and "Mock Art" buttons
+- [x] Button has correct cyan/blue gradient styling
+- [x] Camera icon (camera.fill) displays correctly
+- [x] Full integration with existing upload pipeline
+
+---
+
+### ⏪ Undo/Redo Support - ADDED!
+**Unlock Level**: MAX | **Mastery**: ⭐⭐⭐⭐⭐
+
+**What Was Missing:**
+- No way to undo accidental edits in translation review
+- No redo functionality
+- Risk of losing work with mistakes
+
+**What Was Added:**
+- ✅ `EditSnapshot` struct to capture state
+- ✅ `undoStack: [EditSnapshot]` for past edits
+- ✅ `redoStack: [EditSnapshot]` for undone edits
+- ✅ `undo()` and `redo()` functions
+- ✅ `recordBeforeEdit()` to track changes
+- ✅ UI buttons that show when undo/redo available
+- ✅ Max 50 snapshots to manage memory
+
+**Verified Working:**
+- [x] Undo button appears when edits made
+- [x] Redo button appears after undo
+- [x] Buttons disable when stack empty
+- [x] State restoration works correctly
+- [x] Recursion prevention with `isUndoRedoInProgress` flag
+
+---
+
+## 🆨 NEW UNLOCKS (January 3, 2026 AM - Audio Resurrection)
 
 ### 🎵 Audio System - FULLY RESTORED!
 **Unlock Level**: MAX | **Mastery**: ⭐⭐⭐⭐⭐

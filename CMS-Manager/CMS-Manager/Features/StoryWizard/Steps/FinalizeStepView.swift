@@ -98,10 +98,12 @@ struct FinalizeStepView: View {
         }
         .alert("Publication Failed", isPresented: $showErrorAlert) {
             Button("Retry", role: .none) {
+                viewModel.hasError = false  // Reset flag
                 publishStory()
             }
             Button("Cancel", role: .cancel) {
                 showErrorAlert = false
+                viewModel.hasError = false  // Reset flag
             }
         } message: {
             if let error = viewModel.error {
@@ -121,12 +123,12 @@ struct FinalizeStepView: View {
                 triggerCelebration()
             }
         }
-        // TODO: Re-enable onChange when APIError Equatable is properly exposed
-        // .onChange(of: viewModel.error) { error in
-        //     if error != nil && !viewModel.isPublished {
-        //         showErrorAlert = true
-        //     }
-        // }
+        // ✨ Monitor the hasError flag (Bool is Equatable!)
+        .onChange(of: viewModel.hasError) { _, hasError in
+            if hasError && !viewModel.isPublished {
+                showErrorAlert = true
+            }
+        }
     }
 
     // MARK: - 📜 Header Section
@@ -429,8 +431,39 @@ struct FinalizeStepView: View {
                     }
                 }
             } else {
-                // 🚀 Publishing Actions (before publish)
+                // 🚀 Publishing Actions (before publish) - Now with Draft option! 💾
                 VStack(spacing: 12) {
+                    // 💾 Save Draft Button - Beautiful purple gradient! ✨
+                    Button {
+                        saveDraft()
+                    } label: {
+                        HStack(spacing: 8) {
+                            if viewModel.isLoading {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle())
+                                    .tint(.white)
+                                Text("Saving...")
+                            } else {
+                                Image(systemName: "square.and.arrow.down.fill")
+                                Text("Save as Draft")
+                            }
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(
+                            LinearGradient(
+                                colors: canPublish ? [.purple, .blue] : [.gray, .gray],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .foregroundStyle(.white)
+                        .clipShape(RoundedRectangle(cornerRadius: 14))
+                    }
+                    .buttonStyle(.bouncy(scale: 0.97, haptic: .medium))
+                    .attentionPulse(color: canPublish ? .purple : .gray)
+                    .disabled(!canPublish || viewModel.isLoading)
+                    
                     // 🚀 Publish Button with loading state and pulse animation
                     Button {
                         publishStory()
@@ -487,6 +520,21 @@ struct FinalizeStepView: View {
 
     // MARK: - 🎯 Actions
 
+    /// 💾 Save story as draft
+    private func saveDraft() {
+        HapticManager.shared.lightImpact()
+        
+        Task {
+            await viewModel.saveDraft()
+            
+            await MainActor.run {
+                if viewModel.createdStoryId != nil {
+                    triggerCelebration()
+                }
+            }
+        }
+    }
+    
     /// 🚀 Publish the story
     /// The grand moment of truth—let's make this special! 🎭
     private func publishStory() {

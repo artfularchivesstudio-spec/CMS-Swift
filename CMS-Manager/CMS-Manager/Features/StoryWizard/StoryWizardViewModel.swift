@@ -85,6 +85,9 @@ final class StoryWizardViewModel {
     /// 🌩️ Any storm clouds on the horizon?
     var error: APIError?
 
+    /// 🚨 Flag to trigger error alerts (works around APIError not being Equatable)
+    var hasError: Bool = false
+
     // MARK: - 📸 Step 1: Upload
 
     /// 📊 Upload progress (0.0 to 1.0)
@@ -809,12 +812,24 @@ final class StoryWizardViewModel {
 
     // MARK: - 🎉 Step 7: Finalize Actions
 
-    /// 🚀 Bring the story into existence
-    func createStory() async {
-        print("🚀 ✨ STORY CREATION AWAKENS!")
+    /// 💾 Save story as draft
+    func saveDraft() async {
+        await createStory(asDraft: true)
+    }
+    
+    /// 🚀 Publish the story (not as draft)
+    func publishStory() async {
+        await createStory(asDraft: false)
+    }
+    
+    /// 🚀 Bring the story into existence (as draft or published)
+    /// - Parameter asDraft: If true, saves as draft; if false, publishes immediately
+    func createStory(asDraft: Bool = true) async {
+        print("🚀 ✨ STORY CREATION AWAKENS! Mode: \(asDraft ? "Draft" : "Published")")
 
         isLoading = true
         error = nil
+        hasError = false  // Reset error flag for new attempt
 
         do {
             // 🔍 Check if we've been cancelled before making API call
@@ -832,7 +847,7 @@ final class StoryWizardViewModel {
                 audioDuration: nil
             )
 
-            let response = try await apiClient.createStoryComplete(request: request)
+            let response = try await apiClient.createStoryComplete(request: request, asDraft: asDraft)
 
             guard response.success,
                   let storyId = response.storyId,
@@ -841,23 +856,28 @@ final class StoryWizardViewModel {
             }
 
             createdStoryId = storyId
-            isPublished = true
+            isPublished = !asDraft // Only mark as published if we explicitly published
 
-            print("🎉 ✨ STORY MASTERPIECE COMPLETE! Story ID: \(storyId)")
+            print("🎉 ✨ STORY MASTERPIECE COMPLETE! Story ID: \(storyId), Status: \(asDraft ? "Draft" : "Published")")
 
-            // 🎊 CELEBRATION haptic sequence for successful publish!
+            // 🎊 CELEBRATION haptic sequence for successful creation!
             hapticManager.celebrate()
 
-            toastManager.success("Story Published!", message: "Your masterpiece is now live")
+            if asDraft {
+                toastManager.success("Draft Saved!", message: "Your story has been saved as a draft")
+            } else {
+                toastManager.success("Story Published!", message: "Your masterpiece is now live")
+            }
 
         } catch {
             print("🌩️ Story creation failed: \(error.localizedDescription)")
             self.error = error as? APIError ?? .unknown(error)
+            self.hasError = true  // 🚨 Trigger error alert in UI
 
-            // 💥 Error haptic for publication failure
+            // 💥 Error haptic for creation failure
             hapticManager.error()
 
-            toastManager.error("Publication Failed", message: error.localizedDescription)
+            toastManager.error("Creation Failed", message: error.localizedDescription)
         }
 
         isLoading = false
@@ -994,63 +1014,6 @@ final class StoryWizardViewModel {
         print("🧹 ✨ WIZARD RESET COMPLETE! Ready for a new tale.")
     }
 
-    // MARK: - 🚀 Publish Story
-
-    /// 🚀 Publish the final story
-    func publishStory() async {
-        print("🚀 ✨ STORY PUBLISHMENT AWAKENS!")
-
-        isLoading = true
-        error = nil
-
-        // 🎯 Create the complete story
-        do {
-            // 🔍 Check if we've been cancelled before making API call
-            guard !Task.isCancelled else {
-                print("🌙 ✨ Analysis cancelled before API call")
-                return
-            }
-
-            let request = StoryCreateRequest(
-                title: storyTitle,
-                content: storyContent,
-                imageId: uploadedMediaId,
-                imageUrl: uploadedMediaUrl,
-                audioDuration: nil
-            )
-
-            let response = try await apiClient.createStoryComplete(request: request)
-
-            if let storyId = response.storyId {
-                createdStoryId = storyId
-                isPublished = true
-                showConfetti = true
-                print("🎉 ✨ STORY PUBLISHED! ID: \(storyId)")
-
-                // 🎊 CELEBRATION haptic sequence for successful publish!
-                hapticManager.celebrate()
-
-                toastManager.show(Toast(
-                    type: .success,
-                    title: "Story published successfully!"
-                ))
-            } else {
-                throw APIError.unknownError
-            }
-        } catch {
-            self.error = error as? APIError ?? .unknown(error)
-
-            // 💥 Error haptic for publication failure
-            hapticManager.error()
-
-            toastManager.show(Toast(
-                type: .error,
-                title: "Failed to publish story"
-            ))
-        }
-
-        isLoading = false
-    }
 
     // MARK: - 💀 Deinitialization
 

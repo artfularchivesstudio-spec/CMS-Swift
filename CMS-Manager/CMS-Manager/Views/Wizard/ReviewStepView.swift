@@ -340,42 +340,48 @@ public struct ReviewStepView: View {
                 MarkdownToolButton(
                     icon: "bold",
                     title: "Bold",
-                    syntax: "**text**"
+                    syntax: "**text**",
+                    action: insertBold
                 )
 
                 // *Italic* button
                 MarkdownToolButton(
                     icon: "italic",
                     title: "Italic",
-                    syntax: "*text*"
+                    syntax: "*text*",
+                    action: insertItalic
                 )
 
                 // # Heading button
                 MarkdownToolButton(
                     icon: "textformat.size",
                     title: "Heading",
-                    syntax: "# Heading"
+                    syntax: "# Heading",
+                    action: insertHeading
                 )
 
                 // [Link](url) button
                 MarkdownToolButton(
                     icon: "link",
                     title: "Link",
-                    syntax: "[text](url)"
+                    syntax: "[text](url)",
+                    action: insertLink
                 )
 
                 // - List button
                 MarkdownToolButton(
                     icon: "list.bullet",
                     title: "List",
-                    syntax: "- item"
+                    syntax: "- item",
+                    action: insertList
                 )
 
                 // > Quote button
                 MarkdownToolButton(
                     icon: "text.quote",
                     title: "Quote",
-                    syntax: "> quote"
+                    syntax: "> quote",
+                    action: insertQuote
                 )
             }
             .padding(.vertical, 8)
@@ -530,6 +536,52 @@ public struct ReviewStepView: View {
         )
     }
 
+    // MARK: - ✍️ Markdown Insertion Helpers
+
+    /// ✨ Insert markdown syntax at the end of the content
+    /// A mystical spell that transforms plain text into formatted prose! 📝
+    private func insertMarkdown(_ syntax: String) {
+        // 🎯 Focus the content field if not already focused
+        if !isContentFocused {
+            isContentFocused = true
+        }
+
+        // ✨ Append the syntax to the content
+        // Note: Since SwiftUI TextEditor doesn't expose cursor position,
+        // we append at the end. For better UX, consider UITextView wrapper.
+        viewModel.storyContent += "\n" + syntax
+    }
+
+    /// ✨ Insert bold markdown
+    private func insertBold() {
+        insertMarkdown("**bold text**")
+    }
+
+    /// ✨ Insert italic markdown
+    private func insertItalic() {
+        insertMarkdown("*italic text*")
+    }
+
+    /// ✨ Insert heading markdown
+    private func insertHeading() {
+        insertMarkdown("# Heading")
+    }
+
+    /// ✨ Insert link markdown
+    private func insertLink() {
+        insertMarkdown("[link text](url)")
+    }
+
+    /// ✨ Insert list markdown
+    private func insertList() {
+        insertMarkdown("- List item")
+    }
+
+    /// ✨ Insert quote markdown
+    private func insertQuote() {
+        insertMarkdown("> Blockquote")
+    }
+
     // MARK: - 🎭 Initialization
 
     /// 🌟 Initialize with a view model
@@ -546,11 +598,13 @@ struct MarkdownToolButton: View {
     let icon: String
     let title: String
     let syntax: String
+    let action: () -> Void
 
     var body: some View {
         Button {
-            // 🎯 For Phase 1, show tooltip or visual feedback
-            // In Phase 2, this could insert the syntax directly
+            // ✨ Insert the markdown syntax into the editor!
+            action()
+            hapticFeedback()
         } label: {
             VStack(spacing: 4) {
                 Image(systemName: icon)
@@ -569,6 +623,14 @@ struct MarkdownToolButton: View {
         }
         .buttonStyle(.plain)
         .help(syntax) // 💡 Tooltip shows the syntax on hover (macOS) or long-press (iOS)
+    }
+
+    // ✨ Haptic feedback for button press
+    private func hapticFeedback() {
+        #if os(iOS)
+        let generator = UIImpactFeedbackGenerator(style: .light)
+        generator.impactOccurred()
+        #endif
     }
 }
 
